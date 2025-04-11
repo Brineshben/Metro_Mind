@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../utils/color_util.dart';
+import '../Patient_Details/patient_details.dart';
 
 class CourseList extends StatelessWidget {
   const CourseList({Key? key}) : super(key: key);
@@ -19,14 +20,23 @@ class CourseList extends StatelessWidget {
           return GestureDetector(
             onTap: () {},
             child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 5, right: 15),
               child: Container(
-
                 width: ScreenUtil().screenWidth * 0.83,
-                height: 155.h,
+                height: 170.h,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12).r,
-                    color: Colors.white),
+                  border: Border.all(
+                    color: Colors.blue, // Border color
+                    width: 0.3, // Border width
+                  ),
+                  gradient: LinearGradient(
+                    colors: [Colors.blue.shade50, Colors.white],
+                    // Adjust colors to match your design
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(25).r,
+                ),
                 child: Row(
                   children: [
                     Column(
@@ -46,9 +56,27 @@ class CourseList extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "PATIENT: Arun Kumar R",
+                                        "PATIENT DETAILS",
                                         style: GoogleFonts.nunito(
-                                          color:Colors.black,
+                                          color: Colors.blueGrey,
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 15.h,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Arun Kumar R",
+                                        style: GoogleFonts.nunito(
+                                          color: Colors.blueGrey,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 15.h,
                                         ),
@@ -61,23 +89,9 @@ class CourseList extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "AGE: 26",
+                                        "Anxiety Disorder",
                                         style: GoogleFonts.nunito(
-                                          color:Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 13.h,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "PATIENT ID:103B",
-                                        style: GoogleFonts.nunito(
-                                          color: Colors.black,
+                                          color: Colors.blueGrey,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 13.h,
                                         ),
@@ -90,17 +104,22 @@ class CourseList extends StatelessWidget {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return PatientDetails();
+                              },
+                            ));
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(5),
                                 color: Colorutils.userdetailcolor,
                               ),
                               padding: EdgeInsets.symmetric(
-                                  vertical: 1.h, horizontal: 6.w),
-                              // Make sure you're using `flutter_screenutil` for these.
+                                  vertical: 3.h, horizontal: 8.w),
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                     left: 10, right: 10, top: 3, bottom: 3),
@@ -110,7 +129,7 @@ class CourseList extends StatelessWidget {
                                     color: Colors.white,
                                     // Ensure ColorUtils is defined or use a custom color.
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 10
+                                    fontSize: 12
                                         .h, // Ensure you're using flutter_screenutil to define font size responsively.
                                   ),
                                 ),
@@ -124,7 +143,7 @@ class CourseList extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 50),
                       child: Container(
                           height: 155.h,
-                          child: CustomCircularProgressIndicator(0.87)),
+                          child: CustomCircularProgressIndicator(0.2)),
                     )
                   ],
                 ),
@@ -139,35 +158,37 @@ class CourseList extends StatelessWidget {
 
 class CustomCircularProgressIndicator extends StatelessWidget {
   final double percent;
+
   CustomCircularProgressIndicator(this.percent);
 
   @override
   Widget build(BuildContext context) {
     Color getSeverityColor() {
       if (percent >= 0.7) {
-        return Colors.red; // High severity
+        return Colors.red.shade500; // High severity
       } else if (percent >= 0.4) {
         return Colors.orange; // Medium severity
       } else {
         return Colors.green; // Low severity
       }
     }
+
     return SizedBox(
       width: 50,
       height: 50,
       child: CircularPercentIndicator(
         radius: 50.0,
         lineWidth: 25.0,
-        percent: 0.7,
-        // center: Text(
-        //   "84%",
-        //   style: TextStyle(
-        //     fontSize: 13.0,
-        //     fontWeight: FontWeight.bold,
-        //     color: Colorutils.userdetailcolor,
-        //   ),
-        // ),
-        progressColor:getSeverityColor(),
+        percent: 0.45,
+        center: Text(
+          "84%",
+          style: TextStyle(
+            fontSize: 13.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.blueGrey,
+          ),
+        ),
+        progressColor: getSeverityColor(),
         backgroundColor: Colors.white,
         circularStrokeCap: CircularStrokeCap.round,
       ),

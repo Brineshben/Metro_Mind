@@ -95,25 +95,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:patient/utils/color_util.dart';
 
-import '../../AppintmentsPage/Appointments.dart';
-import '../../PATIENT/UI_PATIENT/Chat_Patient/Chat_PAtient.dart';
+import '../../../utils/color_util.dart';
+import '../../HomePage/home_screen.dart';
 import '../../Personal_Chat/Chat_Page.dart';
-import '../../Profile_screen/profile.dart';
 import '../../Shedule_Page/shedule.dart';
-import '../home_screen.dart';
+import 'Assesment/Assesment.dart';
+import 'Chat_Patient/Chat_PAtient.dart';
+import 'Home_Screen/Home_Screen_Patient.dart';
 
-class PageIndexNavigationTherapist extends StatefulWidget {
-  const PageIndexNavigationTherapist({
+class PageIndexNavigationPatient extends StatefulWidget {
+  const PageIndexNavigationPatient({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<PageIndexNavigationTherapist> createState() => _PageIndexNavigationTherapistState();
+  State<PageIndexNavigationPatient> createState() => _PageIndexNavigationPatientState();
 }
 
-class _PageIndexNavigationTherapistState extends State<PageIndexNavigationTherapist> {
+class _PageIndexNavigationPatientState extends State<PageIndexNavigationPatient> {
   int _selectedIndex = 0;
   late final List<Widget> _screens;
 
@@ -121,12 +121,11 @@ class _PageIndexNavigationTherapistState extends State<PageIndexNavigationTherap
   void initState() {
     super.initState();
     _screens = [
-      HomeScreen(),
+      HomeScreenPatient(),
       TabExample(),
-      AppointmentsScreen(),
-
+      AssessmentListPage(),
       ChatListPage()
-
+      // AppointmentsScreen(),
       // ChatScreen(),
       // UserProfileScreen(
       //   name: 'Dr: Brinesh',
@@ -168,11 +167,11 @@ class _PageIndexNavigationTherapistState extends State<PageIndexNavigationTherap
                 height: 25.h,
                 color: Colors.grey,
                 colorFilter: ColorFilter.mode(
-                  _selectedIndex == 0 ? Colors.green : Colors.grey,
+                  _selectedIndex == 0 ? Colorutils.userdetailcolor : Colors.grey,
                   BlendMode.srcIn,
                 ),
               ),
-              label: 'Patients',
+              label: 'Overview',
 
             ),BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -181,11 +180,11 @@ class _PageIndexNavigationTherapistState extends State<PageIndexNavigationTherap
                 height: 25.h,
                 color: Colors.grey,
                 colorFilter: ColorFilter.mode(
-                  _selectedIndex == 1 ? Colorutils.userdetailcolor : Colors.grey,
+                  _selectedIndex == 1 ? Colorutils.userdetailcolor: Colors.grey,
                   BlendMode.srcIn,
                 ),
               ),
-              label: 'Schedule',
+              label: 'Sessions',
 
             ),BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -207,11 +206,11 @@ class _PageIndexNavigationTherapistState extends State<PageIndexNavigationTherap
                 height: 25.h,
                 color: Colors.grey,
                 colorFilter: ColorFilter.mode(
-                  _selectedIndex == 3 ?Colorutils.userdetailcolor : Colors.grey,
+                  _selectedIndex == 3 ? Colorutils.userdetailcolor : Colors.grey,
                   BlendMode.srcIn,
                 ),
               ),
-              label: 'Chat',
+              label: 'Chats',
 
             ),
 

@@ -48,7 +48,7 @@ class _AttendancceState extends State<Attendancce> {
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.green.shade50, Colors.blue.shade50], // Adjust colors to match your design
+                    colors: [Colors.teal.shade50, Colors.blue.shade50], // Adjust colors to match your design
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),

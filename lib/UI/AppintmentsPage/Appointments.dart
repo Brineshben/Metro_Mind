@@ -14,46 +14,7 @@ class AppointmentsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.only( top: 40),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.start,
-            //     children: [
-            //       GestureDetector(
-            //         onTap: () {
-            //           Navigator.pop(context);
-            //         },
-            //         child: Container(
-            //           height: 60,
-            //           width: 60,
-            //           decoration: BoxDecoration(
-            //               color: Colors.white.withOpacity(0.2),
-            //               // boxShadow: [
-            //               //   BoxShadow(
-            //               //     color: Colors.grey.withOpacity(0.3),
-            //               //     blurRadius: 10,
-            //               //     spreadRadius: 0,
-            //               //   ),
-            //               // ],
-            //               borderRadius: BorderRadius.circular(15)),
-            //           child: Icon(
-            //             Icons.arrow_back_outlined,
-            //             color: Colors.grey,
-            //           ),
-            //         ),
-            //       ),
-            //       SizedBox(
-            //         width: 10,
-            //       ),
-            //       Center(
-            //         child: Text(
-            //           "SETTINGS",
-            //
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+
             Padding(
               padding: const EdgeInsets.only(top: 50),
               child: Row(
@@ -79,7 +40,7 @@ class AppointmentsScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           child: Text("Past",
-                              style: TextStyle(color: Colors.white70)),
+                              style: TextStyle(color: Colors.white)),
                         ),
                       ],
                     ),

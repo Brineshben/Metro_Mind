@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../utils/Constants.dart';
 import '../../utils/color_util.dart';
 import '../ChatScreen/Chat.dart';
 import '../Common_Widget/appbar.dart';
 import '../Personal_Chat/Chat_Page.dart';
 import 'home_widgets/DashList.dart';
+import 'home_widgets/course_List.dart';
 import 'home_widgets/overallView.dart';
 import 'home_widgets/patientList.dart';
+import 'home_widgets/quiz_List.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -54,7 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: systemUiOverlayStyleDark,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(
@@ -74,33 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   isWelcome: true,
                   bellicon: true,
                   notificationcount: true,
-                  name: '',
-                  image: '',
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: 25.h, bottom: 25.h, left: 10.w, right: 10.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Thought of the Day",
-                        style: GoogleFonts.shanti(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 20.h,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                ThoughtOfTheDayWidget(
-                  text:
-                      "Wherever the art of medicine is loved, there is also a love of humanity.",
-                  svgPath: "assets/images/Group.svg",
-                  onReadMore: () {
-                    print("Read More Clicked!");
-                  },
+                  name: 'Dr.sara[therapist]',
+                  image: 'assets/images/profile2.jpg',
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -119,11 +99,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                Tickets(ticketList: myTicketsList),
-                // Attendancce(attendanceList: myAttendanceList),
-                SizedBox(
-                  height: 20,
+                ThoughtOfTheDayWidget(
+                  text:
+                      "Wherever the art of medicine is loved, there is also a love of humanity.",
+                  svgPath: "assets/images/Group.svg",
+                  onReadMore: () {
+                    print("Read More Clicked!");
+                  },
                 ),
+
                 Container(
                   padding: EdgeInsets.all(16),
                   child: Row(
@@ -141,11 +125,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.8),
+                          color: Colors.red,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          '4 Active Patients',
+                          '4 Emergency',
                           style: GoogleFonts.shanti(
                             color: Colors.white.withOpacity(0.9),
                             fontWeight: FontWeight.w900,
@@ -157,86 +141,44 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ScrollablePatientTable(),
-                )
+                  padding: const EdgeInsets.only(left: 10),
+                  child: CourseList(),
+                ),
 
-                // Padding(
-                //   padding: EdgeInsets.only(top: 15.h, bottom: 15.h, left: 10.w, right: 10.w),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Text(
-                //         "My Patients",
-                //         style: GoogleFonts.shanti(
-                //           color: Colors.blueGrey,
-                //           fontWeight: FontWeight.w700,
-                //           fontSize: 17.h,
-                //         ),
-                //       ),
-                //       Text(
-                //         "View all",
-                //         style: GoogleFonts.shanti(
-                //           color: Colors.blueGrey,
-                //           fontWeight: FontWeight.w500,
-                //           fontSize: 12.h,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 10),
-                //   child: QuizList(),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 10),
-                //   child: CourseList(),
-                // ),
-                // Padding(
-                //   padding: EdgeInsets.only(top: 15.h, bottom: 15.h, left: 10.w, right: 10.w),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Text(
-                //         "My Patients",
-                //         style: GoogleFonts.shanti(
-                //           color: Colors.blueGrey,
-                //           fontWeight: FontWeight.w700,
-                //           fontSize: 17.h,
-                //         ),
-                //       ),
-                //       Text(
-                //         "View all",
-                //         style: GoogleFonts.shanti(
-                //           color: Colors.blueGrey,
-                //           fontWeight: FontWeight.w500,
-                //           fontSize: 12.h,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 10),
-                //   child: QuizList(),
-                // ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 25.h, bottom: 25.h, left: 10.w, right: 10.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Summary",
+                        style: GoogleFonts.shanti(
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 20.h,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Tickets(ticketList: myTicketsList),
               ],
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ChatScreenDoctor()));
-          },
-          backgroundColor: Colors.white,
-          child: SvgPicture.asset(
-            'assets/images/chat_outline.svg', // Replace with your SVG path
-            width: 30, // Adjust size as needed
-            height: 30,
-          ),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     Navigator.push(context,
+        //         MaterialPageRoute(builder: (context) => ChatScreenDoctor()));
+        //   },
+        //   backgroundColor: Colors.white,
+        //   child: SvgPicture.asset(
+        //     'assets/images/chat_outline.svg', // Replace with your SVG path
+        //     width: 30, // Adjust size as needed
+        //     height: 30,
+        //   ),
+        // ),
       ),
     );
   }

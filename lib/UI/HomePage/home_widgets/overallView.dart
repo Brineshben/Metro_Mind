@@ -23,6 +23,7 @@ class Tickets extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(top: 0, left: 8, right: 8).w,
       child: GridView.builder(
+        padding: EdgeInsets.only(top: 0,).w,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: ticketList.length,
@@ -43,8 +44,15 @@ class Tickets extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8).w,
               decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blue.withOpacity(0.3),
+                    blurRadius: 1,
+                    offset: Offset(0, 1), // Shadow for button
+                  ),
+                ],
                 gradient: LinearGradient(
-                  colors: [Colors.green.shade100, Colors.blue.shade100],
+                  colors: [Colors.blue.shade50,Colors.white],
                   // Adjust colors to match your design
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -65,7 +73,7 @@ class Tickets extends StatelessWidget {
                       child: Text(
                         data.number, // Use dynamic data
                         style:
-                            const TextStyle(fontSize: 20, color: Colors.green,fontWeight: FontWeight.bold),
+                            const TextStyle(fontSize: 20, color: Colors.blueGrey,fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -86,7 +94,7 @@ class Tickets extends StatelessWidget {
                                     child: Text(
                                       data.name, // Use dynamic data
                                       style: const TextStyle(
-                                          fontSize: 15, color: Colors.green),
+                                          fontSize: 15, color: Colors.blueGrey),
                                     ),
                                   ),
                                 ),

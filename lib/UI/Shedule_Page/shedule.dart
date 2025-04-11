@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/color_util.dart';
 import 'Upcoming_List.dart';
 
 class TabExample extends StatelessWidget {
@@ -20,7 +21,7 @@ class TabExample extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "SCHEDULE LIST ",
+                      "PATIENT LIST ",
                       style: GoogleFonts.shanti(
                         color: Colors.blueGrey,
                         fontWeight: FontWeight.w900,
@@ -35,11 +36,12 @@ class TabExample extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 15,right: 15),
                 child: Container(
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.green.shade100,Colors.blue.shade100], // Adjust colors to match your design
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+                    color: Colorutils.userdetailcolor,
+                    // gradient: LinearGradient(
+                    //   colors: [Colors.green.shade100,Colors.blue.shade100], // Adjust colors to match your design
+                    //   begin: Alignment.topLeft,
+                    //   end: Alignment.bottomRight,
+                    // ),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Padding(
@@ -55,7 +57,7 @@ class TabExample extends StatelessWidget {
                       indicatorPadding: EdgeInsets.zero,
                       indicatorWeight: 0.0,
                       labelColor:Colors.blueGrey,
-                      unselectedLabelColor: Colors.blueGrey,
+                      unselectedLabelColor: Colors.white,
                       labelStyle:
                       const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       unselectedLabelStyle: const TextStyle(fontSize: 14),
@@ -71,7 +73,7 @@ class TabExample extends StatelessWidget {
                 child: TabBarView(
                   children: [
                     ExpandableCardList()  ,
-                    Center(child: Text('Page 2', style: TextStyle(fontSize: 24))),
+                    ExpandableCardList()  ,
                   ],
                 ),
               ),

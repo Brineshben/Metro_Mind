@@ -2,7 +2,7 @@
 import 'package:flutter/animation.dart';
 
 class Colorutils {
-  static const userdetailcolor = Color(0xFF10B981);
+  static const userdetailcolor = Color(0xFF51C2B9);
   static const primaryColor1 = Color(0xFF051295);
   static const primaryColor2 = Color(0xFF0FB066);
   static const textGray = Color(0xFF4E5969);

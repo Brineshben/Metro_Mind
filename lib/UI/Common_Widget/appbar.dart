@@ -2,222 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:patient/utils/color_util.dart';
 import 'package:text_scroll/text_scroll.dart';
-
-import '../../utils/color_util.dart';
-import '../Task_Scree.dart';
-
-
-// class UserDetails extends StatelessWidget {
-//   final String name;
-//   final String image;
-//
-//   final bool isWelcome;
-//   final bool bellicon;
-//   final bool notificationcount;
-//
-//   const UserDetails({
-//     super.key,
-//     required this.isWelcome,
-//     required this.bellicon,
-//     required this.notificationcount,
-//     required this.name,
-//     required this.image,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: 130.h,
-//       decoration: BoxDecoration(
-//         gradient: LinearGradient(
-//           colors: [
-//             Colorutils.userdetailcolor, Colorutils.primaryColor2, // End color Colorutils.userdetailcolor, // End color
-//              // End color
-//           ],
-//           begin: Alignment.topLeft,
-//           end: Alignment.bottomRight,
-//         ),              borderRadius: BorderRadius.only(
-//         bottomLeft: Radius.circular(20),
-//         bottomRight: Radius.circular(20),
-//       ),
-//       ),
-//       child: Padding(
-//         padding: const EdgeInsets.only(top: 30),
-//         child: Row(
-//           children: [
-//             SizedBox(width: 12.w),
-//             // GestureDetector(
-//             //   onTap: () {
-//             //
-//             //   },
-//             //   child: Container(
-//             //     height: 50.h,
-//             //     width: 50.h,
-//             //     padding: EdgeInsets.symmetric(horizontal: 9.h),
-//             //     decoration: BoxDecoration(
-//             //       color: Colors.white.withOpacity(0.1),
-//             //       borderRadius: BorderRadius.circular(8.r),
-//             //     ),
-//             //     child: SvgPicture.asset(
-//             //       "assets/images/menu_icon.svg",
-//             //       fit: BoxFit.contain,
-//             //     ),
-//             //   ),
-//             // ),
-//
-//             SizedBox(width: 2.w),
-//             CircleAvatar(
-//               backgroundColor: Colors.white,
-//               radius: 25.r,
-//               child: CircleAvatar(
-//                 radius: 24.r,
-//                 backgroundImage: CachedNetworkImageProvider(
-//                     "https://media.istockphoto.com/id/1223671392/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=s0aTdmT5aU6b8ot7VKm11DeID6NctRCpB755rA1BIP0="),
-//                 backgroundColor: Colors.white,
-//                 onBackgroundImageError: (exception, stackTrace) {
-//                   // Handle error (optional)
-//                 },
-//               ),
-//             ),
-//             SizedBox(width: 12.w),
-//
-//             Expanded(
-//               child: Column(
-//                 mainAxisSize: MainAxisSize.min,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     isWelcome ? 'Welcome!' : 'Hello,',
-//                     style: TextStyle(
-//                       fontFamily: 'Inter',
-//                       fontWeight: FontWeight.w400,
-//                       fontSize: 12.h,
-//                       color: Colors.white.withOpacity(0.7),
-//                     ),
-//                   ),
-//                   Container(
-//                     child: TextScroll(
-//                        'Brinesh ben [SENIOR CHIEF SURGEON]',
-//                       mode: TextScrollMode.bouncing,
-//                       velocity:
-//                       const Velocity(pixelsPerSecond: Offset(50, 0)),
-//                       delayBefore: const Duration(seconds: 1),
-//                       pauseBetween: const Duration(seconds: 2),
-//                       style: TextStyle(
-//                         fontFamily: 'Inter',
-//                         fontWeight: FontWeight.w600,
-//                         fontSize: 14.h,
-//                         color: Colors.white,
-//                       ),
-//                       textAlign: TextAlign.center,
-//                       selectable: true,
-//                     ),
-//                   ),
-//
-//                   // TextScroll(
-//                   //   'This is the sample text for Flutter TextScroll widget. ',
-//                   //   mode: TextScrollMode.bouncing,
-//                   //   velocity: Velocity(pixelsPerSecond: Offset(150, 0)),
-//                   //   delayBefore: Duration(milliseconds: 500),
-//                   //   numberOfReps: 5,
-//                   //   pauseBetween: Duration(milliseconds: 50),
-//                   //   style: TextStyle(color: Colors.green),
-//                   //   textAlign: TextAlign.right,
-//                   //   selectable: true,
-//                   // )
-//                   // SingleChildScrollView(
-//                   //   scrollDirection: Axis.horizontal,
-//                   //   child: Row(
-//                   //     children: [
-//                   //       Text(
-//                   //         controller.userData.value.name ?? "--",
-//                   //         style: TeacherAppFonts.interW600_18sp_textWhite,
-//                   //       ),
-//                   //     ],
-//                   //   ),
-//                   // ),
-//                 ],
-//               ),
-//             ),
-//             SizedBox(width: 12.w),
-//             if (bellicon)
-//               GestureDetector(
-//                 onTap: () {},
-//                 child: Stack(
-//                   children: [
-//                     Padding(
-//                         padding: EdgeInsets.only(right: 5.w, top: 5.h),
-//                         child: bellicon
-//                             ? SvgPicture.asset(
-//                           'assets/images/bell 1.svg',
-//                           color: Colors.white,
-//                           width: 28.h,
-//                           fit: BoxFit.fitWidth,
-//                         )
-//                             : const Text("")),
-//                     Positioned(
-//                       top: 0,
-//                       right: 0,
-//                       child: Container(
-//                         width: 15.h,
-//                         height: 15.h,
-//                         padding: const EdgeInsets.all(2).w,
-//                         decoration: const BoxDecoration(
-//                           shape: BoxShape.circle,
-//                           color: Colors.white,
-//                         ),
-//                         child: FittedBox(
-//                           child: Text(
-//                             "0",
-//                             style: TextStyle(
-//                               fontFamily: 'Inter',
-//                               fontWeight: FontWeight.w500,
-//                               fontSize: 10.h,
-//                               color: Colorutils.userdetailcolor,
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     )
-//                   ],
-//                 ),
-//               ),
-//             SizedBox(width: 12.w),
-//
-//
-//             // CircleAvatar(
-//             //   radius: 26.r,
-//             //   child: CircleAvatar(
-//             //     radius: 25.r,
-//             //     child: ClipRRect(
-//             //       borderRadius: BorderRadius.circular(100).r,
-//             //       child: CachedNetworkImage(
-//             //         imageUrl:
-//             //         "https://media.istockphoto.com/id/1029035836/photo/ai-robot-thinking.jpg?s=612x612&w=0&k=20&c=Lf-nilserdw8BVnHPKtkkSbw7Pcp5p7KI_V9CAlzqQI=",
-//             //         fit: BoxFit.fill,
-//             //         placeholder: (context, url) =>
-//             //             Image.asset("assets/profileOne.svg", fit: BoxFit.cover),
-//             //         errorWidget: (context, url, error) =>
-//             //             Image.asset("assets/profileOne.svg", fit: BoxFit.cover),
-//             //       ),
-//             //     ),
-//             //   ),
-//             // ),
-//             SizedBox(width: 12.w),
-//           ],
-//         ),
-//       )
-//     );
-//   }
-// }
-
-
 
 class UserDetails extends StatelessWidget {
   final String name;
   final String image;
-
   final bool isWelcome;
   final bool bellicon;
   final bool notificationcount;
@@ -234,7 +24,7 @@ class UserDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 90.h,
+        height: 130.h,
         decoration: BoxDecoration(
           color: Colors.white, // Inside color as white
           borderRadius: BorderRadius.only(
@@ -242,48 +32,49 @@ class UserDetails extends StatelessWidget {
             bottomRight: Radius.circular(25),
           ),
 
-          // gradient: LinearGradient(
-          //   colors: [Colorutils.oliveGreen, Colorutils.oliveGreen,], // Define your colors
-          //   begin: Alignment.topLeft,
-          //   end: Alignment.bottomRight,
-          // ),
+          gradient: LinearGradient(
+            colors: [Colors.teal.shade100, Colors.white],
+            // Adjust colors to match your design
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.green.withOpacity(0.5),
-              blurRadius: 1,
-              spreadRadius: 0.5,
+              color: Colors.blue.withOpacity(0.3),
+              blurRadius: 0.1,
+              spreadRadius: 0.1,
               offset: Offset(0, 1),
             ),
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 50),
           child: Column(
             children: [
               Row(
                 children: [
                   SizedBox(width: 12.w),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //
-                  //   },
-                  //   child: Container(
-                  //     height: 50.h,
-                  //     width: 50.h,
-                  //     padding: EdgeInsets.symmetric(horizontal: 9.h),
-                  //     decoration: BoxDecoration(
-                  //       color: Colors.white.withOpacity(0.1),
-                  //       borderRadius: BorderRadius.circular(8.r),
-                  //     ),
-                  //     child: SvgPicture.asset(
-                  //       "assets/images/menu_icon.svg",
-                  //       fit: BoxFit.contain,
-                  //     ),
-                  //   ),
-                  // ),
 
 
-                  SizedBox(width: 12.w),
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 30.r,
+                    child: CircleAvatar(
+                      radius: 25.r, // Ensure the radius is responsive
+                      backgroundColor: Colors.white,
+                      child: ClipOval(
+                        child: Image.asset(
+                          image,
+                          fit: BoxFit.cover,
+                          // Ensures the image is properly scaled and centered
+                          width: 54.r,
+                          // Double the inner radius to cover full area
+                          height: 54.r,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 4.w),
 
                   Expanded(
                     child: Column(
@@ -301,10 +92,10 @@ class UserDetails extends StatelessWidget {
                         ),
                         Container(
                           child: TextScroll(
-                            'Dr.Thalhath P[Chief Psychiatrist]',
+                            name,
                             mode: TextScrollMode.bouncing,
                             velocity:
-                            const Velocity(pixelsPerSecond: Offset(50, 0)),
+                                const Velocity(pixelsPerSecond: Offset(50, 0)),
                             delayBefore: const Duration(seconds: 1),
                             pauseBetween: const Duration(seconds: 2),
                             style: TextStyle(
@@ -317,29 +108,6 @@ class UserDetails extends StatelessWidget {
                             selectable: true,
                           ),
                         ),
-
-                        // TextScroll(
-                        //   'This is the sample text for Flutter TextScroll widget. ',
-                        //   mode: TextScrollMode.bouncing,
-                        //   velocity: Velocity(pixelsPerSecond: Offset(150, 0)),
-                        //   delayBefore: Duration(milliseconds: 500),
-                        //   numberOfReps: 5,
-                        //   pauseBetween: Duration(milliseconds: 50),
-                        //   style: TextStyle(color: Colors.green),
-                        //   textAlign: TextAlign.right,
-                        //   selectable: true,
-                        // )
-                        // SingleChildScrollView(
-                        //   scrollDirection: Axis.horizontal,
-                        //   child: Row(
-                        //     children: [
-                        //       Text(
-                        //         controller.userData.value.name ?? "--",
-                        //         style: TeacherAppFonts.interW600_18sp_textWhite,
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -357,11 +125,11 @@ class UserDetails extends StatelessWidget {
                               padding: EdgeInsets.only(right: 5.w, top: 5.h),
                               child: bellicon
                                   ? SvgPicture.asset(
-                                'assets/images/bell 1.svg',
-                                color: Colors.black,
-                                width: 28.h,
-                                fit: BoxFit.fitWidth,
-                              )
+                                      'assets/images/bell 1.svg',
+                                      color: Colors.black,
+                                      width: 28.h,
+                                      fit: BoxFit.fitWidth,
+                                    )
                                   : const Text("")),
                           Positioned(
                             top: 0,
@@ -391,20 +159,6 @@ class UserDetails extends StatelessWidget {
                       ),
                     ),
                   SizedBox(width: 12.w),
-                  SizedBox(width: 2.w),
-                  CircleAvatar(
-                    backgroundColor: Colors.green.shade100,
-                    radius: 26.r,
-                    child: CircleAvatar(
-                      radius: 25.r,
-                      backgroundImage: CachedNetworkImageProvider(
-                          "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fcorporate-profile-picture&psig=AOvVaw0XMPH5HKIAA5wVVeMRrB9x&ust=1743493695246000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJDtuP7os4wDFQAAAAAdAAAAABAE"),
-                      backgroundColor: Colors.white,
-                      onBackgroundImageError: (exception, stackTrace) {
-                        // Handle error (optional)
-                      },
-                    ),
-                  ),
 
                   // CircleAvatar(
                   //   radius: 26.r,
@@ -482,8 +236,7 @@ class UserDetails extends StatelessWidget {
               // ),
             ],
           ),
-        )
-    );
+        ));
   }
 }
 
@@ -502,7 +255,7 @@ class ThoughtOfTheDayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10,right: 20),
+      padding: const EdgeInsets.only(left: 10, right: 20),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -517,7 +270,10 @@ class ThoughtOfTheDayWidget extends StatelessWidget {
               children: [
                 Text(
                   text,
-                  style: TextStyle(fontSize: 15, color: Colors.grey[800],fontStyle: FontStyle.italic),
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey[800],
+                      fontStyle: FontStyle.italic),
                 ),
                 // InkWell(
                 //   onTap: onReadMore,

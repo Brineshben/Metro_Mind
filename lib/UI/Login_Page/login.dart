@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../Controller/Login_Controller.dart';
 import '../../utils/Constants.dart';
 import '../../utils/color_util.dart';
+import 'package:get/get.dart';
+
+import '../CHIEF_DOCTOR/bottom_Navigation_Chief.dart';
+import '../Common_Widget/popups.dart';
 import '../HomePage/home_widgets/bottom_Navigationbar.dart';
+import '../PATIENT/UI_PATIENT/bottom_Navigation_Patient.dart';
 import '../SplashScreen/splash.dart';
 
 class LoginPage extends StatefulWidget {
@@ -33,19 +38,30 @@ class _LoginPageState extends State<LoginPage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: systemUiOverlayStyleDark,
-
         child: Scaffold(
             backgroundColor: Colors.white,
-            body: SizedBox(
-              height: ScreenUtil().screenHeight,
-              width: ScreenUtil().screenWidth,
+            body: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.blue.shade50,
+                    Colors.white,
+                    Colors.white,
+                    Colors.white,
+                    Colors.white,
+                    Colors.white,
+                    Colors.white
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
               child: SingleChildScrollView(
                 child: Stack(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
-        
                         child: SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +73,11 @@ class _LoginPageState extends State<LoginPage> {
                                   child: SizedBox(
                                     height: 80.h,
                                     // height: 180.h,
-                                    child:Image.asset("assets/images/utharam-logo.png", fit: BoxFit.cover,color: Colors.black,),
+                                    child: Image.asset(
+                                      "assets/images/utharam-logo.png",
+                                      fit: BoxFit.cover,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -82,28 +102,28 @@ class _LoginPageState extends State<LoginPage> {
                                       fontStyle: FontStyle.italic),
                                 ),
                               ),
-        
+
                               SizedBox(height: 5.h),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 15.w, vertical: 2.h),
                                 child: TextFormField(
-                                  cursorColor:Colors.grey,
+                                  cursorColor: Colors.grey,
                                   controller: _usernameController,
                                   autofillHints: const [AutofillHints.username],
                                   textInputAction: TextInputAction.next,
                                   decoration: InputDecoration(
                                       focusedBorder: const UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.grey,
-                                              width: 2)),
+                                              color: Colors.grey, width: 2)),
                                       enabledBorder: const UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.grey)),
+                                          borderSide:
+                                              BorderSide(color: Colors.grey)),
                                       // border: UnderlineInputBorder(),
                                       labelText: 'Email',
                                       labelStyle: TextStyle(
-                                          color: Colors.black45, fontSize: 16.h)),
+                                          color: Colors.black45,
+                                          fontSize: 16.h)),
                                 ),
                               ),
                               Padding(
@@ -120,14 +140,14 @@ class _LoginPageState extends State<LoginPage> {
                                   decoration: InputDecoration(
                                       focusedBorder: const UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.grey,
-                                              width: 2)),
+                                              color: Colors.grey, width: 2)),
                                       enabledBorder: const UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.grey)),
+                                          borderSide:
+                                              BorderSide(color: Colors.grey)),
                                       labelText: 'Password',
                                       labelStyle: TextStyle(
-                                          color: Colors.black45, fontSize: 16.h),
+                                          color: Colors.black45,
+                                          fontSize: 16.h),
                                       suffixIcon: GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -161,34 +181,103 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               SizedBox(height: 50.h),
                               GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => PageIndexNavigation(),
+                                        builder: (context) =>
+                                            PageIndexNavigationChief(),
                                       ));
-
+//                                   String user = _usernameController.text.trim();
+//                                   String psw = _passwordController.text.trim();
+//                                   if (user.isNotEmpty) {
+//                                     if (psw.isNotEmpty) {
+//                                       await Get.find<UserAuthController>()
+//                                           .fetchUserData(
+//                                               username: user, password: psw);
+//                                       if (Get.find<UserAuthController>()
+//                                           .isLoaded
+//                                           .value) {
+//                                          final String data =
+//                                             Get.find<UserAuthController>()
+//                                                     .userdata
+//                                                     .value
+//                                                     ?.role ??
+//                                                 "";
+// print("object$data");
+//                                         if (data == "admin") {
+//                                           Navigator.push(
+//                                               context,
+//                                               MaterialPageRoute(
+//                                                 builder: (context) =>
+//                                                     PageIndexNavigationChief(),
+//                                               ));
+//                                         } else if (data == "therapist") {
+//                                           Navigator.push(
+//                                               context,
+//                                               MaterialPageRoute(
+//                                                 builder: (context) =>
+//                                                     PageIndexNavigationTherapist(),
+//                                               ));
+//                                         } else if (data == "patient") {
+//                                           Navigator.push(
+//                                               context,
+//                                               MaterialPageRoute(
+//                                                 builder: (context) =>
+//                                                     PageIndexNavigationPatient(),
+//                                               ));
+//                                         }
+//
+//                                         ProductAppPopUps.submit(
+//                                           title: "SUCCESS",
+//                                           message: "Login successful",
+//                                           actionName: "Close",
+//                                           iconData: Icons.done,
+//                                           iconColor: Colors.green,
+//                                         );
+//                                       }
+//                                     } else {
+//                                       ProductAppPopUps.submit(
+//                                         title: "FAILED",
+//                                         message: "Please Enter your Password.",
+//                                         actionName: "Close",
+//                                         iconData: Icons.error_outline,
+//                                         iconColor: Colors.red,
+//                                       );
+//                                     }
+//                                   } else {
+//                                     ProductAppPopUps.submit(
+//                                       title: "FAILED",
+//                                       message: "Please Enter Your Username.",
+//                                       actionName: "Close",
+//                                       iconData: Icons.error_outline,
+//                                       iconColor: Colors.red,
+//                                     );
+//                                   }
                                 },
                                 child: Center(
                                     child: Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(horizontal: 30).w,
+                                      const EdgeInsets.symmetric(horizontal: 30)
+                                          .w,
                                   child: GestureDetector(
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [Colors.green.shade300, Colors.blue.shade300], // Adjust colors to match your design
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                        ),
+                                        // gradient: LinearGradient(
+                                        //   colors: [Colors.green.shade300, Colors.blue.shade300], // Adjust colors to match your design
+                                        //   begin: Alignment.topLeft,
+                                        //   end: Alignment.bottomRight,
+                                        // ),
                                         color: Colorutils.userdetailcolor,
-                                        borderRadius: BorderRadius.circular(20.r),
+                                        borderRadius:
+                                            BorderRadius.circular(20.r),
                                       ),
                                       // width: 250.w,
                                       height: 45.h,
                                       child: Center(
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Text(
                                               'LOGIN',
@@ -198,8 +287,14 @@ class _LoginPageState extends State<LoginPage> {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            SizedBox(width: 10,),
-                                            Icon(Icons.arrow_forward_ios,color: Colors.white,size: 16,)
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.white,
+                                              size: 16,
+                                            )
                                           ],
                                         ),
                                       ),
@@ -218,7 +313,8 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.w),
                                     child: Text(
                                       'or',
                                       style: TextStyle(
@@ -239,18 +335,25 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(height: 10.h),
                               SizedBox(height: 10.h),
                               GestureDetector(
-
                                 child: Center(
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 30).w,
+                                    padding: const EdgeInsets.symmetric(
+                                            horizontal: 30)
+                                        .w,
                                     child: GestureDetector(
-                                      onTap: ()  {
+                                      onTap: () {
+                                        Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PageIndexNavigationPatient(),
+                                              ));
 
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(30.r),
+                                          borderRadius:
+                                              BorderRadius.circular(30.r),
                                           border: Border.all(
                                             color: Colorutils.userdetailcolor,
                                             width: 0.8,
@@ -282,7 +385,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                               ),
-        
+
                               // Center(
                               //   child: Padding(
                               //     padding:
@@ -330,11 +433,21 @@ class _LoginPageState extends State<LoginPage> {
                                 height: 150,
                               ),
                               Center(
-                                child: Text(
-                                  "Version 0.1",
-                                  style: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontSize: 10.h,
+                                child: GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              PageIndexNavigationTherapist(),
+                                        ));
+                                  },
+                                  child: Text(
+                                    "Version 0.1",
+                                    style: TextStyle(
+                                      color: Colors.blueGrey,
+                                      fontSize: 10.h,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:patient/utils/color_util.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -76,15 +77,15 @@ class _ChatScreenDoctorState extends State<ChatScreenDoctor> {
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
                         Text("Online",
-                            style: TextStyle(fontSize: 14, color: Colors.greenAccent)),
+                            style: TextStyle(fontSize: 14, color: Colorutils.userdetailcolor)),
                       ],
                     ),
                     Spacer(),
                     // Icon(Icons.video_camera_front_outlined, color: Colors.green),
                     SizedBox(width: 10),
-                    Icon(Icons.call, color: Colors.green),
+                    Icon(Icons.call, color: Colorutils.userdetailcolor),
                     SizedBox(width: 10),
-                    Icon(Icons.menu, color: Colors.green),
+                    Icon(Icons.menu, color: Colorutils.userdetailcolor),
                   ],
                 ),
               ),
@@ -254,7 +255,7 @@ class _ChatScreenDoctorState extends State<ChatScreenDoctor> {
             ),
             Container(
               decoration: const BoxDecoration(
-                color: Colors.green,
+                color: Colorutils.userdetailcolor,
                 shape: BoxShape.circle,
               ),
               child: IconButton(

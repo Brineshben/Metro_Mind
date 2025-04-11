@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:patient/Service/Api_Service.dart';
 
 import '../../utils/Constants.dart';
 import '../../utils/color_util.dart';
@@ -18,13 +19,20 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController name = TextEditingController();
   TextEditingController username = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
+  TextEditingController age = TextEditingController();
+  TextEditingController gender = TextEditingController();
+  TextEditingController occupation = TextEditingController();
+  TextEditingController address = TextEditingController();
+  TextEditingController education = TextEditingController();
   bool _obscureText1 = true;
   bool _obscureText2 = true;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,227 +40,303 @@ class _RegisterState extends State<Register> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
           body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.green.shade50,
-              Colors.blue.shade50,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: SingleChildScrollView(
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    // Center(
-                    //   child: Padding(
-                    //     padding: EdgeInsets.only(top: 20.h),
-                    //     child: SizedBox(
-                    //       height: 100.h,
-                    //       // height: 180.h,
-                    //       child: SvgPicture.asset(
-                    //         'assets/IHUB LOGO.svg',
-                    //         width: 150.w,
-                    //         fit: BoxFit.fitWidth,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 10.h),
-                        child: SizedBox(
-                          height: 80.h,
-                          // height: 180.h,
-                          child: Image.asset(
-                            "assets/images/utharam-logo.png",
-                            fit: BoxFit.cover,
-                            color: Colors.green,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(left: 15.w),
-                          child: Text(
-                            'CREATE ACCOUNT',
-                            style: GoogleFonts.roboto(
-                                color: Colors.black,
-                                fontSize: 18.h,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        // Icon(Icons.person_add,color: Colorutils.userdetailcolor,),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 15.w),
-                      child: Text(
-                        'Please Enter Your Details',
-                        style: GoogleFonts.roboto(
-                            color: Colors.grey,
-                            fontSize: 12.h,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    buildTextField(
-                        "Username", "assets/images/user.svg", false, username),
-                    buildTextField(
-                        "Email", "assets/images/envelope.svg", false, email),
-                    buildTextField("Phone Number",
-                        "assets/images/phone-call.svg", false, phoneNumber),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: buildTextField("Age", "assets/images/age.svg",
-                              false, phoneNumber),
-                        ),
-                        Expanded(
-                          child: buildTextField("Gender",
-                              "assets/images/venus.svg", false, phoneNumber),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: buildTextField(
-                              "Education",
-                              "assets/images/graduation-cap.svg",
-                              false,
-                              phoneNumber),
-                        ),
-                        Expanded(
-                          child: buildTextField(
-                              "Occupation",
-                              "assets/images/briefcase-blank.svg",
-                              false,
-                              phoneNumber),
-                        ),
-                      ],
-                    ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.blue.shade50,
+                  Colors.white,
+                  Colors.white,
+                  Colors.white,
+                  Colors.white,
+                  Colors.white,
+                  Colors.white
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: SingleChildScrollView(
+              child: Stack(
+                children: [
+                  Form(
+                    key: _formKey,
 
-                    buildTextField("Address", "assets/images/address-book.svg",
-                        false, phoneNumber),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: TextFormField(
-                        controller: password,
-                        obscureText: _obscureText1,
-                        decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Colorutils.userdetailcolor, width: 1),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3)),
-                            ),
-                            prefixIcon: Icon(Icons.lock_outline_rounded,
-                                color: Colors.grey),
-                            hintText: "Password",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3)),
-                            ),
-                            suffixIcon: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _obscureText1 = !_obscureText1;
-                                  });
-                                },
-                                child: Icon(_obscureText1
-                                    ? Icons.visibility_off
-                                    : Icons.visibility))),
-                      ),
-                    ),
-
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Center(
-                        child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30).w,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return ChatScreen();
-                            },
-                          ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.green.shade200,
-                                Colors.blue.shade200
-                              ], // Adjust colors to match your design
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(25.r),
-                          ),
-                          // width: 250.w,
-                          height: 45.h,
-                          child: Center(
-                            child: Text(
-                              'REGISTER',
-                              style: GoogleFonts.roboto(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17.h,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                        ),
+                        // Center(
+                        //   child: Padding(
+                        //     padding: EdgeInsets.only(top: 20.h),
+                        //     child: SizedBox(
+                        //       height: 100.h,
+                        //       // height: 180.h,
+                        //       child: SvgPicture.asset(
+                        //         'assets/IHUB LOGO.svg',
+                        //         width: 150.w,
+                        //         fit: BoxFit.fitWidth,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 10.h),
+                            child: SizedBox(
+                              height: 80.h,
+                              // height: 180.h,
+                              child: Image.asset(
+                                "assets/images/utharam-logo.png",
+                                fit: BoxFit.cover,
+                                color: Colorutils.userdetailcolor,
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    )),
-                    SizedBox(
-                      height: 40,
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 15.w),
+                              child: Text(
+                                'CREATE ACCOUNT',
+                                style: GoogleFonts.roboto(
+                                    color: Colors.black,
+                                    fontSize: 18.h,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            // Icon(Icons.person_add,color: Colorutils.userdetailcolor,),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 15.w),
+                          child: Text(
+                            'Please Enter Your Details',
+                            style: GoogleFonts.roboto(
+                                color: Colors.grey,
+                                fontSize: 12.h,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        buildTextField(
+                            "Name", "assets/images/user.svg", false, name,
+                            true),
+                        buildTextField(
+                            "Username", "assets/images/user.svg", false,
+                            username, true),
+                        buildTextField(
+                            "Email", "assets/images/envelope.svg", false, email,
+                            true),
+                        buildTextField("Phone Number",
+                            "assets/images/phone-call.svg", false, phoneNumber,
+                            true),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: buildTextField(
+                                  "Age", "assets/images/age.svg", false, age,
+                                  false),
+                            ),
+                            Expanded(
+                              child: buildTextField("Gender",
+                                  "assets/images/venus.svg", false, gender,
+                                  false),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: buildTextField(
+                                  "Education",
+                                  "assets/images/graduation-cap.svg",
+                                  false,
+                                  education, false),
+                            ),
+                            Expanded(
+                              child: buildTextField(
+                                  "Occupation",
+                                  "assets/images/briefcase-blank.svg",
+                                  false,
+                                  occupation, false),
+                            ),
+                          ],
+                        ),
+
+                        buildTextField(
+                            "Address", "assets/images/address-book.svg",
+                            false, address, false),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 15, top: 8),
+                          child: TextFormField(
+                            validator: (val) =>
+                            val!.trim().isEmpty
+                                ? 'Please Enter Password.'
+                                : null,
+                            controller: password,
+                            obscureText: _obscureText1,
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: Colorutils.userdetailcolor,
+                                      width: 1),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3)),
+                                ),
+                                prefixIcon: Icon(Icons.lock_outline_rounded,
+                                    color: Colors.grey),
+                                hintText: "Password",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3)),
+                                ),
+                                suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _obscureText1 = !_obscureText1;
+                                      });
+                                    },
+                                    child: Icon(_obscureText1
+                                        ? Icons.visibility_off
+                                        : Icons.visibility))),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 15, top: 8),
+                          child: TextFormField(
+                            validator: (val) =>
+                            val!.trim().isEmpty
+                                ? 'Please Enter Confirm Password.'
+                                : null,
+                            controller: confirmPassword,
+                            obscureText: _obscureText2,
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: Colorutils.userdetailcolor,
+                                      width: 1),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3)),
+                                ),
+                                prefixIcon: Icon(Icons.lock_outline_rounded,
+                                    color: Colors.grey),
+                                hintText: "Confirm Password",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3)),
+                                ),
+                                suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _obscureText2 = !_obscureText2;
+                                      });
+                                    },
+                                    child: Icon(_obscureText2
+                                        ? Icons.visibility_off
+                                        : Icons.visibility))),
+                          ),
+                        ),
+
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30).w,
+                              child: GestureDetector(
+                                onTap: () async{
+                                  // if (_formKey.currentState!.validate()) {
+                                    // Map<String, dynamic> resp = await ApiServices
+                                    //     .patientRegister(name: name.text,
+                                    //     userName: username.text,
+                                    //     email: email.text,
+                                    //     mobileNumber: phoneNumber.text,
+                                    //     password: password.text,
+                                    //     confirmPassword: confirmPassword.text,
+                                    //     age: age.text,
+                                    //     gender: gender.text,
+                                    //     occupation: occupation.text,
+                                    //     address: address.text,
+                                    //     education: education.text);
+                                    Navigator.pushReplacement(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return ChatScreen();
+                                      },
+                                    ));
+                                  // }
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colorutils.userdetailcolor,
+                                    // gradient: LinearGradient(
+                                    //   colors: [
+                                    //     Colors.green.shade200,
+                                    //     Colors.blue.shade200
+                                    //   ], // Adjust colors to match your design
+                                    //   begin: Alignment.topLeft,
+                                    //   end: Alignment.bottomRight,
+                                    // ),
+                                    borderRadius: BorderRadius.circular(25.r),
+                                  ),
+                                  // width: 250.w,
+                                  height: 45.h,
+                                  child: Center(
+                                    child: Text(
+                                      'REGISTER',
+                                      style: GoogleFonts.roboto(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17.h,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )),
+                        SizedBox(
+                          height: 40,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      )),
+                  )
+                ],
+              ),
+            ),
+          )),
     );
   }
 }
 
 Widget buildTextField(String hintText, String svgAssetPath, bool isPassword,
-    TextEditingController controller) {
+    TextEditingController controller, bool validation) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 15, top: 4, bottom: 4),
     child: TextFormField(
+      validator: validation
+          ? (val) => val!.trim().isEmpty ? 'Please enter $hintText' : null
+          : null,
       controller: controller,
       obscureText: isPassword,
       decoration: InputDecoration(
