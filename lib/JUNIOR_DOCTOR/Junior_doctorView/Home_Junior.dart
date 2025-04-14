@@ -6,33 +6,47 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../utils/Constants.dart';
 import '../../../../utils/color_util.dart';
-import '../../Common_Widget/appbar.dart';
-import '../../HomePage/Patient_Details/patient_details.dart';
-import '../../HomePage/home_widgets/DashList.dart';
-import '../../HomePage/home_widgets/course_List.dart';
-import '../../HomePage/home_widgets/overallView.dart';
-import '../../HomePage/home_widgets/quiz_List.dart';
+
+import '../../CHIEF_DOCTOR/Chiefdoctor_View/DashChief.dart';
 import '../../PATIENT/UI_PATIENT/Home_Screen/Activity.dart';
-import 'DashChief.dart';
+import '../../UI/Common_Widget/appbar.dart';
+import '../../UI/HomePage/Patient_Details/patient_details.dart';
+import '../../UI/HomePage/home_widgets/DashList.dart';
+import '../../UI/HomePage/home_widgets/overallView.dart';
 
-
-
-class HomeScreenChief extends StatefulWidget {
-  const HomeScreenChief({super.key});
-
+class HomeScreenJunior extends StatefulWidget {
+  const HomeScreenJunior({super.key});
 
   @override
-  State<HomeScreenChief> createState() => _HomeScreenChiefState();
+  State<HomeScreenJunior> createState() => _HomeScreenJuniorState();
 }
 
-class _HomeScreenChiefState extends State<HomeScreenChief> {
-
-
+class _HomeScreenJuniorState extends State<HomeScreenJunior> {
   List<DashboardSessions> sessions = [
-    DashboardSessions(title: "Patient Sevierity", time: "+48 this month", instructor: "Dr. Sara ben", Count: '10', emergency: true),
-    DashboardSessions(title: "Active Therapist", time: "All India", instructor: "7 day trend :Positive", Count: '32', emergency: false),
-    DashboardSessions(title: "Monthly Sessions", time: "+12% this month", instructor: "Treatment plan", Count: '1900', emergency: false),
-    DashboardSessions(title: "System Usage", time: "2 New", instructor: "Home Work", Count: '10', emergency: false),
+    DashboardSessions(
+        title: "Patient Sevierity",
+        time: "+48 this month",
+        instructor: "Dr. Sara ben",
+        Count: '10',
+        emergency: true),
+    DashboardSessions(
+        title: "Active Therapist",
+        time: "All India",
+        instructor: "7 day trend :Positive",
+        Count: '32',
+        emergency: false),
+    DashboardSessions(
+        title: "Monthly Sessions",
+        time: "+12% this month",
+        instructor: "Treatment plan",
+        Count: '1900',
+        emergency: false),
+    DashboardSessions(
+        title: "System Usage",
+        time: "2 New",
+        instructor: "Home Work",
+        Count: '10',
+        emergency: false),
   ];
   List<TicketsData> myTicketsList = [
     TicketsData(name: "Total Patients", number: "1"),
@@ -69,56 +83,65 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
   final List<Map<String, String>> doctors = [
     {
       "name": "Arun",
-      "position": "ID:678",
-      "image": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.rawpixel.com%2Fsearch%2Fpatient&psig=AOvVaw3wqk1nLkngaIv-l9vk_dqj&ust=1744276828034000&source=images&cd=vfe&opi=89978449&ved=2ahUKEwjk6YjXz8qMAxWAQGwGHSPSKigQjRx6BAgAEBk"
-
+      "position": "M-67876467",
+      "image":
+          "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.rawpixel.com%2Fsearch%2Fpatient&psig=AOvVaw3wqk1nLkngaIv-l9vk_dqj&ust=1744276828034000&source=images&cd=vfe&opi=89978449&ved=2ahUKEwjk6YjXz8qMAxWAQGwGHSPSKigQjRx6BAgAEBk"
     },
     {
       "name": "Priya",
-      "position": "ID:679",
+      "position": "M-67876467",
       "image": "https://via.placeholder.com/150"
     },
     {
       "name": "Mark Johnson",
-      "position": "ID:67",
+      "position": "M-67876467",
       "image": "https://via.placeholder.com/150"
-    }, {
+    },
+    {
       "name": "Johnson",
-      "position": "ID:67",
+      "position": "M-67876467",
       "image": "https://via.placeholder.com/150"
-    }, {
+    },
+    {
       "name": "DrSOM",
-      "position": "ID:67",
+      "position": "M-67876467",
       "image": "https://via.placeholder.com/150"
-    }, {
+    },
+    {
       "name": "Dr. Mark Johnson",
-      "position": "ID:67",
+      "position": "M-67876467",
       "image": "https://via.placeholder.com/150"
-    }, {
+    },
+    {
       "name": "Dr. Mark Johnson",
-      "position": "ID:67",
+      "position": "M-67876467",
       "image": "https://via.placeholder.com/150"
-    }, {
+    },
+    {
       "name": "Dr. Mark Johnson",
-      "position": "ID:67",
+      "position": "M-67876467",
       "image": "https://via.placeholder.com/150"
-    },{
+    },
+    {
       "name": "Dr. Mark Johnson",
-      "position": "ID:67",
+      "position": "M-67876467",
       "image": "https://via.placeholder.com/150"
-    },{
+    },
+    {
       "name": "Dr. Mark Johnson",
-      "position": "ID:67",
+      "position": "M-67876467",
       "image": "https://via.placeholder.com/150"
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     Widget _buildDoctorDrawer(BuildContext context) {
       return Drawer(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(0)),
-        ),        backgroundColor: Colors.white,
+        ),
+        backgroundColor: Colors.white,
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(left: 5, right: 5),
@@ -142,14 +165,14 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                   ListView.builder(
                     padding: EdgeInsets.all(0),
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(), // Prevent nested scroll conflict
+                    physics: NeverScrollableScrollPhysics(),
+                    // Prevent nested scroll conflict
                     itemCount: doctors.length,
                     itemBuilder: (context, index) {
                       final doctor = doctors[index];
                       return Column(
                         children: [
                           ListTile(
-
                             leading: CircleAvatar(
                               backgroundColor: Colors.green.withOpacity(0.1),
                               child: ClipOval(
@@ -161,27 +184,36 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                                 ),
                               ),
                             ),
-                            title: Text(
-                              doctor["name"]!,
-                              style:  TextStyle(
-                                color: Colors.blueGrey,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15.h
-                              ),
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  doctor["name"]!,
+                                  style: TextStyle(
+                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.h),
+                                ),
+                                Text(
+                                  "Re-Visit",
+                                  style: TextStyle(
+                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12.h),
+                                ),
+                              ],
                             ),
                             subtitle: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   doctor["position"]!,
-                                  style: const TextStyle(
-                                    color: Colors.blueGrey,
-                                      fontSize: 14
-
-                                  ),
+                                  style:  TextStyle(
+                                      color: Colors.blueGrey, fontSize: 12.h),
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 7, vertical: 3),
                                   decoration: BoxDecoration(
                                     color: Colorutils.userdetailcolor,
                                     borderRadius: BorderRadius.circular(10),
@@ -200,7 +232,8 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => PatientDetails()),
+                                MaterialPageRoute(
+                                    builder: (context) => PatientDetails()),
                               );
                             },
                           ),
@@ -227,15 +260,15 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
       value: systemUiOverlayStyleDark,
       child: Scaffold(
         backgroundColor: Colors.white,
-          drawer: _buildDoctorDrawer(context),
+        drawer: _buildDoctorDrawer(context),
         body: Container(
           decoration: BoxDecoration(
-            // gradient: LinearGradient(
-            //   colors: [Colors.green, Colors.white], // Define your colors
-            //   begin: Alignment.topLeft,
-            //   end: Alignment.bottomRight,
-            // ),
-          ),
+              // gradient: LinearGradient(
+              //   colors: [Colors.green, Colors.white], // Define your colors
+              //   begin: Alignment.topLeft,
+              //   end: Alignment.bottomRight,
+              // ),
+              ),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(
@@ -245,7 +278,7 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                   isWelcome: true,
                   bellicon: true,
                   notificationcount: true,
-                  name: 'Dr.thalhad [Chief Therapist]',
+                  name: 'Dr.Arya [Junior Therapist]',
                   image: 'assets/images/profile2.jpg',
                 ),
                 Padding(
@@ -255,7 +288,7 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Admin Dashboard",
+                        "Junior Therapist Dashboard",
                         style: GoogleFonts.shanti(
                           color: Colors.blueGrey,
                           fontWeight: FontWeight.w900,
@@ -267,51 +300,14 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                 ),
                 ThoughtOfTheDayWidget(
                   text:
-                  "Wherever the art of medicine is loved, there is also a love of humanity.",
+                      "Wherever the art of medicine is loved, there is also a love of humanity.",
                   svgPath: "assets/images/Group.svg",
                   onReadMore: () {
                     print("Read More Clicked!");
                   },
                 ),
-                // Container(
-                //   padding: EdgeInsets.all(16),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Text(
-                //         'My Patient List',
-                //         style: GoogleFonts.shanti(
-                //           color: Colors.blueGrey,
-                //           fontWeight: FontWeight.w900,
-                //           fontSize: 20.h,
-                //         ),
-                //       ),
-                //       Container(
-                //         padding:
-                //         EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                //         decoration: BoxDecoration(
-                //           color: Colors.red,
-                //           borderRadius: BorderRadius.circular(10),
-                //         ),
-                //         child: Text(
-                //           '4 Emergency',
-                //           style: GoogleFonts.shanti(
-                //             color: Colors.white.withOpacity(0.9),
-                //             fontWeight: FontWeight.w900,
-                //             fontSize: 15.h,
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 10,top: 10),
-                //   child: CourseList(),
-                // ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      top: 15.h, left: 15.w, right: 10.w),
+                  padding: EdgeInsets.only(top: 15.h, left: 15.w, right: 10.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -328,10 +324,8 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child:Dashchief(sessions: sessions),
+                  child: Dashchief(sessions: sessions),
                 ),
-
-
               ],
             ),
           ),

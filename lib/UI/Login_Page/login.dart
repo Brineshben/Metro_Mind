@@ -3,16 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../Controller/Login_Controller.dart';
+import '../../CHIEF_DOCTOR/bottom_Navigation_Chief.dart';
+import '../../JUNIOR_DOCTOR/bottom_navigation_Junior.dart';
+import '../../PATIENT/UI_PATIENT/bottom_Navigation_Patient.dart';
 import '../../utils/Constants.dart';
 import '../../utils/color_util.dart';
-import 'package:get/get.dart';
-
-import '../CHIEF_DOCTOR/bottom_Navigation_Chief.dart';
-import '../Common_Widget/popups.dart';
 import '../HomePage/home_widgets/bottom_Navigationbar.dart';
-import '../PATIENT/UI_PATIENT/bottom_Navigation_Patient.dart';
-import '../SplashScreen/splash.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -67,16 +63,22 @@ class _LoginPageState extends State<LoginPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Center(
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 100.h),
-                                  child: SizedBox(
-                                    height: 80.h,
-                                    // height: 180.h,
-                                    child: Image.asset(
-                                      "assets/images/utharam-logo.png",
-                                      fit: BoxFit.cover,
-                                      color: Colors.black,
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PageIndexNavigationJunior(),));
+                                },
+
+                                child: Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 100.h),
+                                    child: SizedBox(
+                                      height: 80.h,
+                                      // height: 180.h,
+                                      child: Image.asset(
+                                        "assets/images/utharam-logo.png",
+                                        fit: BoxFit.cover,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
                                 ),

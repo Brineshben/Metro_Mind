@@ -40,7 +40,7 @@ class UserDetails extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.blue.withOpacity(0.3),
+              color: Colors.teal.withOpacity(0.3),
               blurRadius: 0.1,
               spreadRadius: 0.1,
               offset: Offset(0, 1),

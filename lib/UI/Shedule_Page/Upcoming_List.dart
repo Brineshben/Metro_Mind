@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../utils/color_util.dart';
 
-class ExpandableCardList extends StatelessWidget {
+class PatientExpandableCardList extends StatelessWidget {
   final List<Map<String, String>> items = [
     {
       'name': 'Roy',
@@ -57,17 +57,74 @@ class ExpandableCardList extends StatelessWidget {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Container(
+              height: 50.h,
+              decoration: const BoxDecoration(
+                  border: Border(),
+                  borderRadius: BorderRadius.all(Radius.circular(25))),
+              width: double.infinity,
+              child: TextFormField(
+                autofocus: false,
+                // controller: textcontroller,
+                // onChanged: (value) async {
+                //   controller.resetData();
+                //   // controller.SearchNameList.value=[];
+                //   if (textcontroller.text.length >= 3) {
+                //     await controller.fetchSearchData(searchData: value);
+                //   }
+                //   // // Get.find<LeaveApprovalController>().filterLeaveList(text: value);
+                // },
+                validator: (val) => val!.isEmpty ? 'Enter the Topic' : null,
+                cursorColor: Colors.grey,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    hintText: "Search Patients",
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                          height: 25,
+                          width: 25,
+                          child: SvgPicture.asset(
+                            "assets/images/MagnifyingGlass.svg",
+                            color:  Colorutils.userdetailcolor,
+                          )),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 25.0),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(2.0),
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colorutils.userdetailcolor),
+                      borderRadius: const BorderRadius.all(Radius.circular(25)),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Colorutils.userdetailcolor, width: 1.0),
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                    fillColor: Colors.white,
+                    filled: true),
+              ),
+            ),
+          ),
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.only(left: 8, right: 8, bottom: 1),
               itemCount: items.length,
               itemBuilder: (context, index) {
                 return Card(
+
                     color: Colors.white,
                     margin: EdgeInsets.symmetric(vertical: 10),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
-                    elevation: 2,
+                    elevation: 1,
                     child: ExpansionTile(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
@@ -149,10 +206,15 @@ class ExpandableCardList extends StatelessWidget {
                                     fontWeight: FontWeight.w500),
                               ),
                               SizedBox(height: 10),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
+                                  Text("ASSIGNED DOCTOR: Dr.Vandana",
+                                      style: TextStyle(
+                                          fontSize: 14.h,
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.green)),
                                   Text("SESSION: 3:00PM- 4:00PM",
                                       style: TextStyle(
                                           fontSize: 14.h,

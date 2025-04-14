@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/color_util.dart';
-import '../../CHIEF_DOCTOR/UI_CHIEF/Grid_patientdetails.dart';
 import 'AiDetails.dart';
 
 class PatientDetails extends StatefulWidget {
@@ -19,23 +18,24 @@ class _PatientDetailsState extends State<PatientDetails> {
   final List<Map<String, String>> doctors = [
     {
       "name": "Dr. John Doe",
-      "position": "Cardiologist",
+      "position": "Senior Psychiatrist",
       "image": "https://via.placeholder.com/150"
     },
     {
       "name": "Dr. Alice Smith",
-      "position": "Neurologist",
+      "position": "therapist",
       "image": "https://via.placeholder.com/150"
     },
     {
       "name": "Dr. Mark Johnson",
-      "position": "Dermatologist",
+      "position": "Psychiatrist",
       "image": "https://via.placeholder.com/150"
     },
   ];
 
   void _showDoctorBottomSheet(BuildContext context) {
     showModalBottomSheet(
+      backgroundColor: Colors.white,
       context: context,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
@@ -70,7 +70,15 @@ class _PatientDetailsState extends State<PatientDetails> {
                   final doctor = doctors[index];
                   return ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: NetworkImage(doctor["image"]!),
+                      backgroundColor: Colors.green.withOpacity(0.1),
+                      child: ClipOval(
+                        child: Image.asset(
+                          "assets/images/profile2.jpg",
+                          fit: BoxFit.cover,
+                          width: 35,
+                          height: 35,
+                        ),
+                      ),
                     ),
                     title: Text(
                       doctor["name"]!,

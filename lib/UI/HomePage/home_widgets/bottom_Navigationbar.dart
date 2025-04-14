@@ -95,12 +95,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:patient/PATIENT/UI_PATIENT/Chat_Patient/Chat_PAtient.dart';
 import 'package:patient/utils/color_util.dart';
 
 import '../../AppintmentsPage/Appointments.dart';
-import '../../PATIENT/UI_PATIENT/Chat_Patient/Chat_PAtient.dart';
-import '../../Personal_Chat/Chat_Page.dart';
-import '../../Profile_screen/profile.dart';
+
 import '../../Shedule_Page/shedule.dart';
 import '../home_screen.dart';
 
@@ -122,7 +121,7 @@ class _PageIndexNavigationTherapistState extends State<PageIndexNavigationTherap
     super.initState();
     _screens = [
       HomeScreen(),
-      TabExample(),
+      PatientSheduled(),
       AppointmentsScreen(),
 
       ChatListPage()

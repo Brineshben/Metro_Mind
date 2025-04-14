@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../utils/color_util.dart';
 import 'Upcoming_List.dart';
 
-class TabExample extends StatelessWidget {
+class PatientSheduled extends StatelessWidget {
+  const PatientSheduled({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -15,25 +17,25 @@ class TabExample extends StatelessWidget {
           backgroundColor: Colors.white,
           body: Column(
             children: [
+              // Padding(
+              //   padding: EdgeInsets.only(top: 25.h, bottom: 25.h, left: 20.w, right: 10.w),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         "PATIENT LIST ",
+              //         style: GoogleFonts.shanti(
+              //           color: Colors.blueGrey,
+              //           fontWeight: FontWeight.w900,
+              //           fontSize: 20.h,
+              //         ),
+              //       ),
+              //
+              //     ],
+              //   ),
+              // ),
               Padding(
-                padding: EdgeInsets.only(top: 25.h, bottom: 25.h, left: 20.w, right: 10.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "PATIENT LIST ",
-                      style: GoogleFonts.shanti(
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20.h,
-                      ),
-                    ),
-
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15,right: 15),
+                padding:  EdgeInsets.only(left: 15,right: 15,top: 25.h),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colorutils.userdetailcolor,
@@ -72,8 +74,8 @@ class TabExample extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    ExpandableCardList()  ,
-                    ExpandableCardList()  ,
+                    PatientExpandableCardList()  ,
+                    PatientExpandableCardList()  ,
                   ],
                 ),
               ),

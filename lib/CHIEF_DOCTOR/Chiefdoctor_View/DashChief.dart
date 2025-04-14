@@ -5,7 +5,6 @@ import '../../../../utils/Constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/color_util.dart';
-import '../../HomePage/Patient_Details/patient_details.dart';
 class DashboardSessions {
   final bool emergency;
   final String title;

@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../utils/Constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/color_util.dart';
+
 class QuizSession {
   final String title;
   final String time;
@@ -16,6 +16,7 @@ class QuizSession {
     required this.instructor,
   });
 }
+
 class QuizList extends StatefulWidget {
   final List<QuizSession> sessions;
 
@@ -26,6 +27,7 @@ class QuizList extends StatefulWidget {
 }
 
 class _QuizListState extends State<QuizList> {
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -35,24 +37,22 @@ class _QuizListState extends State<QuizList> {
           final session = widget.sessions[index];
 
           return GestureDetector(
-            onTap: () {
-
-            },
+            onTap: () {},
             child: Container(
               padding: EdgeInsets.all(0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25).r,
                 border: Border.all(
-                  color: Colors.blue,
+                  color: Colorutils.userdetailcolor,
                   width: 0.3,
                 ),
                 gradient: LinearGradient(
-                  colors: [Colors.blue.shade50, Colors.white],
+                  colors: [Colors.teal.shade50, Colors.white],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
               ),
-              margin: const EdgeInsets.only(top: 15, bottom: 4, left: 6, right: 4),
+              margin: const EdgeInsets.only(top: 15, bottom: 4, left: 10, right: 10),
               width: 180.w,
               height: 150.w,
               child: Padding(
@@ -67,18 +67,12 @@ class _QuizListState extends State<QuizList> {
                         style: GoogleFonts.nunito(
                           color: Colorutils.userdetailcolor,
                           fontWeight: FontWeight.w600,
-                          fontSize: 20.h,
+                          fontSize: 25.h,
                         ),
                       ),
                     ),
+
                     Text(
-                      session.time,
-                      style: GoogleFonts.nunito(
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20.h,
-                      ),
-                    ),Text(
                       session.time,
                       style: GoogleFonts.nunito(
                         color: Colors.blueGrey,

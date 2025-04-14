@@ -43,7 +43,7 @@ class _RegisterState extends State<Register> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.blue.shade50,
+                  Colors.teal.shade50,
                   Colors.white,
                   Colors.white,
                   Colors.white,
