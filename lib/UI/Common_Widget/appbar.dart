@@ -92,7 +92,7 @@ class UserDetails extends StatelessWidget {
                         ),
                         Container(
                           child: TextScroll(
-                            name,
+                            name.toUpperCase(),
                             mode: TextScrollMode.bouncing,
                             velocity:
                                 const Velocity(pixelsPerSecond: Offset(50, 0)),
@@ -101,8 +101,8 @@ class UserDetails extends StatelessWidget {
                             style: TextStyle(
                               fontFamily: 'Inter',
                               fontWeight: FontWeight.w600,
-                              fontSize: 19.h,
-                              color: Colors.black,
+                              fontSize: 15.h,
+                              color: Colors.blueGrey,
                             ),
                             textAlign: TextAlign.center,
                             selectable: true,

@@ -1,43 +1,50 @@
-class RegisterPatient {
+class PatientQueueModel {
   String? status;
   String? message;
-  User? user;
+  List<Data>? data;
 
-RegisterPatient({this.status, this.message, this.user});
+  PatientQueueModel({this.status, this.message, this.data});
 
-RegisterPatient.fromJson(Map<String, dynamic> json) {
+  PatientQueueModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(new Data.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['message'] = this.message;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class User {
+class Data {
   int? id;
   String? name;
   String? username;
   String? email;
   String? mobileNumber;
-  Null? medicalReport;
-  Null? medicalReportUrl;
+  String? medicalReport;
+  String? medicalReportUrl;
   String? role;
-  Null? age;
+  String? age;
   String? gender;
-  Null? occupation;
-  Null? education;
-  Null? address;
+  String? occupation;
+  String? education;
+  String? address;
+  String? patientId;
+  Diagnosis? diagnosis;
 
-  User(
+  Data(
       {this.id,
         this.name,
         this.username,
@@ -50,9 +57,11 @@ class User {
         this.gender,
         this.occupation,
         this.education,
-        this.address});
+        this.address,
+        this.patientId,
+        this.diagnosis});
 
-  User.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     username = json['username'];
@@ -66,6 +75,10 @@ class User {
     occupation = json['occupation'];
     education = json['education'];
     address = json['address'];
+    patientId = json['patient_id'];
+    diagnosis = json['diagnosis'] != null
+        ? new Diagnosis.fromJson(json['diagnosis'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -83,6 +96,36 @@ class User {
     data['occupation'] = this.occupation;
     data['education'] = this.education;
     data['address'] = this.address;
+    data['patient_id'] = this.patientId;
+    if (this.diagnosis != null) {
+      data['diagnosis'] = this.diagnosis!.toJson();
+    }
     return data;
-   }
+  }
+}
+
+class Diagnosis {
+  String? diagnosisSummary;
+  String? chatHistory;
+  String? createdAt;
+  String? severity;
+
+  Diagnosis(
+      {this.diagnosisSummary, this.chatHistory, this.createdAt, this.severity});
+
+  Diagnosis.fromJson(Map<String, dynamic> json) {
+    diagnosisSummary = json['diagnosis_summary'];
+    chatHistory = json['chat_history'];
+    createdAt = json['created_at'];
+    severity = json['severity'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['diagnosis_summary'] = this.diagnosisSummary;
+    data['chat_history'] = this.chatHistory;
+    data['created_at'] = this.createdAt;
+    data['severity'] = this.severity;
+    return data;
+  }
 }

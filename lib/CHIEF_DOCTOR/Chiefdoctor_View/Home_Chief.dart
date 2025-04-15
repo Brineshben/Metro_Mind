@@ -197,12 +197,12 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                                 ),
                               ],
                             ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => PatientDetails()),
-                              );
-                            },
+                            // onTap: () {
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(builder: (context) => PatientDetails()),
+                            //   );
+                            // },
                           ),
                           Divider(
                             thickness: 1,
@@ -298,10 +298,10 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child:Dashchief(sessions: sessions),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 10),
+                //   child:Dashchief(sessions: sessions),
+                // ),
 
 
               ],

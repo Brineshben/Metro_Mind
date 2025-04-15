@@ -233,45 +233,4 @@ Widget buildTextFieldMedicine(String hintText, String svgAssetPath,
     ),
   );
 }
-Widget buildTextFieldMediciness(String hintText, String svgAssetPath,
-    bool isPassword, TextEditingController controller, bool validation) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 4),
-    child: SizedBox(
-      height: 40, // Set your desired height
-      width: double.infinity, // Or set a specific width like 300
-      child: TextFormField(
-        style: const TextStyle(
-          fontSize: 18,
-          color: Colors.black,
-        ),
-        validator: validation
-            ? (val) => val!.trim().isEmpty ? 'Please enter $hintText' : null
-            : null,
-        decoration: InputDecoration(
-          hintText: "Type subject here..",
-          labelText: "Subject",
-          labelStyle: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.blue.shade900,
-          ),
-          hintStyle: const TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-          ),
-          suffixIcon: const Icon(
-            Icons.label_important_outlined,
-            color: Colors.blueGrey,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue.shade900, width: 3),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue.shade900, width: 2),
-          ),
-        ),
-      ),
-    ),
-  );
-}
+

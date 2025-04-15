@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../utils/Constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 
 import '../../../utils/color_util.dart';
+import '../../Controller/Patient_queue_Controller.dart';
 class DashboardSessions {
+
   final bool emergency;
   final String title;
   final String Count;
@@ -21,16 +24,18 @@ class DashboardSessions {
   });
 }
 class Dashchief extends StatefulWidget {
+  final String token;
 
   final List<DashboardSessions> sessions;
 
-  const Dashchief({Key? key, required this.sessions}) : super(key: key);
+  const Dashchief({super.key, required this.sessions, required this.token});
 
   @override
   State<Dashchief> createState() => _DashchiefState();
 }
 
 class _DashchiefState extends State<Dashchief> {
+
   final List<Map<String, String>> doctors = [
     {
       "name": "Arun",
@@ -133,6 +138,7 @@ class _DashchiefState extends State<Dashchief> {
                 session.emergency?  GestureDetector(
                   onTap: (){
                     Scaffold.of(context).openDrawer();
+                    Get.find<PatientQueueController>().patientData(widget.token);
 
                     // _showDoctorBottomSheet(context);
                   },

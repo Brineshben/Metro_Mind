@@ -3,13 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../utils/color_util.dart';
+import '../Controller/Patient_queue_Controller.dart';
 import '../UI/Shedule_Page/shedule.dart';
 import 'Junior_doctorView/Home_Junior.dart';
-
+import 'package:get/get.dart';
 
 class PageIndexNavigationJunior extends StatefulWidget {
+  final String role;
+  final String name;
+  final String token;
+
   const PageIndexNavigationJunior({
     Key? key,
+    required this.role,
+    required this.name, required this.token,
   }) : super(key: key);
 
   @override
@@ -24,8 +31,10 @@ class _PageIndexNavigationJuniorState extends State<PageIndexNavigationJunior> {
   @override
   void initState() {
     super.initState();
+    Get.find<PatientQueueController>().patientData(widget.token);
+
     _screens = [
-      HomeScreenJunior(),
+      HomeScreenJunior(name: widget.name, role:widget.role, token: widget.token,),
       PatientSheduled(),
     ];
   }
@@ -82,11 +91,9 @@ class _PageIndexNavigationJuniorState extends State<PageIndexNavigationJunior> {
               ),
               label: 'PatientList',
             ),
-
           ],
         ),
       ),
     );
   }
 }
-

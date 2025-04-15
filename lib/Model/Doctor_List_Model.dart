@@ -1,43 +1,49 @@
-class RegisterPatient {
+class DoctorListModel {
   String? status;
   String? message;
-  User? user;
+  List<Users>? users;
 
-RegisterPatient({this.status, this.message, this.user});
+  DoctorListModel({this.status, this.message, this.users});
 
-RegisterPatient.fromJson(Map<String, dynamic> json) {
+  DoctorListModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    if (json['users'] != null) {
+      users = <Users>[];
+      json['users'].forEach((v) {
+        users!.add(new Users.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['message'] = this.message;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    if (this.users != null) {
+      data['users'] = this.users!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class User {
+class Users {
   int? id;
   String? name;
   String? username;
   String? email;
   String? mobileNumber;
-  Null? medicalReport;
-  Null? medicalReportUrl;
+  String? medicalReport;
+  String? medicalReportUrl;
   String? role;
-  Null? age;
+  String? age;
   String? gender;
-  Null? occupation;
-  Null? education;
-  Null? address;
+  String? occupation;
+  String? education;
+  String? address;
+  String? patientId;
 
-  User(
+  Users(
       {this.id,
         this.name,
         this.username,
@@ -50,9 +56,10 @@ class User {
         this.gender,
         this.occupation,
         this.education,
-        this.address});
+        this.address,
+        this.patientId});
 
-  User.fromJson(Map<String, dynamic> json) {
+  Users.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     username = json['username'];
@@ -66,6 +73,7 @@ class User {
     occupation = json['occupation'];
     education = json['education'];
     address = json['address'];
+    patientId = json['patient_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -83,6 +91,7 @@ class User {
     data['occupation'] = this.occupation;
     data['education'] = this.education;
     data['address'] = this.address;
+    data['patient_id'] = this.patientId;
     return data;
-   }
+  }
 }

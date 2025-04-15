@@ -21,41 +21,37 @@ class UserAuthController extends GetxController {
       {required String username, required String password}) async {
     isLoading.value = true;
     isLoaded.value = false;
-    // try {
-    Map<String, dynamic> resp =
-        await ApiServices.userLogin(userName: username, psw: password);
-    print("------resp------$resp");
-    if (resp['status'] == "ok") {
-      LoginModel loginApi = LoginModel.fromJson(resp);
-      loginData.value = loginApi;
-      // await SharedPrefs().setLoginData(loginApi);
+    try {
+      Map<String, dynamic> resp =
+      await ApiServices.userLogin(userName: username, psw: password);
+      print("------resp------$resp");
+      if (resp['status'] == "ok") {
+        LoginModel loginApi = LoginModel.fromJson(resp);
+        loginData.value = loginApi;
+        // await SharedPrefs().setLoginData(loginApi);
 
-      print("------loginApi------${loginData.value?.data}");
-      isLoaded.value = true;
+        print("------loginApi------${loginData.value?.data?.role}");
+        isLoaded.value = true;
 
-      // ProductAppPopUps.submit(
-      //   title: "Success",
-      //   message: "${resp['message'] ?? 'Login successful.'}",
-      //   actionName: "Close",
-      //   iconData: Icons.error_outline,
-      //   iconColor:Colors.grey,
-      // );
-    } else {
+      } else {
+        ProductAppPopUps.submit(
+          title: "Failed",
+          message: resp['message'] ?? 'Something went wrong.',
+          actionName: "Close",
+          iconData: Icons.error_outline,
+          iconColor: Colors.red,
+        );
+      }
+    } catch (e){
       ProductAppPopUps.submit(
         title: "Failed",
-        message: resp['message'] ?? 'Something went wrong.',
+        message:'Something went wrong.',
         actionName: "Close",
         iconData: Icons.error_outline,
         iconColor: Colors.red,
       );
-    }
-    ProductAppPopUps.submit(
-      title: "Failed",
-      message: 'Something went wrong.',
-      actionName: "Close",
-      iconData: Icons.error_outline,
-      iconColor: Colors.red,
-    );
+  }
+
   }
 
   Future<void> getUserLoginSaved(LoginModel loginApi) async {

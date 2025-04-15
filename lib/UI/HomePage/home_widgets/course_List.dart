@@ -105,11 +105,11 @@ class CourseList extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return PatientDetails();
-                              },
-                            ));
+                            // Navigator.push(context, MaterialPageRoute(
+                            //   builder: (context) {
+                            //     return PatientDetails();
+                            //   },
+                            // ));
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),

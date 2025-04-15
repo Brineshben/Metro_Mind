@@ -191,29 +191,36 @@ class _PageIndexNavigationChiefState extends State<PageIndexNavigationChief> wit
               right: 0,
               child: ScaleTransition(
                 scale: _scaleAnimation,
-                child: Center(
-                  child: CircleAvatar(
-                    radius: 31.r,
-                    backgroundColor: Colorutils.userdetailcolor,
-
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = 2;
+                    });
+                  },
+                  child: Center(
                     child: CircleAvatar(
-                      radius: 30.r,
-                      backgroundColor: _selectedIndex == 2
-                          ? Colors.white
-                          : Colorutils.userdetailcolor,
+                      radius: 31.r,
+                      backgroundColor: Colorutils.userdetailcolor,
 
                       child: CircleAvatar(
-                        backgroundColor: Colorutils.userdetailcolor,
-                        radius: 28.r,
-                        child:SvgPicture.asset(
-                          "assets/images/AI.svg",
-                          width: 30.w,
-                          height: 30.h,
-                          colorFilter: ColorFilter.mode(
-                            _selectedIndex == 1
-                                ? Colors.white
-                                : Colors.white,
-                            BlendMode.srcIn,
+                        radius: 30.r,
+                        backgroundColor: _selectedIndex == 2
+                            ? Colors.white
+                            : Colorutils.userdetailcolor,
+
+                        child: CircleAvatar(
+                          backgroundColor: Colorutils.userdetailcolor,
+                          radius: 28.r,
+                          child:SvgPicture.asset(
+                            "assets/images/AI.svg",
+                            width: 30.w,
+                            height: 30.h,
+                            colorFilter: ColorFilter.mode(
+                              _selectedIndex == 1
+                                  ? Colors.white
+                                  : Colors.white,
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
                       ),

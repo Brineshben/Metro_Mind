@@ -23,6 +23,7 @@ class ProductAppPopUps {
   }) {
     return Get.dialog(
       AlertDialog(
+        backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
         ),
@@ -38,7 +39,7 @@ class ProductAppPopUps {
               Text(
                 title,
                 style: GoogleFonts.oxygen(
-                    color: Colors.black,
+                    color: Colors.blueGrey,
                     fontSize: 18.h,
                     fontWeight: FontWeight.bold),
               ),
@@ -47,7 +48,7 @@ class ProductAppPopUps {
         content: Text(
           message,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16.h),
+          style: TextStyle(fontSize: 16.h, color: Colors.blueGrey),
         ),
         actionsAlignment: MainAxisAlignment.center,
         actions: [

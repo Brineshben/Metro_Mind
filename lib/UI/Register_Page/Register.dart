@@ -186,19 +186,22 @@ class _RegisterState extends State<Register> {
                             controller: password,
                             obscureText: _obscureText1,
                             decoration: InputDecoration(
+                                labelText: "Password",
+                                labelStyle: TextStyle(
+                                  fontSize: 15.h,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blueGrey,
+                                ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: Colorutils.userdetailcolor,
-                                      width: 1),
+                                  borderSide: BorderSide(color: Colorutils.userdetailcolor, width: 1),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: Colors.grey.withOpacity(0.3)),
+                                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.3)),
                                 ),
                                 prefixIcon: Icon(Icons.lock_outline_rounded,
-                                    color: Colors.grey),
+                                    color: Colors.blueGrey),
                                 hintText: "Password",
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -227,16 +230,19 @@ class _RegisterState extends State<Register> {
                             controller: confirmPassword,
                             obscureText: _obscureText2,
                             decoration: InputDecoration(
+                                labelText: "Confirm Password",
+                                labelStyle: TextStyle(
+                                  fontSize: 15.h,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blueGrey,
+                                ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: Colorutils.userdetailcolor,
-                                      width: 1),
+                                  borderSide: BorderSide(color: Colorutils.userdetailcolor, width: 1),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: Colors.grey.withOpacity(0.3)),
+                                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.3)),
                                 ),
                                 prefixIcon: Icon(Icons.lock_outline_rounded,
                                     color: Colors.grey),
@@ -329,6 +335,43 @@ class _RegisterState extends State<Register> {
   }
 }
 
+// Widget buildTextField(String hintText, String svgAssetPath, bool isPassword,
+//     TextEditingController controller, bool validation) {
+//   return Padding(
+//     padding: const EdgeInsets.only(left: 15, right: 15, top: 4, bottom: 4),
+//     child: TextFormField(
+//       validator: validation
+//           ? (val) => val!.trim().isEmpty ? 'Please enter $hintText' : null
+//           : null,
+//       controller: controller,
+//       obscureText: isPassword,
+//       decoration: InputDecoration(
+//         focusedBorder: OutlineInputBorder(
+//           borderRadius: BorderRadius.circular(10),
+//           borderSide: BorderSide(color: Colorutils.userdetailcolor, width: 1),
+//         ),
+//         enabledBorder: OutlineInputBorder(
+//           borderRadius: BorderRadius.circular(10),
+//           borderSide: BorderSide(color: Colors.grey.withOpacity(0.3)),
+//         ),
+//         prefixIcon: Padding(
+//           padding: const EdgeInsets.all(14.0), // Adjust padding as needed
+//           child: SvgPicture.asset(
+//             svgAssetPath,
+//             width: 10.w,
+//             height: 10.h,
+//             color: Colors.grey,
+//           ),
+//         ),
+//         hintText: hintText,
+//         border: OutlineInputBorder(
+//           borderRadius: BorderRadius.circular(10),
+//           borderSide: BorderSide(color: Colorutils.userdetailcolor),
+//         ),
+//       ),
+//     ),
+//   );
+// }
 Widget buildTextField(String hintText, String svgAssetPath, bool isPassword,
     TextEditingController controller, bool validation) {
   return Padding(
@@ -340,6 +383,13 @@ Widget buildTextField(String hintText, String svgAssetPath, bool isPassword,
       controller: controller,
       obscureText: isPassword,
       decoration: InputDecoration(
+        hintText: hintText,
+        labelText: hintText,
+        labelStyle: TextStyle(
+          fontSize: 15.h,
+          fontWeight: FontWeight.bold,
+          color: Colors.blueGrey,
+        ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colorutils.userdetailcolor, width: 1),
@@ -354,10 +404,9 @@ Widget buildTextField(String hintText, String svgAssetPath, bool isPassword,
             svgAssetPath,
             width: 10.w,
             height: 10.h,
-            color: Colors.grey,
+            color: Colors.blueGrey,
           ),
         ),
-        hintText: hintText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colorutils.userdetailcolor),

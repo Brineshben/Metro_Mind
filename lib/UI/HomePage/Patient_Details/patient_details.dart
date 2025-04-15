@@ -3,35 +3,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
+import '../../../Controller/Doctor_List_Controller.dart';
 import '../../../utils/color_util.dart';
+import '../../Common_Widget/pdfview.dart';
 import 'AiDetails.dart';
 
 class PatientDetails extends StatefulWidget {
-  const PatientDetails({Key? key}) : super(key: key);
+  final String name;
+  final String token;
+  final String patientId;
+  final String age;
+  final String gender;
+  final String email;
+  final String phone;
+  final String disease;
+  final String severity;
+  final String diagnosissummary;
+
+  const PatientDetails(
+      {Key? key,
+      required this.name,
+      required this.age,
+      required this.gender,
+      required this.email,
+      required this.phone,
+      required this.disease,
+      required this.severity,
+      required this.diagnosissummary,
+      required this.patientId, required this.token})
+      : super(key: key);
 
   @override
   State<PatientDetails> createState() => _PatientDetailsState();
 }
 
 class _PatientDetailsState extends State<PatientDetails> {
-  final List<Map<String, String>> doctors = [
-    {
-      "name": "Dr. John Doe",
-      "position": "Senior Psychiatrist",
-      "image": "https://via.placeholder.com/150"
-    },
-    {
-      "name": "Dr. Alice Smith",
-      "position": "therapist",
-      "image": "https://via.placeholder.com/150"
-    },
-    {
-      "name": "Dr. Mark Johnson",
-      "position": "Psychiatrist",
-      "image": "https://via.placeholder.com/150"
-    },
-  ];
 
   void _showDoctorBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -56,50 +65,126 @@ class _PatientDetailsState extends State<PatientDetails> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      "DOCTOR LIST",
+                      style: GoogleFonts.shanti(
+                        color: Colors.blueGrey,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 20.h,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(height: 10),
-
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Container(
+                  height: 50.h,
+                  decoration: const BoxDecoration(
+                      border: Border(),
+                      borderRadius: BorderRadius.all(Radius.circular(25))),
+                  width: double.infinity,
+                  child: TextFormField(
+                    autofocus: false,
+                    // controller: textcontroller,
+                    // onChanged: (value) async {
+                    //   controller.resetData();
+                    //   // controller.SearchNameList.value=[];
+                    //   if (textcontroller.text.length >= 3) {
+                    //     await controller.fetchSearchData(searchData: value);
+                    //   }
+                    //   // // Get.find<LeaveApprovalController>().filterLeaveList(text: value);
+                    // },
+                    validator: (val) => val!.isEmpty ? 'Enter the Topic' : null,
+                    cursorColor: Colors.grey,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        hintText: "Search Patients",
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                              height: 25,
+                              width: 25,
+                              child: SvgPicture.asset(
+                                "assets/images/MagnifyingGlass.svg",
+                                color: Colorutils.userdetailcolor,
+                              )),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 25.0),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(2.0),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colorutils.userdetailcolor),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25)),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colorutils.userdetailcolor, width: 1.0),
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                        ),
+                        fillColor: Colors.white,
+                        filled: true),
+                  ),
+                ),
+              ),
               // Doctor list
-              ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                shrinkWrap: true,
-                // Important for dynamic height
-                physics: NeverScrollableScrollPhysics(),
-                // Prevent scroll inside small sheet
-                itemCount: doctors.length,
-                itemBuilder: (context, index) {
-                  final doctor = doctors[index];
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.green.withOpacity(0.1),
-                      child: ClipOval(
-                        child: Image.asset(
-                          "assets/images/profile2.jpg",
-                          fit: BoxFit.cover,
-                          width: 35,
-                          height: 35,
+              GetX<DoctorListController>(
+                  builder: (DoctorListController controller) {
+                return ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  shrinkWrap: true,
+                  // Important for dynamic height
+                  physics: NeverScrollableScrollPhysics(),
+                  // Prevent scroll inside small sheet
+                  itemCount: controller.doctorList.length,
+                  itemBuilder: (context, index) {
+                    final doctor = controller.doctorList[index];
+                    return ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.green.withOpacity(0.1),
+                        child: ClipOval(
+                          child: Image.asset(
+                            "assets/images/profile2.jpg",
+                            fit: BoxFit.cover,
+                            width: 35,
+                            height: 35,
+                          ),
                         ),
                       ),
-                    ),
-                    title: Text(
-                      doctor["name"]!,
-                      style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.bold,
+                      title: Text(
+                        doctor?.name ?? "",
+                        style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    subtitle: Text(
-                      doctor["position"]!,
-                      style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.bold,
+                      subtitle: Text(
+                        doctor?.role ?? "",
+                        style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    onTap: () {
-                      // Handle doctor selection here
-                    },
-                  );
-                },
-              ),
+                      onTap: () {
+                        // Handle doctor selection here
+                      },
+                    );
+                  },
+                );
+              })
             ],
           ),
         );
@@ -181,11 +266,13 @@ class _PatientDetailsState extends State<PatientDetails> {
                           ),
                         ),
                         PatientCard(
-                          patientName: 'John Doe',
-                          email: 'john@example.com',
-                          emailDetail: 'Referred by Dr. Smith',
-                          diseaseDetail: 'Diabetes Type 2',
-                          age: 45,
+                          email: widget.email,
+                          age: widget.age,
+                          patientId: widget.patientId,
+                          name: widget.name,
+                          phone: widget.phone,
+                          sevirity: widget.severity,
+                          disease: widget.disease,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -205,8 +292,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                           ),
                         ),
                         AiReport(
-                            summary:
-                                'John Doe, a 34-year-old male, was admitted on March 14, 2025, with symptoms of schizoaffective disorder, bipolar type. He exhibited erratic behavior, hallucinations, and mood swings ranging from mania to depression. His mental status showed disorganized thoughts, poor judgment, and impaired insight. He has a psychiatric history dating back to age 27 and limited social support. The treatment plan includes antipsychotic and mood stabilizer medications, CBT, group therapy, and social support services. Prognosis is guarded, with ongoing monitoring and therapy recommended.',
+                            summary: widget.diagnosissummary,
                             details: "details"),
                         Padding(
                           padding: const EdgeInsets.all(15.0),
@@ -221,7 +307,10 @@ class _PatientDetailsState extends State<PatientDetails> {
                                       width: 0.5,
                                     ),
                                     gradient: LinearGradient(
-                                      colors: [Colors.teal.shade50, Colors.white],
+                                      colors: [
+                                        Colors.teal.shade50,
+                                        Colors.white
+                                      ],
                                       begin: Alignment.topCenter,
                                       end: Alignment.bottomCenter,
                                     ),
@@ -254,28 +343,32 @@ class _PatientDetailsState extends State<PatientDetails> {
                                         Text('-Generalise Anxiety Disorder',
                                             style: TextStyle(
                                                 fontSize: 12,
-                                                color: Colors.blueGrey)),   Text('-Mental Disorder',
+                                                color: Colors.blueGrey)),
+                                        Text('-Mental Disorder',
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 color: Colors.blueGrey)),
                                         Text('-Generalise Anxiety Disorder',
                                             style: TextStyle(
                                                 fontSize: 12,
-                                                color: Colors.blueGrey)),   Text('-Mental Disorder',
+                                                color: Colors.blueGrey)),
+                                        Text('-Mental Disorder',
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 color: Colors.blueGrey)),
                                         Text('-Generalise Anxiety Disorder',
                                             style: TextStyle(
                                                 fontSize: 12,
-                                                color: Colors.blueGrey)),   Text('-Mental Disorder',
+                                                color: Colors.blueGrey)),
+                                        Text('-Mental Disorder',
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 color: Colors.blueGrey)),
                                         Text('-Generalise Anxiety Disorder',
                                             style: TextStyle(
                                                 fontSize: 12,
-                                                color: Colors.blueGrey)),   Text('-Mental Disorder',
+                                                color: Colors.blueGrey)),
+                                        Text('-Mental Disorder',
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 color: Colors.blueGrey)),
@@ -300,14 +393,18 @@ class _PatientDetailsState extends State<PatientDetails> {
                                           width: 0.5,
                                         ),
                                         gradient: LinearGradient(
-                                          colors: [Colors.teal.shade50, Colors.white],
+                                          colors: [
+                                            Colors.teal.shade50,
+                                            Colors.white
+                                          ],
                                           begin: Alignment.topCenter,
                                           end: Alignment.bottomCenter,
                                         ),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text('MSE Highlights',
                                               style: TextStyle(
@@ -315,7 +412,6 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.blueGrey)),
                                           const SizedBox(height: 5),
-
                                           Text('-Mental Disorder',
                                               style: TextStyle(
                                                   fontSize: 12,
@@ -336,23 +432,25 @@ class _PatientDetailsState extends State<PatientDetails> {
                                           width: 0.5,
                                         ),
                                         gradient: LinearGradient(
-                                          colors: [Colors.teal.shade50, Colors.white],
+                                          colors: [
+                                            Colors.teal.shade50,
+                                            Colors.white
+                                          ],
                                           begin: Alignment.topCenter,
                                           end: Alignment.bottomCenter,
                                         ),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
-                                      child:Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text('Flagged Alerts',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.blueGrey)),
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.blueGrey)),
                                           const SizedBox(height: 5),
-
                                           Text('-Mental Disorder',
                                               style: TextStyle(
                                                   fontSize: 12,
@@ -367,7 +465,6 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   ],
                                 ),
                               ),
-
                             ],
                           ),
                         ),
@@ -381,7 +478,9 @@ class _PatientDetailsState extends State<PatientDetails> {
                                 Text(
                                   'Add Observation',
                                   style: TextStyle(
-                                      fontSize: 16.w, fontWeight: FontWeight.bold,color: Colors.blueGrey),
+                                      fontSize: 16.w,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueGrey),
                                 ),
                               ],
                             ),
@@ -395,7 +494,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                             bottom: 5.h,
                           ),
                           child: TextFormField(
-                            autovalidateMode:AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
 
                             maxLength: 100,
                             // controller: _Remarkscontroller,
@@ -403,7 +503,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                                 ? 'Please Enter Observation.'
                                 : null,
                             decoration: InputDecoration(
-                                hintStyle: const TextStyle(color: Colors.black26),
+                                hintStyle:
+                                    const TextStyle(color: Colors.black26),
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 10.h, horizontal: 20.w),
                                 hintText: " Enter Observation   ",
@@ -414,15 +515,18 @@ class _PatientDetailsState extends State<PatientDetails> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Colorutils.userdetailcolor, width: 1.0),
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)).r,
+                                      color: Colorutils.userdetailcolor,
+                                      width: 1.0),
+                                  borderRadius: const BorderRadius.all(
+                                          Radius.circular(10))
+                                      .r,
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color:  Colorutils.userdetailcolor, width: 1.0),
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(10.0))
+                                      color: Colorutils.userdetailcolor,
+                                      width: 1.0),
+                                  borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0))
                                       .r,
                                 ),
                                 fillColor: Colors.white,
@@ -495,6 +599,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                     ),
                   ),
                   onTap: () {
+                    Get.find<DoctorListController>().doctorListData(widget.token);
+
                     _showDoctorBottomSheet(context);
                   },
                 ),
@@ -540,19 +646,24 @@ class _PatientDetailsState extends State<PatientDetails> {
 }
 
 class PatientCard extends StatelessWidget {
-  final String patientName;
+  final String name;
+  final String patientId;
+
+  final String age;
   final String email;
-  final String emailDetail;
-  final String diseaseDetail;
-  final int age;
+  final String phone;
+  final String sevirity;
+  final String disease;
 
   const PatientCard({
     Key? key,
-    required this.patientName,
     required this.email,
-    required this.emailDetail,
-    required this.diseaseDetail,
     required this.age,
+    required this.patientId,
+    required this.name,
+    required this.phone,
+    required this.sevirity,
+    required this.disease,
   }) : super(key: key);
 
   @override
@@ -576,10 +687,12 @@ class PatientCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTitle('Name:', patientName),
-            _buildTitle('Age:', age.toString()),
-            _buildTitle('Disease:', diseaseDetail),
-            _buildTitle('Email:', email),
+            _buildTitle('Name :', name),
+            _buildTitle('Patient ID :', patientId),
+            _buildTitle('Age :', age),
+            _buildTitle('Email :', email),
+            _buildTitle('Phone :', phone),
+            _buildTitle('Disease :', disease),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -596,7 +709,7 @@ class PatientCard extends StatelessWidget {
                       padding: const EdgeInsets.only(
                           left: 10, right: 10, top: 3, bottom: 3),
                       child: Text(
-                        "HIGH",
+                        sevirity.toUpperCase(),
                         style: GoogleFonts.nunito(
                           color: Colors.white,
                           // Ensure ColorUtils is defined or use a custom color.
@@ -624,7 +737,7 @@ class PatientCard extends StatelessWidget {
           style: TextStyle(fontSize: 15.h, color: Colors.blueGrey),
           children: [
             TextSpan(
-              text: '$title ',
+              text: '$title  ',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(text: value),
@@ -699,7 +812,16 @@ class AiReport extends StatelessWidget {
                   width: 2,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const FullScreenPdfViewer(
+                          assetPath: 'assets/images/androidSDK (1).pdf',
+                        ),
+                      ),
+                    );
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
