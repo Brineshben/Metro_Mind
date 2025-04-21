@@ -17,10 +17,10 @@ class PatientQueueController extends GetxController {
     isLoaded.value = false;
     // try {
       Map<String, dynamic> resp = await ApiServices.patientQueue(token: token);
-      print("-------patientlist response----------$resp");
+      print("-------benben response----------$resp");
       if (resp['status'] == 'ok') {
         patientQueueData.value = PatientQueueModel.fromJson(resp);
-        print("patient list${patientQueueData.value?.data}");
+        print("p-benben response-${patientQueueData.value?.data?.first.name}");
         patientList.value = patientQueueData.value?.data ?? [];
         isLoading.value = true;
       } else {

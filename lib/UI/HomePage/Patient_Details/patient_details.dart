@@ -6,7 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../Controller/Consult_Doctor_Controller.dart';
+import '../../../Controller/DoctorToPatientController.dart';
 import '../../../Controller/Doctor_List_Controller.dart';
+import '../../../Controller/Slot_Controller.dart';
 import '../../../utils/color_util.dart';
 import '../../Common_Widget/pdfview.dart';
 import 'AiDetails.dart';
@@ -15,7 +18,8 @@ class PatientDetails extends StatefulWidget {
   final String name;
   final String token;
   final String patientId;
-  final String age;
+  final int id;
+  final int age;
   final String gender;
   final String email;
   final String phone;
@@ -33,7 +37,8 @@ class PatientDetails extends StatefulWidget {
       required this.disease,
       required this.severity,
       required this.diagnosissummary,
-      required this.patientId, required this.token})
+      required this.patientId,
+      required this.token, required this.id})
       : super(key: key);
 
   @override
@@ -41,151 +46,159 @@ class PatientDetails extends StatefulWidget {
 }
 
 class _PatientDetailsState extends State<PatientDetails> {
+  final ValueNotifier<String?> _hosNameSelected = ValueNotifier(null);
+
+  final TextEditingController doctorNameController = TextEditingController();
 
   void _showDoctorBottomSheet(BuildContext context) {
     showModalBottomSheet(
-      backgroundColor: Colors.white,
       context: context,
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      isScrollControlled: true, // Important for resizing
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25),
+        ),
       ),
       builder: (context) {
         return Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min, // Only take needed height
-            children: [
-              // Top drag handle
-              Container(
-                width: 40,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(10),
+          // Add keyboard-aware padding
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 8),
+                // Drag Handle
+                Container(
+                  width: 40,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      "DOCTOR LIST",
-                      style: GoogleFonts.shanti(
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20.h,
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        "DOCTOR LIST",
+                        style: GoogleFonts.shanti(
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 20.h,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Container(
-                  height: 50.h,
-                  decoration: const BoxDecoration(
-                      border: Border(),
-                      borderRadius: BorderRadius.all(Radius.circular(25))),
-                  width: double.infinity,
-                  child: TextFormField(
-                    autofocus: false,
-                    // controller: textcontroller,
-                    // onChanged: (value) async {
-                    //   controller.resetData();
-                    //   // controller.SearchNameList.value=[];
-                    //   if (textcontroller.text.length >= 3) {
-                    //     await controller.fetchSearchData(searchData: value);
-                    //   }
-                    //   // // Get.find<LeaveApprovalController>().filterLeaveList(text: value);
-                    // },
-                    validator: (val) => val!.isEmpty ? 'Enter the Topic' : null,
-                    cursorColor: Colors.grey,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                        hintStyle: const TextStyle(color: Colors.grey),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Container(
+                    height: 50.h,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                    width: double.infinity,
+                    child: TextFormField(
+                      onChanged: (value) {
+                        Get.find<ConsultDoctorListController>()
+                            .SearchDoctorList(value);
+                      },
+                      validator: (val) => val!.isEmpty ? 'Enter the Topic' : null,
+                      cursorColor: Colors.grey,
+                      decoration: InputDecoration(
                         hintText: "Search Patients",
+                        hintStyle: const TextStyle(color: Colors.grey),
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: SizedBox(
-                              height: 25,
-                              width: 25,
-                              child: SvgPicture.asset(
-                                "assets/images/MagnifyingGlass.svg",
-                                color: Colorutils.userdetailcolor,
-                              )),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 25.0),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(2.0),
+                            height: 25,
+                            width: 25,
+                            child: SvgPicture.asset(
+                              "assets/images/MagnifyingGlass.svg",
+                              color: Colorutils.userdetailcolor,
+                            ),
                           ),
                         ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 25.0,
+                        ),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                        ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colorutils.userdetailcolor),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(25)),
+                          borderSide: BorderSide(color: Colorutils.userdetailcolor),
+                          borderRadius: const BorderRadius.all(Radius.circular(25)),
                         ),
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colorutils.userdetailcolor, width: 1.0),
+                            color: Colorutils.userdetailcolor,
+                            width: 1.0,
+                          ),
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                         ),
+                        filled: true,
                         fillColor: Colors.white,
-                        filled: true),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              // Doctor list
-              GetX<DoctorListController>(
-                  builder: (DoctorListController controller) {
-                return ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  shrinkWrap: true,
-                  // Important for dynamic height
-                  physics: NeverScrollableScrollPhysics(),
-                  // Prevent scroll inside small sheet
-                  itemCount: controller.doctorList.length,
-                  itemBuilder: (context, index) {
-                    final doctor = controller.doctorList[index];
-                    return ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.green.withOpacity(0.1),
-                        child: ClipOval(
-                          child: Image.asset(
-                            "assets/images/profile2.jpg",
-                            fit: BoxFit.cover,
-                            width: 35,
-                            height: 35,
+                // Doctor List
+                GetX<ConsultDoctorListController>(
+                  builder: (controller) {
+                    return ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: controller.consultDoctorList.length,
+                      itemBuilder: (context, index) {
+                        final doctor = controller.consultDoctorList[index];
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.green.withOpacity(0.1),
+                            child: ClipOval(
+                              child: Image.asset(
+                                "assets/images/profile2.jpg",
+                                fit: BoxFit.cover,
+                                width: 35,
+                                height: 35,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      title: Text(
-                        doctor?.name ?? "",
-                        style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        doctor?.role ?? "",
-                        style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onTap: () {
-                        // Handle doctor selection here
+                          title: Text(
+                            doctor?.name ?? "",
+                            style: const TextStyle(
+                              color: Colors.blueGrey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            doctor?.role ?? "",
+                            style: const TextStyle(
+                              color: Colors.blueGrey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onTap: () {
+                            Get.find<DoctorToPatientController>()
+                                .doctorToPatientData(
+                                widget.token, doctor?.id ?? 0, widget.id);
+                          },
+                        );
                       },
                     );
                   },
-                );
-              })
-            ],
+                ),
+                const SizedBox(height: 20), // Optional space at bottom
+              ],
+            ),
           ),
         );
       },
@@ -211,339 +224,416 @@ class _PatientDetailsState extends State<PatientDetails> {
           ),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SingleChildScrollView(
-                  child: Expanded(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 48.h, bottom: 5.h, left: 20.w, right: 10.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Container(
-                                  height: 50.h,
-                                  width: 50.h,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.9),
-                                      border: Border.all(
-                                        color: Colors.blue, // Border color
-                                        width: 0.1, // Border width
-                                      ),
-                                      // boxShadow: [
-                                      //   BoxShadow(
-                                      //     color: Colors.grey.withOpacity(0.3),
-                                      //     blurRadius: 1,
-                                      //     spreadRadius: 0,
-                                      //   ),
-                                      // ],
-                                      borderRadius:
-                                          BorderRadius.circular(15).r),
-                                  child: Icon(
-                                    Icons.arrow_back_ios_sharp,
-                                    color: Colors.grey,
-                                  ),
-                                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 48.h, bottom: 5.h, left: 20.w, right: 10.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50.h,
+                          decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.9),
+                              border: Border.all(
+                                color: Colors.blue, // Border color
+                                width: 0.1, // Border width
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Text(
-                                  "PATIENT DETAILS",
-                                  style: GoogleFonts.shanti(
-                                    color: Colors.blueGrey,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 20.h,
-                                  ),
-                                ),
-                              ),
-                            ],
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey.withOpacity(0.3),
+                              //     blurRadius: 1,
+                              //     spreadRadius: 0,
+                              //   ),
+                              // ],
+                              borderRadius:
+                                  BorderRadius.circular(15).r),
+                          child: Icon(
+                            Icons.arrow_back_ios_sharp,
+                            color: Colors.grey,
                           ),
                         ),
-                        PatientCard(
-                          email: widget.email,
-                          age: widget.age,
-                          patientId: widget.patientId,
-                          name: widget.name,
-                          phone: widget.phone,
-                          sevirity: widget.severity,
-                          disease: widget.disease,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 5.h, bottom: 25.h, left: 20.w, right: 10.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "AI Diagnosis Report",
-                                style: GoogleFonts.shanti(
-                                  color: Colors.blueGrey,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 20.h,
-                                ),
-                              ),
-                            ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          "PATIENT DETAILS",
+                          style: GoogleFonts.shanti(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 20.h,
                           ),
                         ),
-                        AiReport(
-                            summary: widget.diagnosissummary,
-                            details: "details"),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.all(2),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colorutils.userdetailcolor,
-                                      width: 0.5,
-                                    ),
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.teal.shade50,
-                                        Colors.white
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: const [
-                                        Text('Diagnosis Suggestion',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.blueGrey)),
-                                        SizedBox(height: 8),
-                                        Text('-Generalise Anxiety Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                        Text('-Major Depressive Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                        Text('-Mental Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                        Text('-Generalise Anxiety Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                        Text('-Mental Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                        Text('-Generalise Anxiety Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                        Text('-Mental Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                        Text('-Generalise Anxiety Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                        Text('-Mental Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                        Text('-Generalise Anxiety Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                        Text('-Mental Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                        Text('-Generalise Anxiety Disorder',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.blueGrey)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colorutils.userdetailcolor,
-                                          width: 0.5,
-                                        ),
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.teal.shade50,
-                                            Colors.white
-                                          ],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text('MSE Highlights',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.blueGrey)),
-                                          const SizedBox(height: 5),
-                                          Text('-Mental Disorder',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.blueGrey)),
-                                          Text('-Generalise Anxiety Disorder',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.blueGrey)),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Container(
-                                      padding: const EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colorutils.userdetailcolor,
-                                          width: 0.5,
-                                        ),
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.teal.shade50,
-                                            Colors.white
-                                          ],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Flagged Alerts',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.blueGrey)),
-                                          const SizedBox(height: 5),
-                                          Text('-Mental Disorder',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.blueGrey)),
-                                          Text('-Generalise Anxiety Disorder',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.blueGrey)),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                      ),
+                    ],
+                  ),
+                ),
+                PatientCard(
+                  email: widget.email,
+                  age: widget.age,
+                  patientId: widget.patientId,
+                  name: widget.name,
+                  phone: widget.phone,
+                  sevirity: widget.severity,
+                  disease: widget.disease,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 5.h, bottom: 25.h, left: 20.w, right: 10.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "AI Diagnosis Report",
+                        style: GoogleFonts.shanti(
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 20.h,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 18, right: 18),
-                          child: Container(
-                            height: 50,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Add Observation',
-                                  style: TextStyle(
-                                      fontSize: 16.w,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blueGrey),
-                                ),
+                      ),
+                    ],
+                  ),
+                ),
+                AiReport(
+                    summary: widget.diagnosissummary,
+                    details: "details"),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colorutils.userdetailcolor,
+                              width: 0.5,
+                            ),
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.teal.shade50,
+                                Colors.white
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Column(
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                              children: const [
+                                Text('Diagnosis Suggestion',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blueGrey)),
+                                SizedBox(height: 8),
+                                Text('-Generalise Anxiety Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
+                                Text('-Major Depressive Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
+                                Text('-Mental Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
+                                Text('-Generalise Anxiety Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
+                                Text('-Mental Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
+                                Text('-Generalise Anxiety Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
+                                Text('-Mental Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
+                                Text('-Generalise Anxiety Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
+                                Text('-Mental Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
+                                Text('-Generalise Anxiety Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
+                                Text('-Mental Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
+                                Text('-Generalise Anxiety Disorder',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueGrey)),
                               ],
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 20.w,
-                            top: 5.h,
-                            right: 20.w,
-                            bottom: 5.h,
-                          ),
-                          child: TextFormField(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
+                      ),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colorutils.userdetailcolor,
+                                  width: 0.5,
+                                ),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.teal.shade50,
+                                    Colors.white
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Text('MSE Highlights',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueGrey)),
+                                  const SizedBox(height: 5),
+                                  Text('-Mental Disorder',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.blueGrey)),
+                                  Text('-Generalise Anxiety Disorder',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.blueGrey)),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colorutils.userdetailcolor,
+                                  width: 0.5,
+                                ),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.teal.shade50,
+                                    Colors.white
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Text('Flagged Alerts',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueGrey)),
+                                  const SizedBox(height: 5),
+                                  Text('-Mental Disorder',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.blueGrey)),
+                                  Text('-Generalise Anxiety Disorder',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.blueGrey)),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 18, right: 18, bottom: 8),
+                      child: Text(
+                        'Recommended Doctor: ${Get.find<DoctorToPatientController>().doctorDataz.value?.name}',
+                        style: TextStyle(
+                            fontSize: 16.w,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueGrey),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding:
+                  EdgeInsets.only(left: 15.w, right: 20.w, top: 20.h),
+                  child: GetX<SlotController>(
+                    builder: (SlotController controller) {
+                      return DropdownButtonFormField(
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                                color: Colors.black.withOpacity(0.3)),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 20.0),
+                            hintText: " Select a Slot ",
+                            counterText: "",
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color.fromRGBO(230, 236, 254, 8),
+                                width: 1.0,
+                              ),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(10.0)),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color.fromRGBO(230, 236, 254, 8),
+                                width: 1.0,
+                              ),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(10.0)),
+                            ),
+                            fillColor: const Color.fromRGBO(230, 236, 254, 8),
+                            filled: true),
+                        padding:
+                        const EdgeInsets.only(left: 10, right: 5).w,
+                        hint: const Text(" Select a HOS "),
+                        validator: (dynamic value) =>
+                        value == null ? 'Field Required' : null,
+                        items: controller.slotList
+                            .map<DropdownMenuItem<dynamic>>((item) {
+                          return DropdownMenuItem<dynamic>(
+                            value:
+                            '${item?.fromTime}-${item?.toTime}',
 
-                            maxLength: 100,
-                            // controller: _Remarkscontroller,
-                            validator: (val) => val!.trim().isEmpty
-                                ? 'Please Enter Observation.'
-                                : null,
-                            decoration: InputDecoration(
-                                hintStyle:
-                                    const TextStyle(color: Colors.black26),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10.h, horizontal: 20.w),
-                                hintText: " Enter Observation   ",
-                                border: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10.0),
-                                  ).r,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colorutils.userdetailcolor,
-                                      width: 1.0),
-                                  borderRadius: const BorderRadius.all(
-                                          Radius.circular(10))
-                                      .r,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colorutils.userdetailcolor,
-                                      width: 1.0),
-                                  borderRadius: const BorderRadius.all(
-                                          Radius.circular(10.0))
-                                      .r,
-                                ),
-                                fillColor: Colors.white,
-                                filled: true),
-                            maxLines: 5,
-                          ),
+                            child: Text(
+                              item?.fromTime?.toUpperCase() ?? '--',
+                              style: const TextStyle(fontSize: 14),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          );
+                        }).toList(),
+                        value: _hosNameSelected.value,
+                        isExpanded: true,
+                        onChanged: (dynamic newVal) {
+                          _hosNameSelected.value = newVal;
+                          // controller.setSelectedHosData(
+                          //   hosName: _hosNameSelected.value ?? '--',
+                          //   isHos: false,
+                          // );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 18, right: 18),
+                  child: Container(
+                    height: 50,
+                    child: Row(
+
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Add Observation',
+                          style: TextStyle(
+                              fontSize: 16.w,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey),
                         ),
                       ],
                     ),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 20.w,
+                    top: 5.h,
+                    right: 20.w,
+                    bottom: 5.h,
+                  ),
+                  child: TextFormField(
+                    autovalidateMode:
+                        AutovalidateMode.onUserInteraction,
+
+                    maxLength: 100,
+                    // controller: _Remarkscontroller,
+                    validator: (val) => val!.trim().isEmpty
+                        ? 'Please Enter Observation.'
+                        : null,
+                    decoration: InputDecoration(
+                        hintStyle:
+                            const TextStyle(color: Colors.black26),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.h, horizontal: 20.w),
+                        hintText: " Enter Observation   ",
+                        border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10.0),
+                          ).r,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              color: Colorutils.userdetailcolor,
+                              width: 1.0),
+                          borderRadius: const BorderRadius.all(
+                                  Radius.circular(10))
+                              .r,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              color: Colorutils.userdetailcolor,
+                              width: 1.0),
+                          borderRadius: const BorderRadius.all(
+                                  Radius.circular(10.0))
+                              .r,
+                        ),
+                        fillColor: Colors.white,
+                        filled: true),
+                    maxLines: 5,
+                  ),
+                ),
+
               ],
             ),
           ),
         ),
         bottomNavigationBar: Container(
-          height: 80.h,
+          height: 70.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(15),
@@ -599,7 +689,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                     ),
                   ),
                   onTap: () {
-                    Get.find<DoctorListController>().doctorListData(widget.token);
+                    Get.find<ConsultDoctorListController>()
+                        .ConsultdoctorListData(widget.token);
 
                     _showDoctorBottomSheet(context);
                   },
@@ -649,7 +740,7 @@ class PatientCard extends StatelessWidget {
   final String name;
   final String patientId;
 
-  final String age;
+  final int age;
   final String email;
   final String phone;
   final String sevirity;
@@ -689,7 +780,7 @@ class PatientCard extends StatelessWidget {
           children: [
             _buildTitle('Name :', name),
             _buildTitle('Patient ID :', patientId),
-            _buildTitle('Age :', age),
+            _buildTitle('Age :', age.toString()),
             _buildTitle('Email :', email),
             _buildTitle('Phone :', phone),
             _buildTitle('Disease :', disease),

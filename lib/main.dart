@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:patient/UI/SplashScreen/splash.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:patient/utils/color_util.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 import 'Service/controller_handling.dart';
@@ -25,14 +28,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     HandleControllers.createGetControllers();
 
-    return  ScreenUtilInit(
-      designSize: const Size(430, 930),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Metro-Mind',
-        home: Splash(),
+    return GlobalLoaderOverlay(
+      useDefaultLoading: false,
+      overlayWidgetBuilder: (_) {
+        return Center(
+          child: SpinKitChasingDots(
+            color: Colorutils.userdetailcolor,
+            size: 28.w,
+          ),
+        );
+      },
+      child: ScreenUtilInit(
+        designSize: const Size(430, 930),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Metro-Mind',
+          home: Splash(),
+        ),
       ),
     );
   }

@@ -11,6 +11,7 @@ import '../../utils/Constants.dart';
 import '../../utils/color_util.dart';
 import '../Common_Widget/popups.dart';
 import '../HomePage/home_widgets/bottom_Navigationbar.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -184,9 +185,13 @@ class _LoginPageState extends State<LoginPage> {
                                   String psw = _passwordController.text.trim();
                                   if (user.isNotEmpty) {
                                     if (psw.isNotEmpty) {
+                                      context.loaderOverlay.show();
+
                                       await Get.find<UserAuthController>()
                                           .fetchUserData(
                                               username: user, password: psw);
+                                      context.loaderOverlay.hide();
+
                                       if (Get.find<UserAuthController>()
                                           .isLoaded
                                           .value) {
@@ -211,32 +216,37 @@ class _LoginPageState extends State<LoginPage> {
                                                 "";
                                         print("object$role");
                                         if (role == "user") {
-                                          Navigator.push(
+                                          Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    PageIndexNavigationPatient(),
+                                                    PageIndexNavigationPatient(tokenPatient: Get.find<UserAuthController>()
+                                                        .loginData
+                                                        .value
+                                                        ?.data
+                                                        ?.accessToken ??
+                                                        "", role:role, name: name,),
                                               ));
                                         } else if (role == "admin") {
-                                          Navigator.push(
+                                          Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    PageIndexNavigationChief(),
+                                                    PageIndexNavigationChief(role:role, name: name, token: token,),
                                               ));
                                         } else if (role == "junior_psychologist") {
-                                          Navigator.push(
+                                          Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     PageIndexNavigationJunior(role:role, name: name, token: token,),
                                               ));
                                         }else if (role == "psychiatrist") {
-                                          Navigator.push(
+                                          Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    PageIndexNavigationTherapist(),
+                                                    PageIndexNavigationTherapist(role:role, name: name, token: token,),
                                               ));
                                         }
 
@@ -354,12 +364,17 @@ class _LoginPageState extends State<LoginPage> {
                                         .w,
                                     child: GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PageIndexNavigationPatient(),
-                                            ));
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //       builder: (context) =>
+                                        //           PageIndexNavigationPatient(tokenPatient: Get.find<UserAuthController>()
+                                        //               .loginData
+                                        //               .value
+                                        //               ?.data
+                                        //               ?.accessToken ??
+                                        //               "",),
+                                        //     ));
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -446,12 +461,7 @@ class _LoginPageState extends State<LoginPage> {
                               Center(
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              PageIndexNavigationTherapist(),
-                                        ));
+
                                   },
                                   child: Text(
                                     "Version 0.1",

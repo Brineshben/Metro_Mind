@@ -1,11 +1,11 @@
-class DoctorListModel {
+class ConsultDoctorModel {
   String? status;
   String? message;
   List<Users>? users;
 
-  DoctorListModel({this.status, this.message, this.users});
+  ConsultDoctorModel({this.status, this.message, this.users});
 
-  DoctorListModel.fromJson(Map<String, dynamic> json) {
+  ConsultDoctorModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     if (json['users'] != null) {
@@ -36,11 +36,11 @@ class Users {
   Null? medicalReport;
   Null? medicalReportUrl;
   String? role;
-  int? age;
+  Null? age;
   String? gender;
-  String? occupation;
-  String? education;
-  String? address;
+  Null? occupation;
+  Null? education;
+  Null? address;
   Null? patientId;
 
   Users(

@@ -31,11 +31,11 @@ class User {
   Null? medicalReport;
   Null? medicalReportUrl;
   String? role;
-  Null? age;
+  String? age;
   String? gender;
-  Null? occupation;
-  Null? education;
-  Null? address;
+  String? occupation;
+  String? education;
+  String? address;
 
   User(
       {this.id,

@@ -152,9 +152,10 @@ class _HomeScreenJuniorState extends State<HomeScreenJunior> {
                                           fontSize: 15.h),
                                     ),
                                     Text(
-                                      "${patientData?.patientId ?? "M-002"}",
+                                      patientData?.email ?? " ",
                                       style: TextStyle(
                                           color: Colors.blueGrey,
+                                          fontWeight: FontWeight.bold,
                                           fontSize: 12.h),
                                     ),
                                   ],
@@ -164,12 +165,12 @@ class _HomeScreenJuniorState extends State<HomeScreenJunior> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      patientData?.email ?? " ",
+                                      "${patientData?.patientId ?? "M-002"}",
                                       style: TextStyle(
                                           color: Colors.blueGrey,
-                                          fontWeight: FontWeight.bold,
                                           fontSize: 12.h),
                                     ),
+
                                     Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 7, vertical: 3),
@@ -194,7 +195,7 @@ class _HomeScreenJuniorState extends State<HomeScreenJunior> {
                                     MaterialPageRoute(
                                         builder: (context) => PatientDetails(
                                               name: patientData?.name ?? " ",
-                                              age: patientData?.age ?? " ",
+                                              age: patientData?.age ?? 0,
                                               gender:
                                                   patientData?.gender ?? " ",
                                               email: patientData?.email ?? " ",
@@ -210,7 +211,9 @@ class _HomeScreenJuniorState extends State<HomeScreenJunior> {
                                                       ?.diagnosisSummary ??
                                                   "No AI Summary Report",
                                               patientId:
-                                                  patientData?.patientId ?? " ", token:  widget.token,
+                                                  patientData?.patientId ?? " ",
+                                              token: widget.token,
+                                              id: patientData?.id ?? 0,
                                             )),
                                   );
                                 },

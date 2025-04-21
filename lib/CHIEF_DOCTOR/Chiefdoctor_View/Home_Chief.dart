@@ -18,7 +18,10 @@ import 'DashChief.dart';
 
 
 class HomeScreenChief extends StatefulWidget {
-  const HomeScreenChief({super.key});
+  final String role;
+  final String name;
+  final String token;
+  const HomeScreenChief({super.key, required this.role, required this.name, required this.token});
 
 
   @override
@@ -241,11 +244,11 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const UserDetails(
+                UserDetails(
                   isWelcome: true,
                   bellicon: true,
                   notificationcount: true,
-                  name: 'Dr.thalhad [Chief Therapist]',
+                  name: '${widget.name} (${widget.role})',
                   image: 'assets/images/profile2.jpg',
                 ),
                 Padding(
@@ -255,7 +258,7 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Admin Dashboard",
+                        "${widget.role.toUpperCase()} DASHBOARD",
                         style: GoogleFonts.shanti(
                           color: Colors.blueGrey,
                           fontWeight: FontWeight.w900,
@@ -298,10 +301,10 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                     ],
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 10),
-                //   child:Dashchief(sessions: sessions),
-                // ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child:Dashchief(sessions: sessions, token: '',),
+                ),
 
 
               ],

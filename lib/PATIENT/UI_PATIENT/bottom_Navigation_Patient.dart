@@ -3,13 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../utils/color_util.dart';
+import '../../UI/ChatScreen/Chat.dart';
 import '../../UI/Shedule_Page/shedule.dart';
 import 'Assesment/Assesment.dart';
 import 'Chat_Patient/Chat_PAtient.dart';
 import 'Home_Screen/Home_Screen_Patient.dart';
+import 'Home_Screen/TalktoHuman.dart';
 
 class PageIndexNavigationPatient extends StatefulWidget {
-  const PageIndexNavigationPatient({Key? key}) : super(key: key);
+  final String role;
+  final String name;
+  final String tokenPatient;
+  const PageIndexNavigationPatient({Key? key, required this.tokenPatient, required this.role, required this.name}) : super(key: key);
 
   @override
   State<PageIndexNavigationPatient> createState() =>
@@ -25,10 +30,9 @@ class _PageIndexNavigationPatientState
   void initState() {
     super.initState();
     _screens = [
-      HomeScreenPatient(),
-      PatientSheduled(),
-      AssessmentListPage(),
-      ChatListPage(),
+      HomeScreenPatient(name:widget.name, role: widget.role, token: widget.tokenPatient,),
+      ChatScreen(patientToken:widget.tokenPatient,),
+      TalkToHuman(),
     ];
     _controller = AnimationController(
       vsync: this,

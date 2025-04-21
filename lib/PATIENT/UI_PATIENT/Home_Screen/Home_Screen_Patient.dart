@@ -6,17 +6,19 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../utils/Constants.dart';
 import '../../../../utils/color_util.dart';
 
-
 import '../../../UI/Common_Widget/appbar.dart';
 import '../../../UI/HomePage/home_widgets/DashList.dart';
 import '../../../UI/HomePage/home_widgets/overallView.dart';
 import '../../../UI/HomePage/home_widgets/quiz_List.dart';
 import 'Activity.dart';
 
-
 class HomeScreenPatient extends StatefulWidget {
-  const HomeScreenPatient({super.key});
+  final String name;
+  final String role;
+  final String token;
 
+  const HomeScreenPatient(
+      {super.key, required this.name, required this.role, required this.token});
 
   @override
   State<HomeScreenPatient> createState() => _HomeScreenPatientState();
@@ -24,9 +26,18 @@ class HomeScreenPatient extends StatefulWidget {
 
 class _HomeScreenPatientState extends State<HomeScreenPatient> {
   List<QuizSession> sessions = [
-    QuizSession(title: "Next Session", time: "Tomorrow 2pm - 6pm", instructor: "Dr. Sara ben"),
-    QuizSession(title: "Medication", time: "Improving", instructor: "7 day trend :Positive"),
-    QuizSession(title: "Progress Score", time: "65% Complete", instructor: "Treatment plan"),
+    QuizSession(
+        title: "Next Session",
+        time: "Tomorrow 2pm - 6pm",
+        instructor: "Dr. Sara ben"),
+    QuizSession(
+        title: "Medication",
+        time: "Improving",
+        instructor: "7 day trend :Positive"),
+    QuizSession(
+        title: "Progress Score",
+        time: "65% Complete",
+        instructor: "Treatment plan"),
   ];
   List<TicketsData> myTicketsList = [
     TicketsData(name: "Total Patients", number: "1"),
@@ -63,28 +74,30 @@ class _HomeScreenPatientState extends State<HomeScreenPatient> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: systemUiOverlayStyleDark,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(
           decoration: BoxDecoration(
-            // gradient: LinearGradient(
-            //   colors: [Colors.green, Colors.white], // Define your colors
-            //   begin: Alignment.topLeft,
-            //   end: Alignment.bottomRight,
-            // ),
-          ),
+              // gradient: LinearGradient(
+              //   colors: [Colors.green, Colors.white], // Define your colors
+              //   begin: Alignment.topLeft,
+              //   end: Alignment.bottomRight,
+              // ),
+              ),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const UserDetails(
+                UserDetails(
                   isWelcome: true,
                   bellicon: true,
                   notificationcount: true,
-                  name: 'Arun  [Patient]',
+                  name: '${widget.name} (${widget.role})',
                   image: 'assets/images/profile2.jpg',
                 ),
                 Padding(
@@ -94,7 +107,7 @@ class _HomeScreenPatientState extends State<HomeScreenPatient> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Patient Dashboard",
+                        "${widget.role.toUpperCase()} DASHBOARD",
                         style: GoogleFonts.shanti(
                           color: Colors.blueGrey,
                           fontWeight: FontWeight.w900,
@@ -106,15 +119,64 @@ class _HomeScreenPatientState extends State<HomeScreenPatient> {
                 ),
                 ThoughtOfTheDayWidget(
                   text:
-                  "Wherever the art of medicine is loved, there is also a love of humanity.",
+                      "Wherever the art of medicine is loved, there is also a love of humanity.",
                   svgPath: "assets/images/Group.svg",
                   onReadMore: () {
                     print("Read More Clicked!");
                   },
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      top: 15.h, left: 10.w, right: 10.w),
+                  padding: EdgeInsets.only(top: 15.h, left: 10.w, right: 10.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Your Enquiry",
+                        style: GoogleFonts.shanti(
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 20.h,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Card(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(
+                      color: Colorutils.userdetailcolor,
+                      width: 0.3,
+                    ),
+                  ),
+                  elevation: 2,
+                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTitle('ENQUIRY NO: ', "ENQ-005"),
+                        _buildTitle('ENQUIRY DATE: ', "18-4-2025"),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            _buildTag("Ai report generated", Colorutils.userdetailcolor),
+                            const SizedBox(width: 6),
+                            _buildTag("On Progress", Colorutils.userdetailcolor),
+                            const SizedBox(width: 6),
+                            _buildTag("High", Colors.red),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(top: 15.h, left: 10.w, right: 10.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -131,170 +193,8 @@ class _HomeScreenPatientState extends State<HomeScreenPatient> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child:QuizList(sessions: sessions),
+                  child: QuizList(sessions: sessions),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(15.0),
-                //   child: Row(
-                //     children: [
-                //       Expanded(
-                //         child: Column(
-                //           children: [
-                //             Container(
-                //               padding: const EdgeInsets.all(12),
-                //               decoration: BoxDecoration(
-                //                 border: Border.all(
-                //                   color: Colorutils.userdetailcolor,
-                //                   width: 0.5,
-                //                 ),
-                //                 gradient: LinearGradient(
-                //                   colors: [Colors.teal.shade50, Colors.white],
-                //                   begin: Alignment.topCenter,
-                //                   end: Alignment.bottomCenter,
-                //                 ),
-                //                 borderRadius: BorderRadius.circular(12),
-                //               ),
-                //               child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                 children: [
-                //                   Text('NEXT STEP',
-                //                       style: TextStyle(
-                //                           fontSize: 16,
-                //                           fontWeight: FontWeight.bold,
-                //                           color: Colors.blueGrey)),
-                //                   const SizedBox(height: 5),
-                //
-                //                   Text('Next step in journey, initial assesment pending',
-                //                       style: TextStyle(
-                //                           fontSize: 12,
-                //                           color: Colors.blueGrey)),
-                //
-                //                 ],
-                //               ),
-                //             ),
-                //             const SizedBox(height: 12),
-                //             Container(
-                //               padding: const EdgeInsets.all(12),
-                //               decoration: BoxDecoration(
-                //                 border: Border.all(
-                //                   color: Colorutils.userdetailcolor,
-                //                   width: 0.5,
-                //                 ),
-                //                 gradient: LinearGradient(
-                //                   colors: [Colors.teal.shade50, Colors.white],
-                //                   begin: Alignment.topCenter,
-                //                   end: Alignment.bottomCenter,
-                //                 ),
-                //                 borderRadius: BorderRadius.circular(12),
-                //               ),
-                //               child:Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.start,
-                //
-                //                 children: [
-                //                   Text('Flagged Alerts',
-                //                       style: TextStyle(
-                //                           fontSize: 16,
-                //                           fontWeight: FontWeight.bold,
-                //                           color: Colors.blueGrey)),
-                //                   const SizedBox(height: 5),
-                //
-                //                   Text('-Mental Disorder',
-                //                       style: TextStyle(
-                //                           fontSize: 12,
-                //                           color: Colors.blueGrey)),
-                //                   Text('-Generalise Anxiety Disorder',
-                //                       style: TextStyle(
-                //                           fontSize: 12,
-                //                           color: Colors.blueGrey)),
-                //                 ],
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //       const SizedBox(width: 5),
-                //
-                //       Expanded(
-                //         child: Container(
-                //           padding: const EdgeInsets.all(2),
-                //           decoration: BoxDecoration(
-                //             border: Border.all(
-                //               color: Colorutils.userdetailcolor,
-                //               width: 0.5,
-                //             ),
-                //             gradient: LinearGradient(
-                //               colors: [Colors.teal.shade50, Colors.white],
-                //               begin: Alignment.topCenter,
-                //               end: Alignment.bottomCenter,
-                //             ),
-                //             borderRadius: BorderRadius.circular(12),
-                //           ),
-                //           child: Padding(
-                //             padding: const EdgeInsets.all(4.0),
-                //             child: Column(
-                //               crossAxisAlignment:
-                //               CrossAxisAlignment.start,
-                //               children: const [
-                //                 Text('Diagnosis Suggestion',
-                //                     style: TextStyle(
-                //                         fontSize: 15,
-                //                         fontWeight: FontWeight.bold,
-                //                         color: Colors.blueGrey)),
-                //                 SizedBox(height: 8),
-                //                 Text('-Generalise Anxiety Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),
-                //                 Text('-Major Depressive Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),
-                //                 Text('-Mental Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),
-                //                 Text('-Generalise Anxiety Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),   Text('-Mental Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),
-                //                 Text('-Generalise Anxiety Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),   Text('-Mental Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),
-                //                 Text('-Generalise Anxiety Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),   Text('-Mental Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),
-                //                 Text('-Generalise Anxiety Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),   Text('-Mental Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),
-                //                 Text('-Generalise Anxiety Disorder',
-                //                     style: TextStyle(
-                //                         fontSize: 12,
-                //                         color: Colors.blueGrey)),
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //       const SizedBox(width: 5),
-                //
-                //     ],
-                //   ),
-                // ),
                 Padding(
                   padding: EdgeInsets.only(
                       top: 5.h, bottom: 1.h, left: 10.w, right: 10.w),
@@ -312,45 +212,43 @@ class _HomeScreenPatientState extends State<HomeScreenPatient> {
                     ],
                   ),
                 ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                alignment: Alignment.topCenter,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(26),
-                  color: Colorutils.userdetailcolor.withOpacity(0.1),
-                  border: Border.all(
-                    color: Colorutils.userdetailcolor,
-                    width: 1.w,
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(26),
+                      color: Colorutils.userdetailcolor.withOpacity(0.1),
+                      border: Border.all(
+                        color: Colorutils.userdetailcolor,
+                        width: 1.w,
+                      ),
+                    ),
+                    width: double.infinity,
+                    height: 250.h,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          SizedBox(height: 10),
+                          RecentActivityTile(
+                            title: "Completed mood assessment",
+                            subtitle: "Yesterday at 4:30 PM",
+                          ),
+                          RecentActivityTile(
+                            title: "Therapy session with Dr. Johnson",
+                            subtitle: "Monday at 2:00 PM",
+                          ),
+                          RecentActivityTile(
+                            title: "Updated treatment goals",
+                            subtitle: "Last week",
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                width: double.infinity,
-                height: 250.h,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-
-                      SizedBox(height: 10),
-                      RecentActivityTile(
-                        title: "Completed mood assessment",
-                        subtitle: "Yesterday at 4:30 PM",
-                      ),
-                      RecentActivityTile(
-                        title: "Therapy session with Dr. Johnson",
-                        subtitle: "Monday at 2:00 PM",
-                      ),
-                      RecentActivityTile(
-                        title: "Updated treatment goals",
-                        subtitle: "Last week",
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-
               ],
             ),
           ),
@@ -370,4 +268,39 @@ class _HomeScreenPatientState extends State<HomeScreenPatient> {
       ),
     );
   }
+
+  Widget _buildTitle(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: RichText(
+        text: TextSpan(
+          style: TextStyle(fontSize: 15.h, color: Colors.blueGrey),
+          children: [
+            TextSpan(
+              text: '$title ',
+              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13.h),
+            ),
+            TextSpan(text: value,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13.h)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+Widget _buildTag(String text, Color bgColor) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+      color: bgColor,
+    ),
+    padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 9.w),
+    child: Text(
+      text,
+      style: GoogleFonts.nunito(
+        color: Colors.white,
+        fontWeight: FontWeight.w600,
+        fontSize: 12.h,
+      ),
+    ),
+  );
 }

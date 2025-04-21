@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:patient/UI/Common_Widget/popups.dart';
 import 'package:patient/utils/color_util.dart';
 import 'package:text_scroll/text_scroll.dart';
 
@@ -54,7 +55,6 @@ class UserDetails extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(width: 12.w),
-
 
                   CircleAvatar(
                     backgroundColor: Colors.white,
@@ -126,7 +126,7 @@ class UserDetails extends StatelessWidget {
                               child: bellicon
                                   ? SvgPicture.asset(
                                       'assets/images/bell 1.svg',
-                                      color: Colors.black,
+                                      color: Colors.blueGrey,
                                       width: 28.h,
                                       fit: BoxFit.fitWidth,
                                     )
@@ -140,7 +140,7 @@ class UserDetails extends StatelessWidget {
                               padding: const EdgeInsets.all(2).w,
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.grey,
+                                color: Colors.white,
                               ),
                               child: FittedBox(
                                 child: Text(
@@ -148,8 +148,8 @@ class UserDetails extends StatelessWidget {
                                   style: TextStyle(
                                     fontFamily: 'Inter',
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 10.h,
-                                    color: Colors.white,
+                                    fontSize: 12.h,
+                                    color: Colors.teal,
                                   ),
                                 ),
                               ),
@@ -158,8 +158,19 @@ class UserDetails extends StatelessWidget {
                         ],
                       ),
                     ),
-                  SizedBox(width: 12.w),
+                  SizedBox(width: 15.w),
+                  GestureDetector(
+                    onTap: () {
+                      ProductAppPopUps.logOutPopUp(context: context);
 
+                    },
+                    child: SvgPicture.asset(
+                      'assets/images/logout.svg',
+                      color: Colors.blueGrey,
+                      width: 30.h,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
                   // CircleAvatar(
                   //   radius: 26.r,
                   //   child: CircleAvatar(
@@ -255,7 +266,7 @@ class ThoughtOfTheDayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 20),
+      padding: const EdgeInsets.only(left: 15, right: 20,top: 10,bottom: 10),
       child: Stack(
         clipBehavior: Clip.none,
         children: [

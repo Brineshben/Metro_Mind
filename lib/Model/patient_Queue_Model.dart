@@ -36,7 +36,7 @@ class Data {
   String? medicalReport;
   String? medicalReportUrl;
   String? role;
-  String? age;
+  int? age;
   String? gender;
   String? occupation;
   String? education;

@@ -104,8 +104,11 @@ import '../../Shedule_Page/shedule.dart';
 import '../home_screen.dart';
 
 class PageIndexNavigationTherapist extends StatefulWidget {
+  final String role;
+  final String name;
+  final String token;
   const PageIndexNavigationTherapist({
-    Key? key,
+    Key? key, required this.role, required this.name, required this.token,
   }) : super(key: key);
 
   @override
@@ -120,7 +123,7 @@ class _PageIndexNavigationTherapistState extends State<PageIndexNavigationTherap
   void initState() {
     super.initState();
     _screens = [
-      HomeScreen(),
+      HomeScreen(role: widget.role, name: widget.name, token: widget.token,),
       PatientSheduled(),
       AppointmentsScreen(),
 

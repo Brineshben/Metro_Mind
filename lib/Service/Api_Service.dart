@@ -53,6 +53,49 @@ class ApiServices {
     return json.decode(respString);
   }
 
+
+  ///Add Doctor
+  static Future<Map<String, dynamic>> doctorRegister({
+    required String token,
+
+    required String name,
+    required String userName,
+    required String email,
+    required String mobileNumber,
+    required String password,
+    required String role,
+    required String age,
+    required String gender,
+    required String occupation,
+    required String address,
+    required String education,
+  }) async {
+    String url = "${ApiConstants.baseURL}${ApiConstants.addDoctor}";
+    print("add doctor$url");
+    Map apiBody = {
+      "name": name,
+      "username": userName,
+      "email": email,
+      "mobile_number": mobileNumber,
+      "password": password,
+      "role": role,
+      "age": age,
+      "gender": gender,
+      "occupation": occupation,
+      "education": education,
+
+    };
+    var request = http.Request('POST', Uri.parse(url));
+    request.body = (json.encode(apiBody));
+    request.headers.addAll(
+      {'Authorization': "Bearer $token", 'Content-Type': 'application/json'},
+    );    print('Api body-----Add Doctor----------------->${request.body}');
+    http.StreamedResponse response = await request.send();
+    var respString = await response.stream.bytesToString();
+    print('Api body-----Add Doctorresponse----------------->${json.decode(respString)}');
+    return json.decode(respString);
+  }
+
   ///login
   static Future<Map<String, dynamic>> userLogin({
     required String userName,
@@ -65,16 +108,15 @@ class ApiServices {
       "password": psw,
     };
     try {
-    var request = http.Request('POST', Uri.parse(url));
-    request.body = (json.encode(apiBody));
-    request.headers.addAll({'Content-Type': 'application/json'});
-    print('LOGIN API BODY------>${request.body}');
-    http.StreamedResponse response = await request.send();
-    print('LOGIN API BODY RESPONSE--------------->${response}');
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      request.headers.addAll({'Content-Type': 'application/json'});
+      print('LOGIN API BODY------>${request.body}');
+      http.StreamedResponse response = await request.send();
+      print('LOGIN API BODY RESPONSE--------------->${response}');
 
-    var respString = await response.stream.bytesToString();
-    return json.decode(respString);
-
+      var respString = await response.stream.bytesToString();
+      return json.decode(respString);
     } catch (e) {
       throw Exception("Service Error Login Api");
     }
@@ -83,56 +125,118 @@ class ApiServices {
   ///Patient Queue
   static Future<Map<String, dynamic>> patientQueue({
     required String token,
-
   }) async {
     String url = "${ApiConstants.baseURL}${ApiConstants.patientQueue}";
     print("Patient Queue Response---$url");
     print("token---$token");
 
     try {
-    var request = http.Request('GET', Uri.parse(url));
-    request.headers.addAll({'Authorization': "Bearer $token"});
-    http.StreamedResponse response = await request.send();
-    print('Patient Queue Response------->${response}');
+      var request = http.Request('GET', Uri.parse(url));
+      request.headers.addAll({'Authorization': "Bearer $token"});
+      http.StreamedResponse response = await request.send();
+      print('Patient Queue Response------->${response}');
 
-    var respString = await response.stream.bytesToString();
-    return json.decode(respString);
+      var respString = await response.stream.bytesToString();
 
+      return json.decode(respString);
     } catch (e) {
       throw Exception("Service Error Login Api");
     }
   }
+
   ///DOCTOR LIST
   static Future<Map<String, dynamic>> doctorList({
     required String token,
-
   }) async {
-    String url = "${ApiConstants.baseURL}${ApiConstants.patientQueue}";
+    String url = "${ApiConstants.baseURL}${ApiConstants.doctorList}";
     print("Doctor List---$url");
 
     try {
-    var request = http.Request('GET', Uri.parse(url));
-    request.headers.addAll({'Authorization': "Bearer $token"});
-    http.StreamedResponse response = await request.send();
-    print('Patient Queue Response------->${response}');
+      var request = http.Request('GET', Uri.parse(url));
+      request.headers.addAll({'Authorization': "Bearer $token"});
+      http.StreamedResponse response = await request.send();
+      print('Patient Queue Response------->${response}');
 
-    var respString = await response.stream.bytesToString();
-    return json.decode(respString);
-
+      var respString = await response.stream.bytesToString();
+      return json.decode(respString);
     } catch (e) {
       throw Exception("Service Error Login Api");
     }
   }
 
+  ///Consult DOCTOR LIST
+  static Future<Map<String, dynamic>> consultDoctorList({
+    required String token,
+  }) async {
+    String url = "${ApiConstants.baseURL}${ApiConstants.consultDoctorList}";
+    print("consultDoctorList List---$url");
 
+    try {
+      var request = http.Request('GET', Uri.parse(url));
+      request.headers.addAll({'Authorization': "Bearer $token"});
+      http.StreamedResponse response = await request.send();
+      print('consultDoctorList------>${response}');
 
+      var respString = await response.stream.bytesToString();
+      return json.decode(respString);
+    } catch (e) {
+      throw Exception("Service Error consultDoctorList");
+    }
+  }
 
+  ///Add Doctor
+  static Future<Map<String, dynamic>> addDoctorToPatient({
+    required String token,
+    required int patientId,
+    required int doctorId,
+  }) async {
+    String url =
+        "${ApiConstants.baseURL}${ApiConstants.addDoctorToPatient}$patientId/";
+    print(url);
+    Map apiBody = {
+      "doctor": doctorId,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      request.headers.addAll(
+        {'Authorization': "Bearer $token", 'Content-Type': 'application/json'},
+      );
 
+      print('request.body------>${request.body}');
 
+      http.StreamedResponse response = await request.send();
+      print('response api-datat-------->${response.headers}');
 
+      var respString = await response.stream.bytesToString();
+      print('adddoctortopatient response api--------->${respString}');
 
+      return json.decode(respString);
+    } catch (e) {
+      throw Exception("Service Error Login Api");
+    }
+  }
 
+  ///Add Slot
+  static Future<Map<String, dynamic>> addSlot({
+    required String token,
+  }) async {
+    String url = "${ApiConstants.baseURL}${ApiConstants.addSlot}";
+    print(url);
 
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.headers.addAll(
+        {'Authorization': "Bearer $token", 'Content-Type': 'application/json'},
+      );
 
+      http.StreamedResponse response = await request.send();
 
+      var respString = await response.stream.bytesToString();
+
+      return json.decode(respString);
+    } catch (e) {
+      throw Exception("Service Error Login Api");
+    }
+  }
 }

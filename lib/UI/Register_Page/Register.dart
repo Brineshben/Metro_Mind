@@ -10,6 +10,8 @@ import 'package:patient/Service/Api_Service.dart';
 import '../../utils/Constants.dart';
 import '../../utils/color_util.dart';
 import '../ChatScreen/Chat.dart';
+import '../Common_Widget/popups.dart';
+import '../Login_Page/login.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -68,20 +70,7 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 50,
                         ),
-                        // Center(
-                        //   child: Padding(
-                        //     padding: EdgeInsets.only(top: 20.h),
-                        //     child: SizedBox(
-                        //       height: 100.h,
-                        //       // height: 180.h,
-                        //       child: SvgPicture.asset(
-                        //         'assets/IHUB LOGO.svg',
-                        //         width: 150.w,
-                        //         fit: BoxFit.fitWidth,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+
                         Center(
                           child: Padding(
                             padding: EdgeInsets.only(top: 10.h),
@@ -273,25 +262,58 @@ class _RegisterState extends State<Register> {
                                   horizontal: 30).w,
                               child: GestureDetector(
                                 onTap: () async{
-                                  // if (_formKey.currentState!.validate()) {
-                                    // Map<String, dynamic> resp = await ApiServices
-                                    //     .patientRegister(name: name.text,
-                                    //     userName: username.text,
-                                    //     email: email.text,
-                                    //     mobileNumber: phoneNumber.text,
-                                    //     password: password.text,
-                                    //     confirmPassword: confirmPassword.text,
-                                    //     age: age.text,
-                                    //     gender: gender.text,
-                                    //     occupation: occupation.text,
-                                    //     address: address.text,
-                                    //     education: education.text);
-                                    Navigator.pushReplacement(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return ChatScreen();
-                                      },
-                                    ));
-                                  // }
+                                  // Navigator.pushReplacement(context, MaterialPageRoute(
+                                  //   builder: (context) {
+                                  //     return LoginPage();
+                                  //   },
+                                  // ));
+                                  if (_formKey.currentState!.validate()) {
+                                    Map<String, dynamic> resp = await ApiServices
+                                        .patientRegister(name: name.text,
+                                        userName: username.text,
+                                        email: email.text,
+                                        mobileNumber: phoneNumber.text,
+                                        password: password.text,
+                                        confirmPassword: confirmPassword.text,
+                                        age: age.text,
+                                        gender: gender.text,
+                                        occupation: occupation.text,
+                                        address: address.text,
+                                        education: education.text);
+                                    // resp['data']['message'] == "Leave Applied Successfully"
+                                    if(resp['status']=="ok"){
+                                      Navigator.pushReplacement(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return LoginPage();
+                                        },
+                                      ));
+                                      ProductAppPopUps.submit(
+                                        title: "Success",
+                                        message:resp['message'],
+                                        actionName: "Close",
+                                        iconData: Icons.done,
+                                        iconColor: Colors.green,
+                                      );
+                                    }else{
+                                      ProductAppPopUps.submit(
+                                        title: "Error",
+                                        message:resp['message'],
+                                        actionName: "Close",
+                                        iconData: Icons.error_outline_outlined,
+                                        iconColor: Colors.red,
+                                      );
+
+                                    }
+
+                                  }else {
+                                    ProductAppPopUps.submit(
+                                      title: "Error",
+                                      message:"Something went wrong",
+                                      actionName: "Close",
+                                      iconData: Icons.error_outline_outlined,
+                                      iconColor: Colors.red,
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/color_util.dart';
+import '../Login_Page/login.dart';
 
 class ProductAppPopUps {
   static final ProductAppPopUps _instance = ProductAppPopUps._internal();
@@ -203,6 +204,92 @@ class ProductAppPopUps {
                 Text(
                   actionName,
                   style: TextStyle(color: Colors.white, fontSize: 16.h),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  static logOutPopUp({required BuildContext context}) {
+    return Get.dialog(
+      AlertDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+        title: Column(
+          children: [
+            SizedBox(height: 10.w),
+            Text(
+              "Logout",
+              style: TextStyle(
+                color: Colors.black
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          "Are you sure you want to Logout?",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16.sp),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(left: 18, right: 18),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 100.w,
+                  child: FittedBox(
+                    child: FilledButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(Colors.red),
+                      ),
+                      child: Row(
+                        children: [
+                          Center(
+                            child: Text(
+                              "Cancel",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.sp),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 100.w,
+                  child: FilledButton(
+                    onPressed: () async {
+                      // ApiServices.fcmtokenlogout(emailId:Get.find<UserAuthController>().userData.value.username ?? '');
+                      // HandleControllers.deleteAllGetControllers();
+                      //
+                      // await SharedPrefs().removeLoginData();
+
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                              (_) => false);
+
+                      // HandleControllers.createGetControllers();
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:
+                      WidgetStateProperty.all(Colorutils.userdetailcolor),
+                    ),
+                    child: Text(
+                      "Ok",
+                      style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                    ),
+                  ),
                 ),
               ],
             ),

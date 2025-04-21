@@ -11,8 +11,11 @@ import 'Settings/settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PageIndexNavigationChief extends StatefulWidget {
+  final String role;
+  final String name;
+  final String token;
   const PageIndexNavigationChief({
-    Key? key,
+    Key? key, required this.role, required this.name, required this.token,
   }) : super(key: key);
 
   @override
@@ -28,7 +31,7 @@ class _PageIndexNavigationChiefState extends State<PageIndexNavigationChief> wit
   void initState() {
     super.initState();
     _screens = [
-      HomeScreenChief(),
+      HomeScreenChief(role:widget.role, name: widget.name, token: widget.token,),
       PatientSheduled(),
       AiEngine(
         sessions: [

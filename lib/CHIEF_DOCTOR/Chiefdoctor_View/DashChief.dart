@@ -128,36 +128,42 @@ class _DashchiefState extends State<Dashchief> {
                   ),
                 ),
                 Text(
-                  "[${session.time}]",
+                  "(${session.time})",
                   style: GoogleFonts.nunito(
                     color: Colors.blueGrey,
+                    fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.w900,
                     fontSize: 13.h,
                   ),
                 ),
-                session.emergency?  GestureDetector(
-                  onTap: (){
-                    Scaffold.of(context).openDrawer();
-                    Get.find<PatientQueueController>().patientData(widget.token);
+                session.emergency?  Center(
+                  child: GestureDetector(
+                    onTap: (){
+                      Scaffold.of(context).openDrawer();
+                      Get.find<PatientQueueController>().patientData(widget.token);
 
-                    // _showDoctorBottomSheet(context);
-                  },
-                  child: Container(
-                      padding:
-                      EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        '4 Emergency',
-                        style: GoogleFonts.shanti(
-                          color: Colors.white.withOpacity(0.9),
-                          fontWeight: FontWeight.w900,
-                          fontSize: 15.h,
+                      // _showDoctorBottomSheet(context);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '4 Emergency',
+                            style: GoogleFonts.shanti(
+                              color: Colors.white.withOpacity(0.9),
+                              fontWeight: FontWeight.w900,
+                              fontSize: 15.h,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                  ),
                 ):SizedBox()
               ],
             ),

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../UI/Personal_Chat/Chat_Page.dart';
+import 'package:flutter_svg/svg.dart';
 
 
 class ChatListPage extends StatelessWidget {

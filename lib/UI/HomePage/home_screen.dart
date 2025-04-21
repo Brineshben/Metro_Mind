@@ -16,7 +16,10 @@ import 'home_widgets/patientList.dart';
 import 'home_widgets/quiz_List.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String role;
+  final String name;
+  final String token;
+  const HomeScreen({super.key, required this.role, required this.name, required this.token});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -75,11 +78,11 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const UserDetails(
+                UserDetails(
                   isWelcome: true,
                   bellicon: true,
                   notificationcount: true,
-                  name: 'Dr.sara[therapist]',
+                  name: '${widget.name} (${widget.role})',
                   image: 'assets/images/profile2.jpg',
                 ),
                 Padding(
@@ -89,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Therapist Dashboard",
+                        "${widget.role.toUpperCase()} DASHBOARD",
                         style: GoogleFonts.shanti(
                           color: Colors.blueGrey,
                           fontWeight: FontWeight.w900,
