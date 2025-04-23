@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patient/Controller/Doctor_List_Controller.dart';
+import 'package:patient/JUNIOR_DOCTOR/Junior_doctorView/patient_details.dart';
 import '../../../../utils/Constants.dart';
 import '../../../../utils/color_util.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 import '../../CHIEF_DOCTOR/Chiefdoctor_View/DashChief.dart';
 import '../../Controller/Patient_queue_Controller.dart';
 import '../../UI/Common_Widget/appbar.dart';
-import '../../UI/HomePage/Patient_Details/patient_details.dart';
 import '../../UI/HomePage/home_widgets/DashList.dart';
 import '../../UI/HomePage/home_widgets/overallView.dart';
 import 'package:get/get.dart';
@@ -122,113 +122,129 @@ class _HomeScreenJuniorState extends State<HomeScreenJunior> {
                   const SizedBox(height: 20),
                   GetX<PatientQueueController>(
                     builder: (PatientQueueController controller) {
-                      return ListView.builder(
-                        padding: EdgeInsets.all(0),
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        // Prevent nested scroll conflict
-                        itemCount: controller.patientList.length,
-                        itemBuilder: (context, index) {
-                          final patientData = controller.patientList[index];
-                          return Column(
-                            children: [
-                              ListTile(
-                                leading: ClipOval(
-                                  child: Image.asset(
-                                    "assets/images/profileimage.jpg",
-                                    fit: BoxFit.cover,
-                                    width: 40.w,
-                                    height: 45.w,
+                      if(controller.patientList.isEmpty) {
+                        return Padding(
+                            padding: const EdgeInsets.only(top: 180),
+                            child: Center(
+                              child: const Text(
+                                "Oops...No Data Found.",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                            ));
+                      } else {
+                        return ListView.builder(
+                          padding: EdgeInsets.all(0),
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          // Prevent nested scroll conflict
+                          itemCount: controller.patientList.length,
+                          itemBuilder: (context, index) {
+                            final patientData = controller.patientList[index];
+                            return Column(
+                              children: [
+                                ListTile(
+                                  leading: ClipOval(
+                                    child: Image.asset(
+                                      "assets/images/profileimage.jpg",
+                                      fit: BoxFit.cover,
+                                      width: 40.w,
+                                      height: 45.w,
+                                    ),
                                   ),
-                                ),
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      patientData?.name?.toUpperCase() ?? " ",
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15.h),
-                                    ),
-                                    Text(
-                                      patientData?.email ?? " ",
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.h),
-                                    ),
-                                  ],
-                                ),
-                                subtitle: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "${patientData?.patientId ?? "M-002"}",
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontSize: 12.h),
-                                    ),
-
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 7, vertical: 3),
-                                      decoration: BoxDecoration(
-                                        color: Colorutils.userdetailcolor,
-                                        borderRadius: BorderRadius.circular(5),
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        patientData?.name?.toUpperCase() ?? " ",
+                                        style: TextStyle(
+                                            color: Colors.blueGrey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15.h),
                                       ),
-                                      child: Text(
-                                        'AI Summary',
-                                        style: GoogleFonts.shanti(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 13.h,
+                                      Text(
+                                        patientData?.email ?? " ",
+                                        style: TextStyle(
+                                            color: Colors.blueGrey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12.h),
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${patientData?.patientId ?? "M-002"}",
+                                        style: TextStyle(
+                                            color: Colors.blueGrey,
+                                            fontSize: 12.h),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 7, vertical: 3),
+                                        decoration: BoxDecoration(
+                                          color: Colorutils.userdetailcolor,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: Text(
+                                          'AI Summary',
+                                          style: GoogleFonts.shanti(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 13.h,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => PatientDetails(
+                                                name: patientData?.name ?? " ",
+                                                age: patientData?.age ?? 0,
+                                                gender:
+                                                    patientData?.gender ?? " ",
+                                                email:
+                                                    patientData?.email ?? " ",
+                                                phone:
+                                                    patientData?.mobileNumber ??
+                                                        " ",
+                                                disease: " ",
+                                                severity: patientData
+                                                        ?.diagnosis?.severity ??
+                                                    " ",
+                                                diagnosissummary: patientData
+                                                        ?.diagnosis
+                                                        ?.diagnosisSummary ??
+                                                    "No AI Summary Report",
+                                                patientId:
+                                                    patientData?.patientId ??
+                                                        " ",
+                                                token: widget.token,
+                                                id: patientData?.id ?? 0,
+                                              )),
+                                    );
+                                  },
                                 ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => PatientDetails(
-                                              name: patientData?.name ?? " ",
-                                              age: patientData?.age ?? 0,
-                                              gender:
-                                                  patientData?.gender ?? " ",
-                                              email: patientData?.email ?? " ",
-                                              phone:
-                                                  patientData?.mobileNumber ??
-                                                      " ",
-                                              disease: " ",
-                                              severity: patientData
-                                                      ?.diagnosis?.severity ??
-                                                  " ",
-                                              diagnosissummary: patientData
-                                                      ?.diagnosis
-                                                      ?.diagnosisSummary ??
-                                                  "No AI Summary Report",
-                                              patientId:
-                                                  patientData?.patientId ?? " ",
-                                              token: widget.token,
-                                              id: patientData?.id ?? 0,
-                                            )),
-                                  );
-                                },
-                              ),
-                              Divider(
-                                thickness: 1,
-                                height: 0,
-                                indent: 5,
-                                endIndent: 5,
-                                color: Colors.grey.shade200,
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                                Divider(
+                                  thickness: 1,
+                                  height: 0,
+                                  indent: 5,
+                                  endIndent: 5,
+                                  color: Colors.grey.shade200,
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                   ),
                 ],

@@ -41,7 +41,7 @@ class Users {
   String? occupation;
   String? education;
   String? address;
-  Null? patientId;
+  String? patientId;
 
   Users(
       {this.id,

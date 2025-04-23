@@ -23,6 +23,8 @@ class DoctorToPatientController extends GetxController {
       print("------AddDoctortoPatientModel--------$resp");
       if (resp['message'] == 'Doctor assigned successfully') {
         addDoctorToPatient.value = AddDoctortoPatientModel.fromJson(resp);
+        print("------AddDoctortoPatientModelbenn--------${addDoctorToPatient.value}");
+
         doctorDataz.value = addDoctorToPatient.value?.data?.doctor;
         Get.snackbar(
           'Success', // Title

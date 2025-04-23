@@ -36,12 +36,12 @@ class Users {
   Null? medicalReport;
   Null? medicalReportUrl;
   String? role;
-  Null? age;
+  int? age;
   String? gender;
-  Null? occupation;
-  Null? education;
-  Null? address;
-  Null? patientId;
+  String? occupation;
+  String? education;
+  String? address;
+  String? patientId;
 
   Users(
       {this.id,

@@ -107,8 +107,9 @@ class PageIndexNavigationTherapist extends StatefulWidget {
   final String role;
   final String name;
   final String token;
+  final int doctorId;
   const PageIndexNavigationTherapist({
-    Key? key, required this.role, required this.name, required this.token,
+    Key? key, required this.role, required this.name, required this.token, required this.doctorId,
   }) : super(key: key);
 
   @override
@@ -123,7 +124,7 @@ class _PageIndexNavigationTherapistState extends State<PageIndexNavigationTherap
   void initState() {
     super.initState();
     _screens = [
-      HomeScreen(role: widget.role, name: widget.name, token: widget.token,),
+      HomeScreen(role: widget.role, name: widget.name, token: widget.token, doctorId: widget.doctorId,),
       PatientSheduled(),
       AppointmentsScreen(),
 

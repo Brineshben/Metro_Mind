@@ -6,10 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patient/Service/Api_Service.dart';
-
+import 'package:loader_overlay/loader_overlay.dart';
 import '../../utils/Constants.dart';
 import '../../utils/color_util.dart';
 import '../ChatScreen/Chat.dart';
+import '../Common_Widget/connectivity.dart';
 import '../Common_Widget/popups.dart';
 import '../Login_Page/login.dart';
 
@@ -42,234 +43,232 @@ class _RegisterState extends State<Register> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
           body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.teal.shade50,
-                  Colors.white,
-                  Colors.white,
-                  Colors.white,
-                  Colors.white,
-                  Colors.white,
-                  Colors.white
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-            child: SingleChildScrollView(
-              child: Stack(
-                children: [
-                  Form(
-                    key: _formKey,
-
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                          height: 50,
-                        ),
-
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10.h),
-                            child: SizedBox(
-                              height: 80.h,
-                              // height: 180.h,
-                              child: Image.asset(
-                                "assets/images/utharam-logo.png",
-                                fit: BoxFit.cover,
-                                color: Colorutils.userdetailcolor,
-                              ),
-                            ),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.teal.shade50,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10.h),
+                        child: SizedBox(
+                          height: 80.h,
+                          // height: 180.h,
+                          child: Image.asset(
+                            "assets/images/utharam-logo.png",
+                            fit: BoxFit.cover,
+                            color: Colorutils.userdetailcolor,
                           ),
                         ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: 15.w),
-                              child: Text(
-                                'CREATE ACCOUNT',
-                                style: GoogleFonts.roboto(
-                                    color: Colors.black,
-                                    fontSize: 18.h,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            // Icon(Icons.person_add,color: Colorutils.userdetailcolor,),
-                          ],
-                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Row(
+                      children: [
                         Container(
                           margin: EdgeInsets.only(left: 15.w),
                           child: Text(
-                            'Please Enter Your Details',
+                            'CREATE ACCOUNT',
                             style: GoogleFonts.roboto(
-                                color: Colors.grey,
-                                fontSize: 12.h,
-                                fontWeight: FontWeight.w400),
+                                color: Colors.black,
+                                fontSize: 18.h,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
+                        // Icon(Icons.person_add,color: Colorutils.userdetailcolor,),
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 15.w),
+                      child: Text(
+                        'Please Enter Your Details',
+                        style: GoogleFonts.roboto(
+                            color: Colors.grey,
+                            fontSize: 12.h,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    buildTextField(
+                        "Name", "assets/images/user.svg", false, name, true),
+                    buildTextField("Username", "assets/images/user.svg", false,
+                        username, true),
+                    buildTextField("Email", "assets/images/envelope.svg", false,
+                        email, true),
+                    buildTextField(
+                        "Phone Number",
+                        "assets/images/phone-call.svg",
+                        false,
+                        phoneNumber,
+                        true),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: buildTextField("Age", "assets/images/age.svg",
+                              false, age, false),
                         ),
-                        buildTextField(
-                            "Name", "assets/images/user.svg", false, name,
-                            true),
-                        buildTextField(
-                            "Username", "assets/images/user.svg", false,
-                            username, true),
-                        buildTextField(
-                            "Email", "assets/images/envelope.svg", false, email,
-                            true),
-                        buildTextField("Phone Number",
-                            "assets/images/phone-call.svg", false, phoneNumber,
-                            true),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: buildTextField(
-                                  "Age", "assets/images/age.svg", false, age,
-                                  false),
-                            ),
-                            Expanded(
-                              child: buildTextField("Gender",
-                                  "assets/images/venus.svg", false, gender,
-                                  false),
-                            ),
-                          ],
+                        Expanded(
+                          child: buildTextField("Gender",
+                              "assets/images/venus.svg", false, gender, false),
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: buildTextField(
-                                  "Education",
-                                  "assets/images/graduation-cap.svg",
-                                  false,
-                                  education, false),
-                            ),
-                            Expanded(
-                              child: buildTextField(
-                                  "Occupation",
-                                  "assets/images/briefcase-blank.svg",
-                                  false,
-                                  occupation, false),
-                            ),
-                          ],
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: buildTextField(
+                              "Education",
+                              "assets/images/graduation-cap.svg",
+                              false,
+                              education,
+                              false),
                         ),
+                        Expanded(
+                          child: buildTextField(
+                              "Occupation",
+                              "assets/images/briefcase-blank.svg",
+                              false,
+                              occupation,
+                              false),
+                        ),
+                      ],
+                    ),
+                    buildTextField("Address", "assets/images/address-book.svg",
+                        false, address, false),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 8),
+                      child: TextFormField(
+                        validator: (val) => val!.trim().isEmpty
+                            ? 'Please Enter Password.'
+                            : null,
+                        controller: password,
+                        obscureText: _obscureText1,
+                        decoration: InputDecoration(
+                            labelText: "Password",
+                            labelStyle: TextStyle(
+                              fontSize: 15.h,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Colorutils.userdetailcolor, width: 1),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Colors.grey.withOpacity(0.3)),
+                            ),
+                            prefixIcon: Icon(Icons.lock_outline_rounded,
+                                color: Colors.blueGrey),
+                            hintText: "Password",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Colors.grey.withOpacity(0.3)),
+                            ),
+                            suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureText1 = !_obscureText1;
+                                  });
+                                },
+                                child: Icon(_obscureText1
+                                    ? Icons.visibility_off
+                                    : Icons.visibility))),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 8),
+                      child: TextFormField(
+                        validator: (val) => val!.trim().isEmpty
+                            ? 'Please Enter Confirm Password.'
+                            : null,
+                        controller: confirmPassword,
+                        obscureText: _obscureText2,
+                        decoration: InputDecoration(
+                            labelText: "Confirm Password",
+                            labelStyle: TextStyle(
+                              fontSize: 15.h,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Colorutils.userdetailcolor, width: 1),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Colors.grey.withOpacity(0.3)),
+                            ),
+                            prefixIcon: Icon(Icons.lock_outline_rounded,
+                                color: Colors.grey),
+                            hintText: "Confirm Password",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Colors.grey.withOpacity(0.3)),
+                            ),
+                            suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureText2 = !_obscureText2;
+                                  });
+                                },
+                                child: Icon(_obscureText2
+                                    ? Icons.visibility_off
+                                    : Icons.visibility))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Center(
+                        child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30).w,
+                      child: GestureDetector(
+                        onTap: () async {
+                          checkInternet2(
+                            context: context,
+                            function: () async {
+                              if (_formKey.currentState!.validate()) {
+                                context.loaderOverlay.show();
 
-                        buildTextField(
-                            "Address", "assets/images/address-book.svg",
-                            false, address, false),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, right: 15, top: 8),
-                          child: TextFormField(
-                            validator: (val) =>
-                            val!.trim().isEmpty
-                                ? 'Please Enter Password.'
-                                : null,
-                            controller: password,
-                            obscureText: _obscureText1,
-                            decoration: InputDecoration(
-                                labelText: "Password",
-                                labelStyle: TextStyle(
-                                  fontSize: 15.h,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blueGrey,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colorutils.userdetailcolor, width: 1),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.3)),
-                                ),
-                                prefixIcon: Icon(Icons.lock_outline_rounded,
-                                    color: Colors.blueGrey),
-                                hintText: "Password",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: Colors.grey.withOpacity(0.3)),
-                                ),
-                                suffixIcon: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _obscureText1 = !_obscureText1;
-                                      });
-                                    },
-                                    child: Icon(_obscureText1
-                                        ? Icons.visibility_off
-                                        : Icons.visibility))),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, right: 15, top: 8),
-                          child: TextFormField(
-                            validator: (val) =>
-                            val!.trim().isEmpty
-                                ? 'Please Enter Confirm Password.'
-                                : null,
-                            controller: confirmPassword,
-                            obscureText: _obscureText2,
-                            decoration: InputDecoration(
-                                labelText: "Confirm Password",
-                                labelStyle: TextStyle(
-                                  fontSize: 15.h,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blueGrey,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colorutils.userdetailcolor, width: 1),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.3)),
-                                ),
-                                prefixIcon: Icon(Icons.lock_outline_rounded,
-                                    color: Colors.grey),
-                                hintText: "Confirm Password",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: Colors.grey.withOpacity(0.3)),
-                                ),
-                                suffixIcon: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _obscureText2 = !_obscureText2;
-                                      });
-                                    },
-                                    child: Icon(_obscureText2
-                                        ? Icons.visibility_off
-                                        : Icons.visibility))),
-                          ),
-                        ),
+                                Map<String, dynamic> resp =
+                                    await ApiServices.patientRegister(
 
-                        SizedBox(
-                          height: 40,
-                        ),
-                        Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30).w,
-                              child: GestureDetector(
-                                onTap: () async{
-                                  // Navigator.pushReplacement(context, MaterialPageRoute(
-                                  //   builder: (context) {
-                                  //     return LoginPage();
-                                  //   },
-                                  // ));
-                                  if (_formKey.currentState!.validate()) {
-                                    Map<String, dynamic> resp = await ApiServices
-                                        .patientRegister(name: name.text,
+                                        name: name.text,
                                         userName: username.text,
                                         email: email.text,
                                         mobileNumber: phoneNumber.text,
@@ -280,79 +279,82 @@ class _RegisterState extends State<Register> {
                                         occupation: occupation.text,
                                         address: address.text,
                                         education: education.text);
-                                    // resp['data']['message'] == "Leave Applied Successfully"
-                                    if(resp['status']=="ok"){
-                                      Navigator.pushReplacement(context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return LoginPage();
-                                        },
-                                      ));
-                                      ProductAppPopUps.submit(
-                                        title: "Success",
-                                        message:resp['message'],
-                                        actionName: "Close",
-                                        iconData: Icons.done,
-                                        iconColor: Colors.green,
-                                      );
-                                    }else{
-                                      ProductAppPopUps.submit(
-                                        title: "Error",
-                                        message:resp['message'],
-                                        actionName: "Close",
-                                        iconData: Icons.error_outline_outlined,
-                                        iconColor: Colors.red,
-                                      );
+                                context.loaderOverlay.hide();
 
-                                    }
-
-                                  }else {
-                                    ProductAppPopUps.submit(
-                                      title: "Error",
-                                      message:"Something went wrong",
-                                      actionName: "Close",
-                                      iconData: Icons.error_outline_outlined,
-                                      iconColor: Colors.red,
-                                    );
-                                  }
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colorutils.userdetailcolor,
-                                    // gradient: LinearGradient(
-                                    //   colors: [
-                                    //     Colors.green.shade200,
-                                    //     Colors.blue.shade200
-                                    //   ], // Adjust colors to match your design
-                                    //   begin: Alignment.topLeft,
-                                    //   end: Alignment.bottomRight,
-                                    // ),
-                                    borderRadius: BorderRadius.circular(25.r),
-                                  ),
-                                  // width: 250.w,
-                                  height: 45.h,
-                                  child: Center(
-                                    child: Text(
-                                      'REGISTER',
-                                      style: GoogleFonts.roboto(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17.h,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                // resp['data']['message'] == "Leave Applied Successfully"
+                                if (resp['status'] == "ok") {
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(
+                                    builder: (context) {
+                                      return LoginPage();
+                                    },
+                                  ));
+                                  ProductAppPopUps.submit(
+                                    title: "Success",
+                                    message: resp['message'],
+                                    actionName: "Close",
+                                    iconData: Icons.done,
+                                    iconColor: Colors.green,
+                                  );
+                                } else {
+                                  ProductAppPopUps.submit(
+                                    title: "Error",
+                                    message: resp['message'],
+                                    actionName: "Close",
+                                    iconData: Icons.error_outline_outlined,
+                                    iconColor: Colors.red,
+                                  );
+                                }
+                              } else {
+                                ProductAppPopUps.submit(
+                                  title: "Error",
+                                  message: "Something went wrong",
+                                  actionName: "Close",
+                                  iconData: Icons.error_outline_outlined,
+                                  iconColor: Colors.red,
+                                );
+                              }
+                            },
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colorutils.userdetailcolor,
+                            // gradient: LinearGradient(
+                            //   colors: [
+                            //     Colors.green.shade200,
+                            //     Colors.blue.shade200
+                            //   ], // Adjust colors to match your design
+                            //   begin: Alignment.topLeft,
+                            //   end: Alignment.bottomRight,
+                            // ),
+                            borderRadius: BorderRadius.circular(25.r),
+                          ),
+                          // width: 250.w,
+                          height: 45.h,
+                          child: Center(
+                            child: Text(
+                              'REGISTER',
+                              style: GoogleFonts.roboto(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.h,
                               ),
-                            )),
-                        SizedBox(
-                          height: 40,
+                            ),
+                          ),
                         ),
-                      ],
+                      ),
+                    )),
+                    SizedBox(
+                      height: 40,
                     ),
-                  )
-                ],
-              ),
-            ),
-          )),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      )),
     );
   }
 }

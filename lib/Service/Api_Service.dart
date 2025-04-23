@@ -143,6 +143,40 @@ class ApiServices {
       throw Exception("Service Error Login Api");
     }
   }
+  ///Add Appointment
+  static Future<Map<String, dynamic>> addAppointment({
+    required String token,
+    required int doctor,
+    required String date,
+    required int patient,
+    required int slot,
+  }) async {
+    String url = "${ApiConstants.baseURL}${ApiConstants.addAppointment}";
+    print("Add Appointment---$url");
+    Map apiBody = {
+      "doctor": doctor,
+      "patient": patient,
+      "date": date,
+      "slot": slot,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Patient Queue Response------->${ request.body}');
+
+      request.headers.addAll(
+        {'Authorization': "Bearer $token", 'Content-Type': 'application/json'},
+      );
+      http.StreamedResponse response = await request.send();
+
+      var respString = await response.stream.bytesToString();
+      print('Patient Queue Response------->${respString}');
+
+      return json.decode(respString);
+    } catch (e) {
+      throw Exception("Service Error Login Api");
+    }
+  }
 
   ///DOCTOR LIST
   static Future<Map<String, dynamic>> doctorList({
@@ -184,7 +218,28 @@ class ApiServices {
     }
   }
 
-  ///Add Doctor
+  ///Assigned doctorPatients
+  static Future<Map<String, dynamic>> AssignedDoctorPatientList({
+    required String token,
+    required int patientId,
+  }) async {
+    String url = "${ApiConstants.baseURL}${ApiConstants.assignedDoctorAppointnmentList}$patientId/";
+    print("Assigned doctorPatientsList---$url");
+
+    try {
+      var request = http.Request('GET', Uri.parse(url));
+      request.headers.addAll({'Authorization': "Bearer $token"});
+      http.StreamedResponse response = await request.send();
+      print('Assigned doctorPatientsList----->${response}');
+
+      var respString = await response.stream.bytesToString();
+      return json.decode(respString);
+    } catch (e) {
+      throw Exception("Assigned doctorPatientsList");
+    }
+  }
+
+  ///AddDoctorToPatient
   static Future<Map<String, dynamic>> addDoctorToPatient({
     required String token,
     required int patientId,
@@ -216,6 +271,34 @@ class ApiServices {
       throw Exception("Service Error Login Api");
     }
   }
+  ///AddObservationt
+  static Future<Map<String, dynamic>> addObservation({
+    required String token,
+    required String observation,
+    required int patientId,
+    required int doctorId,
+  }) async {
+    String url =
+        "${ApiConstants.baseURL}${ApiConstants.addObservation}";
+    print(url);
+    Map apiBody = {
+      "doctor": doctorId,
+      "patient": patientId,
+      "observation": observation,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      request.headers.addAll(
+        {'Authorization': "Bearer $token", 'Content-Type': 'application/json'},
+      );
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      return json.decode(respString);
+    } catch (e) {
+      throw Exception("Service Error Login Api");
+    }
+  }
 
   ///Add Slot
   static Future<Map<String, dynamic>> addSlot({
@@ -230,6 +313,33 @@ class ApiServices {
         {'Authorization': "Bearer $token", 'Content-Type': 'application/json'},
       );
 
+      http.StreamedResponse response = await request.send();
+
+      var respString = await response.stream.bytesToString();
+
+      return json.decode(respString);
+    } catch (e) {
+      throw Exception("Service Error Login Api");
+    }
+  }
+
+  ///Add Slot to patient
+  static Future<Map<String, dynamic>> addSlotPatient({
+    required String token,
+    required String doctorName,
+    required String date,
+  }) async {
+    String url =
+        "${ApiConstants.baseURL}${ApiConstants.addPatient}?doctor_name=$doctorName&date=$date";
+    print("Request URL: $url");
+
+    try {
+      var request = http.Request('GET', Uri.parse(url));
+      request.headers.addAll({'Authorization': "Bearer $token"});
+
+      // request.headers.addAll(
+      //   {'Authorization': "Bearer $token", 'Content-Type': 'application/json'},
+      // );
       http.StreamedResponse response = await request.send();
 
       var respString = await response.stream.bytesToString();

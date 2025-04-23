@@ -9,6 +9,7 @@ import '../../JUNIOR_DOCTOR/bottom_navigation_Junior.dart';
 import '../../PATIENT/UI_PATIENT/bottom_Navigation_Patient.dart';
 import '../../utils/Constants.dart';
 import '../../utils/color_util.dart';
+import '../Common_Widget/connectivity.dart';
 import '../Common_Widget/popups.dart';
 import '../HomePage/home_widgets/bottom_Navigationbar.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -181,101 +182,117 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(height: 50.h),
                               GestureDetector(
                                 onTap: () async {
-                                  String user = _usernameController.text.trim();
-                                  String psw = _passwordController.text.trim();
-                                  if (user.isNotEmpty) {
-                                    if (psw.isNotEmpty) {
-                                      context.loaderOverlay.show();
+                                  checkInternet2(
+                                    context: context,
+                                    function: () async {
+                                      String user = _usernameController.text.trim();
+                                      String psw = _passwordController.text.trim();
+                                      if (user.isNotEmpty) {
+                                        if (psw.isNotEmpty) {
+                                          context.loaderOverlay.show();
 
-                                      await Get.find<UserAuthController>()
-                                          .fetchUserData(
+                                          await Get.find<UserAuthController>()
+                                              .fetchUserData(
                                               username: user, password: psw);
-                                      context.loaderOverlay.hide();
+                                          context.loaderOverlay.hide();
 
-                                      if (Get.find<UserAuthController>()
-                                          .isLoaded
-                                          .value) {
-                                        String role =
-                                            Get.find<UserAuthController>()
+                                          if (Get.find<UserAuthController>()
+                                              .isLoaded
+                                              .value) {
+                                            String role =
+                                                Get.find<UserAuthController>()
                                                     .loginData
                                                     .value
                                                     ?.data
                                                     ?.role ??
-                                                "";  String name =
-                                            Get.find<UserAuthController>()
+                                                    "";  String name =
+                                                Get.find<UserAuthController>()
                                                     .loginData
                                                     .value
                                                     ?.data
                                                     ?.name ??
-                                                ""; String token =
-                                            Get.find<UserAuthController>()
+                                                    ""; String token =
+                                                Get.find<UserAuthController>()
                                                     .loginData
                                                     .value
                                                     ?.data
                                                     ?.accessToken ??
-                                                "";
-                                        print("object$role");
-                                        if (role == "user") {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PageIndexNavigationPatient(tokenPatient: Get.find<UserAuthController>()
-                                                        .loginData
-                                                        .value
-                                                        ?.data
-                                                        ?.accessToken ??
-                                                        "", role:role, name: name,),
-                                              ));
-                                        } else if (role == "admin") {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PageIndexNavigationChief(role:role, name: name, token: token,),
-                                              ));
-                                        } else if (role == "junior_psychologist") {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PageIndexNavigationJunior(role:role, name: name, token: token,),
-                                              ));
-                                        }else if (role == "psychiatrist") {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PageIndexNavigationTherapist(role:role, name: name, token: token,),
-                                              ));
-                                        }
+                                                    "";
 
+                                                    int doctorId =
+                                                Get.find<UserAuthController>()
+                                                    .loginData
+                                                    .value
+                                                    ?.data
+                                                    ?.userId ??
+                                                    0;
+                                            print("object$role");
+                                            if (role == "user") {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PageIndexNavigationPatient(tokenPatient: Get.find<UserAuthController>()
+                                                            .loginData
+                                                            .value
+                                                            ?.data
+                                                            ?.accessToken ??
+                                                            "", role:role, name: name,),
+                                                  ));
+                                            } else if (role == "admin") {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PageIndexNavigationChief(role:role, name: name, token: token,),
+                                                  ));
+                                            } else if (role == "junior_psychologist" ) {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PageIndexNavigationJunior(role:role, name: name, token: token,),
+                                                  ));
+                                            }else if (role == "senior_psychologist" ||role == "psychiatrist") {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PageIndexNavigationTherapist(role:role, name: name, token: token, doctorId: doctorId,),
+                                                  ));
+                                            }
+
+                                            ProductAppPopUps.submit(
+                                              title: "SUCCESS",
+                                              message: "Login successful",
+                                              actionName: "Close",
+                                              iconData: Icons.done,
+                                              iconColor: Colors.green,
+                                            );
+                                          }
+                                        } else {
+                                          ProductAppPopUps.submit(
+                                            title: "FAILED",
+                                            message: "Please Enter your Password.",
+                                            actionName: "Close",
+                                            iconData: Icons.error_outline,
+                                            iconColor: Colors.red,
+                                          );
+                                        }
+                                      } else {
                                         ProductAppPopUps.submit(
-                                          title: "SUCCESS",
-                                          message: "Login successful",
+                                          title: "FAILED",
+                                          message: "Please Enter Your Username.",
                                           actionName: "Close",
-                                          iconData: Icons.done,
-                                          iconColor: Colors.green,
+                                          iconData: Icons.error_outline,
+                                          iconColor: Colors.red,
                                         );
                                       }
-                                    } else {
-                                      ProductAppPopUps.submit(
-                                        title: "FAILED",
-                                        message: "Please Enter your Password.",
-                                        actionName: "Close",
-                                        iconData: Icons.error_outline,
-                                        iconColor: Colors.red,
-                                      );
-                                    }
-                                  } else {
-                                    ProductAppPopUps.submit(
-                                      title: "FAILED",
-                                      message: "Please Enter Your Username.",
-                                      actionName: "Close",
-                                      iconData: Icons.error_outline,
-                                      iconColor: Colors.red,
-                                    );
-                                  }
+                                    },
+                                  );
+
+
+
                                 },
                                 child: Center(
                                     child: Padding(

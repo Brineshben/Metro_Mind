@@ -9,7 +9,6 @@ import '../../../../utils/color_util.dart';
 
 import '../../PATIENT/UI_PATIENT/Home_Screen/Activity.dart';
 import '../../UI/Common_Widget/appbar.dart';
-import '../../UI/HomePage/Patient_Details/patient_details.dart';
 import '../../UI/HomePage/home_widgets/DashList.dart';
 import '../../UI/HomePage/home_widgets/overallView.dart';
 import '../bottom_Navigation_Chief.dart';

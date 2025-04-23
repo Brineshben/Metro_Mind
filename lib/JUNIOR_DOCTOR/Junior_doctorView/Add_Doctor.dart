@@ -4,16 +4,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../Controller/Doctor_List_Controller.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import '../../Service/Api_Service.dart';
+import '../../UI/Common_Widget/connectivity.dart';
 import '../../UI/Common_Widget/popups.dart';
 import '../../UI/Register_Page/Register.dart';
 import '../../utils/color_util.dart';
 
 class AddDoctor extends StatefulWidget {
   final String token;
+
   const AddDoctor({
-    super.key, required this.token,
+    super.key,
+    required this.token,
   });
 
   @override
@@ -67,7 +70,6 @@ class _AddDoctorState extends State<AddDoctor> {
                   height: 30,
                 ),
 
-
                 SizedBox(
                   height: 50,
                 ),
@@ -76,7 +78,7 @@ class _AddDoctorState extends State<AddDoctor> {
                     Container(
                       margin: EdgeInsets.only(left: 15.w),
                       child: Text(
-                        'CREATE DOCTOR',
+                        'ADD DOCTOR',
                         style: GoogleFonts.roboto(
                             color: Colors.black,
                             fontSize: 18.h,
@@ -148,9 +150,7 @@ class _AddDoctorState extends State<AddDoctor> {
                   dropdownOptions: [
                     'psychiatrist',
                     'junior_psychologist',
-                    'Junior Psychologist',
                     'senior_psychologist',
-                    'Senior Psychologist'
                   ],
                 ),
                 buildTextField("Address", "assets/images/address-book.svg",
@@ -206,48 +206,56 @@ class _AddDoctorState extends State<AddDoctor> {
                   padding: const EdgeInsets.symmetric(horizontal: 30).w,
                   child: GestureDetector(
                     onTap: () async {
+                      checkInternet2(
+                        context: context,
+                        function: () async {
+                          if (_formKey.currentState!.validate()) {
+                            context.loaderOverlay.show();
 
-                      if (_formKey.currentState!.validate()) {
-                        Map<String, dynamic> resp =
-                            await ApiServices.doctorRegister(
-                                name: name.text,
-                                userName: username.text,
-                                email: email.text,
-                                mobileNumber: phoneNumber.text,
-                                password: password.text,
-                                age: age.text,
-                                gender: gender.text,
-                                occupation: occupation.text,
-                                address: address.text,
-                                education: education.text,
-                                role: dropdownController.text, token: widget.token);
-                        if (resp['status'] == "ok") {
-                          ProductAppPopUps.submit(
-                            title: "Success",
-                            message: resp['message'],
-                            actionName: "Close",
-                            iconData: Icons.done,
-                            iconColor: Colors.green,
-                          );
-                          Get.back();
-                        } else {
-                          ProductAppPopUps.submit(
-                            title: "Error",
-                            message: resp['message'],
-                            actionName: "Close",
-                            iconData: Icons.error_outline_outlined,
-                            iconColor: Colors.red,
-                          );
-                        }
-                      } else {
-                        ProductAppPopUps.submit(
-                          title: "Error",
-                          message: "Something went wrong",
-                          actionName: "Close",
-                          iconData: Icons.error_outline_outlined,
-                          iconColor: Colors.red,
-                        );
-                      }
+                            Map<String, dynamic> resp =
+                                await ApiServices.doctorRegister(
+                                    name: name.text,
+                                    userName: username.text,
+                                    email: email.text,
+                                    mobileNumber: phoneNumber.text,
+                                    password: password.text,
+                                    age: age.text,
+                                    gender: gender.text,
+                                    occupation: occupation.text,
+                                    address: address.text,
+                                    education: education.text,
+                                    role: dropdownController.text,
+                                    token: widget.token);
+                            context.loaderOverlay.hide();
+
+                            if (resp['status'] == "ok") {
+                              ProductAppPopUps.submit2Back(
+                                title: "Success",
+                                message: resp['message'],
+                                actionName: "Close",
+                                iconData: Icons.done,
+                                iconColor: Colors.green,
+                              );
+                            } else {
+                              ProductAppPopUps.submit(
+                                title: "Error",
+                                message: resp['message'],
+                                actionName: "Close",
+                                iconData: Icons.error_outline_outlined,
+                                iconColor: Colors.red,
+                              );
+                            }
+                          } else {
+                            ProductAppPopUps.submit(
+                              title: "Error",
+                              message: "Something went wrong",
+                              actionName: "Close",
+                              iconData: Icons.error_outline_outlined,
+                              iconColor: Colors.red,
+                            );
+                          }
+                        },
+                      );
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -266,7 +274,7 @@ class _AddDoctorState extends State<AddDoctor> {
                       height: 45.h,
                       child: Center(
                         child: Text(
-                          'CREATE DOCTOR',
+                          'ADD DOCTOR',
                           style: GoogleFonts.roboto(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
