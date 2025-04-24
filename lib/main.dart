@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:patient/UI/SplashScreen/splash.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:patient/utils/color_util.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
+import 'Roles_UI/UI/SplashScreen/splash.dart';
 import 'Service/controller_handling.dart';
-import 'UI/Login_Page/login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

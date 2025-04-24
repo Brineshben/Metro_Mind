@@ -29,6 +29,8 @@ class Data {
   String? role;
   String? accessToken;
   String? refreshToken;
+  String? patientId;
+  String? registeredDate;
 
   Data(
       {this.userId,
@@ -36,7 +38,9 @@ class Data {
         this.name,
         this.role,
         this.accessToken,
-        this.refreshToken});
+        this.refreshToken,
+        this.patientId,
+        this.registeredDate});
 
   Data.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -45,6 +49,8 @@ class Data {
     role = json['role'];
     accessToken = json['access_token'];
     refreshToken = json['refresh_token'];
+    patientId = json['patient_id'];
+    registeredDate = json['registered_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +61,8 @@ class Data {
     data['role'] = this.role;
     data['access_token'] = this.accessToken;
     data['refresh_token'] = this.refreshToken;
+    data['patient_id'] = this.patientId;
+    data['registered_date'] = this.registeredDate;
     return data;
   }
 }

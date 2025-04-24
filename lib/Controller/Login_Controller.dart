@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../Model/Login_Model.dart';
+import '../Roles_UI/UI/Common_Widget/popups.dart';
 import '../Service/Api_Service.dart';
-import '../UI/Common_Widget/popups.dart';
 import 'package:get/get.dart';
 
 class UserAuthController extends GetxController {
