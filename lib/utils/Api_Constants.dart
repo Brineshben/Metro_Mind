@@ -22,5 +22,9 @@ class ApiConstants {
   static String addPatient = "/appointment/slots/filter/";
   static String addAppointment = "/appointment/appointment/create/";
   static String assignedDoctorAppointnmentList = "/assign_doctor/doctor/patients/list/";
-  static String addObservation = "/assign_doctor/doctor/patients/list/";
+  static String addObservation = "/doctor_observations/observation/create/";
+  static String sheduleModel = "/doctor_observations/doctor-observations/";
+  static String juniorDashboard = "/counts/admin/dashboard/count/";
+  static String quotes = "/accounts/quotes";
+  static String medicineList = "/medicine/medicine/list/";
 }

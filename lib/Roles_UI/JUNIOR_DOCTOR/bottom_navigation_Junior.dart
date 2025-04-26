@@ -4,7 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:patient/Controller/Slot_Controller.dart';
 import '../../Controller/Doctor_List_Controller.dart';
+import '../../Controller/JuniorDashoard_Controller.dart';
 import '../../Controller/Patient_queue_Controller.dart';
+import '../../Controller/Quotes_Controller.dart';
+import '../../Controller/SheduleController.dart';
 import '../../utils/color_util.dart';
 import '../UI/Shedule_Page/shedule.dart';
 import 'Junior_doctorView/Doctor_List.dart';
@@ -19,7 +22,8 @@ class PageIndexNavigationJunior extends StatefulWidget {
   const PageIndexNavigationJunior({
     Key? key,
     required this.role,
-    required this.name, required this.token,
+    required this.name,
+    required this.token,
   }) : super(key: key);
 
   @override
@@ -38,11 +42,18 @@ class _PageIndexNavigationJuniorState extends State<PageIndexNavigationJunior> {
     Get.find<PatientQueueController>().patientData(widget.token);
     Get.find<SlotController>().SlotListData(widget.token);
     Get.find<DoctorListController>().doctorListData(widget.token);
+    Get.find<ScheduleController>().scheduleDataz(widget.token);
+    Get.find<QuotesController>().QuotesData(widget.token);
+    Get.find<JuniorDashboardController>().juniorData(widget.token);
 
     _screens = [
-      HomeScreenJunior(name: widget.name, role:widget.role, token: widget.token,),
+      HomeScreenJunior(
+        name: widget.name,
+        role: widget.role,
+        token: widget.token,
+      ),
       PatientSheduled(),
-      DoctorList(token:widget.token)
+      DoctorList(token: widget.token)
     ];
   }
 
@@ -97,9 +108,10 @@ class _PageIndexNavigationJuniorState extends State<PageIndexNavigationJunior> {
                 ),
               ),
               label: 'PatientList',
-            ),  BottomNavigationBarItem(
+            ),
+            BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                "assets/images/patient.svg",
+                "assets/images/stethoscope.svg",
                 width: 25.w,
                 height: 25.h,
                 color: Colors.grey,

@@ -7,6 +7,7 @@ import '../../../../utils/Constants.dart';
 import '../../../../utils/color_util.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 import '../../../Controller/Patient_queue_Controller.dart';
+import '../../../Controller/Quotes_Controller.dart';
 import '../../CHIEF_DOCTOR/Chiefdoctor_View/DashChief.dart';
 import '../../UI/Common_Widget/appbar.dart';
 import '../../UI/HomePage/home_widgets/DashList.dart';
@@ -32,32 +33,6 @@ class _HomeScreenJuniorState extends State<HomeScreenJunior> {
   //   super.initState();
   // }
 
-  List<DashboardSessions> sessions = [
-    DashboardSessions(
-        title: "Patient Sevierity",
-        time: "+48 this month",
-        instructor: "Dr. Sara ben",
-        Count: '10',
-        emergency: true),
-    DashboardSessions(
-        title: "Active Therapist",
-        time: "All India",
-        instructor: "7 day trend :Positive",
-        Count: '32',
-        emergency: false),
-    DashboardSessions(
-        title: "Monthly Sessions",
-        time: "+12% this month",
-        instructor: "Treatment plan",
-        Count: '1900',
-        emergency: false),
-    DashboardSessions(
-        title: "System Usage",
-        time: "2 New",
-        instructor: "Home Work",
-        Count: '10',
-        emergency: false),
-  ];
   List<TicketsData> myTicketsList = [
     TicketsData(name: "Total Patients", number: "1"),
     TicketsData(name: "Today Sessions", number: "2"),
@@ -296,14 +271,19 @@ class _HomeScreenJuniorState extends State<HomeScreenJunior> {
                     ],
                   ),
                 ),
-                ThoughtOfTheDayWidget(
-                  text:
-                      "Wherever the art of medicine is loved, there is also a love of humanity.",
-                  svgPath: "assets/images/Group.svg",
-                  onReadMore: () {
-                    print("Read More Clicked!");
-                  },
-                ),
+                Obx(() {
+                  final controller = Get.find<QuotesController>();
+                  return ThoughtOfTheDayWidget(
+                    text: controller.quotesData.value?.quote ??
+                        "Wherever the art of medicine is loved, there is also a love of humanity.",
+                    svgPath: "assets/images/Group.svg",
+                    onReadMore: () {
+                      print("Read More Clicked!");
+                    }, author: "-${controller.quotesData.value?.author ?? ""}",
+                  );
+                }),
+
+
                 Padding(
                   padding: EdgeInsets.only(top: 15.h, left: 15.w, right: 10.w),
                   child: Row(
@@ -323,8 +303,7 @@ class _HomeScreenJuniorState extends State<HomeScreenJunior> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Dashchief(
-                    sessions: sessions,
-                    token: widget.token,
+                    token: widget.token, emergency: true,
                   ),
                 ),
               ],

@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../../../Controller/AssignedDoctorPatients_Controller.dart';
+import '../../../Controller/Quotes_Controller.dart';
 import '../../../utils/Constants.dart';
 import '../ChatScreen/Chat.dart';
 import '../Common_Widget/appbar.dart';
@@ -86,14 +87,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                ThoughtOfTheDayWidget(
-                  text:
-                      "Wherever the art of medicine is loved, there is also a love of humanity.",
-                  svgPath: "assets/images/Group.svg",
-                  onReadMore: () {
-                    print("Read More Clicked!");
-                  },
-                ),
+                Obx(() {
+                  final controller = Get.find<QuotesController>();
+                  return ThoughtOfTheDayWidget(
+                    text: controller.quotesData.value?.quote ??
+                        "Wherever the art of medicine is loved, there is also a love of humanity.",
+                    svgPath: "assets/images/Group.svg",
+                    onReadMore: () {
+                      print("Read More Clicked!");
+                    }, author: "-${controller.quotesData.value?.author ?? "Brinesh ben"}",
+                  );
+                }),
                 Container(
                   padding: EdgeInsets.all(16),
                   child: Row(
@@ -113,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: PatientsList(name: widget.name, role: widget.role, token:widget.token, ),
+                  child: PatientsList(name: widget.name, role: widget.role, token:widget.token, doctorID:  widget.doctorId, ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(

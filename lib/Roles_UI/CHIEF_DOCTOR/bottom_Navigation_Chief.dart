@@ -2,8 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import '../../Controller/Quotes_Controller.dart';
+import '../../Controller/SheduleController.dart';
 import '../../utils/color_util.dart';
-import '../UI/HomePage/home_widgets/Medicine.dart';
+import '../UI/Medicine/Medicine.dart';
 import '../UI/Shedule_Page/shedule.dart';
 import 'Ai_Engine/Ai_Engine_Page.dart';
 import 'Chiefdoctor_View/Home_Chief.dart';
@@ -30,6 +34,9 @@ class _PageIndexNavigationChiefState extends State<PageIndexNavigationChief> wit
   @override
   void initState() {
     super.initState();
+    Get.find<ScheduleController>().scheduleDataz(widget.token);
+    Get.find<QuotesController>().QuotesData(widget.token);
+
     _screens = [
       HomeScreenChief(role:widget.role, name: widget.name, token: widget.token,),
       PatientSheduled(),

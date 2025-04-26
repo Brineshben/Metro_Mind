@@ -26,7 +26,7 @@ class _ChatScreenState extends State<ChatScreen> {
   List<types.Message> _messages = [];
   final _user = types.User(id: '1');
   final _otherUser = types.User(id: '2');
-  final String _apiUrl = "http://192.168.1.24:8000/accounts/psychiatrist-chat/";
+  final String _apiUrl = "https://metromind-web-backend-euh0gkdwg9deaudd.uaenorth-01.azurewebsites.net/accounts/psychiatrist-chat/";
 
   String? sessionId; // Store session ID across messages
 

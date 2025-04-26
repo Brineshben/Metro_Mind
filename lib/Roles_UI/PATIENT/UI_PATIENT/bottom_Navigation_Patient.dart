@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
+import '../../../Controller/Quotes_Controller.dart';
 import '../../../utils/color_util.dart';
 import '../../UI/ChatScreen/Chat.dart';
 import '../../UI/Shedule_Page/shedule.dart';
@@ -31,6 +34,8 @@ class _PageIndexNavigationPatientState
   @override
   void initState() {
     super.initState();
+    Get.find<QuotesController>().QuotesData(widget.tokenPatient);
+
     _screens = [
       HomeScreenPatient(name:widget.name, role: widget.role, token: widget.tokenPatient, date: widget.date, patientId: widget.patientId,),
       ChatScreen(patientToken:widget.tokenPatient,),

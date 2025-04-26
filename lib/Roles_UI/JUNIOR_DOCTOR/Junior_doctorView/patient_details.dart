@@ -16,7 +16,6 @@ import '../../UI/Common_Widget/pdfview.dart';
 import '../../UI/Common_Widget/popups.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-
 class PatientDetails extends StatefulWidget {
   final String name;
   final String token;
@@ -245,6 +244,7 @@ class _PatientDetailsState extends State<PatientDetails> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         body: Container(
+          height: double.infinity,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -458,30 +458,45 @@ class _PatientDetailsState extends State<PatientDetails> {
                         ],
                       ),
                 fromDate != 'YYYY-MM-DD'
-                    ? Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 10.h, left: 20.w, right: 10.w),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Select Slots",
-                                  style: GoogleFonts.shanti(
-                                    color: Colors.blueGrey,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 18.h,
+                    ? GetX<SlottopateientController>(
+                        builder: (SlottopateientController controller) {return
+
+                       controller.slotToPatientList.isEmpty?
+
+                       Padding(
+                         padding: const EdgeInsets.only(top: 25),
+                         child: Center(
+                             child: const Text(
+                             "Oops.No Slot Available for particular doctor on particular date",
+                             style: TextStyle(
+                             color: Colors.red,
+                             fontStyle: FontStyle.italic),
+                            )),
+                       ):
+
+                          Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: 10.h, left: 20.w, right: 10.w),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Please Select Slot",
+                                    style: GoogleFonts.shanti(
+                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 18.h,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: GetX<SlottopateientController>(
-                                  builder: (controller) {
-                                return Wrap(
+                            Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Wrap(
                                   spacing: 8,
                                   runSpacing: 8,
                                   children: List.generate(
@@ -519,69 +534,70 @@ class _PatientDetailsState extends State<PatientDetails> {
                                       ),
                                     ),
                                   ),
-                                );
-                              })),
-                        ],
-                      )
-                    : SizedBox(),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.h, left: 20.w, right: 10.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Add Observation",
-                        style: GoogleFonts.shanti(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 18.h,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 20.w,
-                    top: 5.h,
-                    right: 20.w,
-                    bottom: 5.h,
-                  ),
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                                )),
+                          ],
+                        );
+                      })
+                    : SizedBox()
 
-                    maxLength: 100,
-                    // controller: _Remarkscontroller,
-                    validator: (val) => val!.trim().isEmpty
-                        ? 'Please Enter Observation.'
-                        : null,
-                    decoration: InputDecoration(
-                        hintStyle: const TextStyle(color: Colors.black26),
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 20.w),
-                        hintText: " Enter Observation   ",
-                        border: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10.0),
-                          ).r,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Colorutils.userdetailcolor, width: 1.0),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)).r,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Colorutils.userdetailcolor, width: 1.0),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10.0)).r,
-                        ),
-                        fillColor: Colors.white,
-                        filled: true),
-                    maxLines: 5,
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(top: 10.h, left: 20.w, right: 10.w),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text(
+                //         "Add Observation",
+                //         style: GoogleFonts.shanti(
+                //           color: Colors.blueGrey,
+                //           fontWeight: FontWeight.w900,
+                //           fontSize: 18.h,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Padding(
+                //   padding: EdgeInsets.only(
+                //     left: 20.w,
+                //     top: 5.h,
+                //     right: 20.w,
+                //     bottom: 5.h,
+                //   ),
+                //   child: TextFormField(
+                //     autovalidateMode: AutovalidateMode.onUserInteraction,
+                //
+                //     maxLength: 100,
+                //     // controller: _Remarkscontroller,
+                //     validator: (val) => val!.trim().isEmpty
+                //         ? 'Please Enter Observation.'
+                //         : null,
+                //     decoration: InputDecoration(
+                //         hintStyle: const TextStyle(color: Colors.black26),
+                //         contentPadding: EdgeInsets.symmetric(
+                //             vertical: 10.h, horizontal: 20.w),
+                //         hintText: " Enter Observation   ",
+                //         border: OutlineInputBorder(
+                //           borderRadius: const BorderRadius.all(
+                //             Radius.circular(10.0),
+                //           ).r,
+                //         ),
+                //         enabledBorder: OutlineInputBorder(
+                //           borderSide: const BorderSide(
+                //               color: Colorutils.userdetailcolor, width: 1.0),
+                //           borderRadius:
+                //               const BorderRadius.all(Radius.circular(10)).r,
+                //         ),
+                //         focusedBorder: OutlineInputBorder(
+                //           borderSide: const BorderSide(
+                //               color: Colorutils.userdetailcolor, width: 1.0),
+                //           borderRadius:
+                //               const BorderRadius.all(Radius.circular(10.0)).r,
+                //         ),
+                //         fillColor: Colors.white,
+                //         filled: true),
+                //     maxLines: 5,
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -617,20 +633,23 @@ class _PatientDetailsState extends State<PatientDetails> {
                   child: Center(
                     child: GestureDetector(
                       onTap: () async {
-                        if(selectedIndex!= null) {
+                        if (selectedIndex != null) {
                           context.loaderOverlay.show();
 
                           Map<String, dynamic> resp =
-                            await ApiServices.addAppointment(
-                                token: widget.token,
-                                doctor: data?.id ?? 0,
-                                date: fromDate,
-                                patient: widget.id,
-                                slot: Get.find<SlottopateientController>().slotToPatientList.value[selectedIndex!]?.id ?? 0
-                            );
+                              await ApiServices.addAppointment(
+                                  token: widget.token,
+                                  doctor: data?.id ?? 0,
+                                  date: fromDate,
+                                  patient: widget.id,
+                                  slot: Get.find<SlottopateientController>()
+                                          .slotToPatientList
+                                          .value[selectedIndex!]
+                                          ?.id ??
+                                      0);
                           await Get.find<DoctorToPatientController>()
                               .doctorToPatientData(
-                              widget.token, data?.id ?? 0, widget.id);
+                                  widget.token, data?.id ?? 0, widget.id);
                           context.loaderOverlay.hide();
 
                           if (resp['status'] == "ok") {
@@ -650,8 +669,15 @@ class _PatientDetailsState extends State<PatientDetails> {
                               iconColor: Colors.red,
                             );
                           }
+                        }else {
+                          ProductAppPopUps.submit(
+                            title: "Error",
+                            message:"Please Select the Doctor Slot to proceed",
+                            actionName: "Close",
+                            iconData: Icons.error_outline_outlined,
+                            iconColor: Colors.red,
+                          );
                         }
-
                       },
                       child: Container(
                         width: 250.w,

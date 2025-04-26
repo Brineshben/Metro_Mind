@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import '../../../Controller/Doctor_List_Controller.dart';
 import '../../../Service/Api_Service.dart';
 import '../../../utils/color_util.dart';
 import '../../UI/Common_Widget/connectivity.dart';
@@ -209,6 +210,8 @@ class _AddDoctorState extends State<AddDoctor> {
                       checkInternet2(
                         context: context,
                         function: () async {
+                          FocusScope.of(context).unfocus();
+
                           if (_formKey.currentState!.validate()) {
                             context.loaderOverlay.show();
 
@@ -229,6 +232,8 @@ class _AddDoctorState extends State<AddDoctor> {
                             context.loaderOverlay.hide();
 
                             if (resp['status'] == "ok") {
+                              Get.find<DoctorListController>().doctorListData(widget.token);
+
                               ProductAppPopUps.submit2Back(
                                 title: "Success",
                                 message: resp['message'],

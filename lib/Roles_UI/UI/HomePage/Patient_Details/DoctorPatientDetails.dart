@@ -7,14 +7,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../../../Service/Api_Service.dart';
 import '../../../../utils/color_util.dart';
+import '../../Common_Widget/connectivity.dart';
 import '../../Common_Widget/pdfview.dart';
 import '../../Common_Widget/popups.dart';
-import '../home_widgets/Medicine.dart';
-
+import '../../Medicine/Medicine.dart';
 
 class DoctorsPatientDetails extends StatefulWidget {
   final String role;
@@ -23,6 +23,7 @@ class DoctorsPatientDetails extends StatefulWidget {
   final String patientId;
   final int id;
   final int age;
+  final int doctorID;
   final String gender;
   final String email;
   final String phone;
@@ -30,18 +31,21 @@ class DoctorsPatientDetails extends StatefulWidget {
   final String severity;
   final String diagnosissummary;
 
-  const DoctorsPatientDetails({Key? key,
-    required this.name,
-    required this.age,
-    required this.gender,
-    required this.email,
-    required this.phone,
-    required this.disease,
-    required this.severity,
-    required this.diagnosissummary,
-    required this.patientId,
-    required this.token,
-    required this.id, required this.role})
+  const DoctorsPatientDetails(
+      {Key? key,
+      required this.name,
+      required this.age,
+      required this.gender,
+      required this.email,
+      required this.phone,
+      required this.disease,
+      required this.severity,
+      required this.diagnosissummary,
+      required this.patientId,
+      required this.token,
+      required this.id,
+      required this.role,
+      required this.doctorID})
       : super(key: key);
 
   @override
@@ -49,10 +53,8 @@ class DoctorsPatientDetails extends StatefulWidget {
 }
 
 class _DoctorsPatientDetailsState extends State<DoctorsPatientDetails> {
-
-
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _observationController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -73,146 +75,146 @@ class _DoctorsPatientDetailsState extends State<DoctorsPatientDetails> {
               end: Alignment.bottomCenter,
             ),
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: 48.h, bottom: 5.h, left: 20.w, right: 10.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 50.h,
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.9),
-                              border: Border.all(
-                                color: Colors.blue, // Border color
-                                width: 0.1, // Border width
-                              ),
-                              // boxShadow: [
-                              //   BoxShadow(
-                              //     color: Colors.grey.withOpacity(0.3),
-                              //     blurRadius: 1,
-                              //     spreadRadius: 0,
-                              //   ),
-                              // ],
-                              borderRadius: BorderRadius
-                                  .circular(15)
-                                  .r),
-                          child: Icon(
-                            Icons.arrow_back_ios_sharp,
-                            color: Colors.grey,
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: 48.h, bottom: 5.h, left: 20.w, right: 10.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 50.h,
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.9),
+                                border: Border.all(
+                                  color: Colors.blue, // Border color
+                                  width: 0.1, // Border width
+                                ),
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //     color: Colors.grey.withOpacity(0.3),
+                                //     blurRadius: 1,
+                                //     spreadRadius: 0,
+                                //   ),
+                                // ],
+                                borderRadius: BorderRadius.circular(15).r),
+                            child: Icon(
+                              Icons.arrow_back_ios_sharp,
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          "PATIENT DETAILS",
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            "PATIENT DETAILS",
+                            style: GoogleFonts.shanti(
+                              color: Colors.blueGrey,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20.h,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  PatientCard(
+                    email: widget.email,
+                    age: widget.age,
+                    patientId: widget.patientId,
+                    name: widget.name,
+                    phone: widget.phone,
+                    sevirity: widget.severity,
+                    disease: widget.disease,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: 5.h, bottom: 5.h, left: 20.w, right: 10.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "AI Diagnosis Report",
                           style: GoogleFonts.shanti(
                             color: Colors.blueGrey,
                             fontWeight: FontWeight.w900,
-                            fontSize: 20.h,
+                            fontSize: 18.h,
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                PatientCard(
-                  email: widget.email,
-                  age: widget.age,
-                  patientId: widget.patientId,
-                  name: widget.name,
-                  phone: widget.phone,
-                  sevirity: widget.severity,
-                  disease: widget.disease,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: 5.h, bottom: 5.h, left: 20.w, right: 10.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "AI Diagnosis Report",
-                        style: GoogleFonts.shanti(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 18.h,
+                  AiReport(
+                      summary: widget.diagnosissummary, details: "details"),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(top: 10.h, left: 20.w, right: 10.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Add Observation",
+                          style: GoogleFonts.shanti(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 18.h,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                AiReport(summary: widget.diagnosissummary, details: "details"),
-
-                Padding(
-                  padding: EdgeInsets.only(top: 10.h, left: 20.w, right: 10.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Add Observation",
-                        style: GoogleFonts.shanti(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 18.h,
-                        ),
-                      ),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 20.w,
+                      top: 5.h,
+                      right: 20.w,
+                      bottom: 5.h,
+                    ),
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 100,
+                      controller: _observationController,
+                      validator: (val) => val!.trim().isEmpty
+                          ? 'Please Enter Observation.'
+                          : null,
+                      decoration: InputDecoration(
+                          hintStyle: const TextStyle(color: Colors.black26),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.h, horizontal: 20.w),
+                          hintText: " Enter Observation   ",
+                          border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10.0),
+                            ).r,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colorutils.userdetailcolor, width: 1.0),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)).r,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colorutils.userdetailcolor, width: 1.0),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10.0)).r,
+                          ),
+                          fillColor: Colors.white,
+                          filled: true),
+                      maxLines: 5,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 20.w,
-                    top: 5.h,
-                    right: 20.w,
-                    bottom: 5.h,
-                  ),
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-
-                    maxLength: 100,
-                    controller: _observationController,
-                    validator: (val) =>
-                    val!.trim().isEmpty
-                        ? 'Please Enter Observation.'
-                        : null,
-                    decoration: InputDecoration(
-                        hintStyle: const TextStyle(color: Colors.black26),
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 20.w),
-                        hintText: " Enter Observation   ",
-                        border: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10.0),
-                          ).r,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colorutils.userdetailcolor, width: 1.0),
-                          borderRadius:
-                          const BorderRadius.all(Radius.circular(10)).r,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Colorutils.userdetailcolor, width: 1.0),
-                          borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)).r,
-                        ),
-                        fillColor: Colors.white,
-                        filled: true),
-                    maxLines: 5,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -243,52 +245,87 @@ class _DoctorsPatientDetailsState extends State<DoctorsPatientDetails> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-              widget.role != "psychiatrist"  ?GestureDetector(
-                  child: Center(
-                    child: GestureDetector(
-
-                        onTap:
-                        () async {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                                return Medicine();
-                              },));
-                        },
-                      child: Container(
-                        width: 180.w,
-                        height: 45.h,
-
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30.r),
-                          color: Colorutils.userdetailcolor,
-
-                        ),
-                        // width: 250.w,
+                widget.role != "psychiatrist"
+                    ? GestureDetector(
                         child: Center(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'ADD MEDICINE',
-                                style: GoogleFonts.inter(
-                                    fontSize: 16.h,
-                                    color: Colors.white
+                          child: GestureDetector(
+                            onTap: () async {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return Medicine();
+                                },
+                              ));
+                            },
+                            child: Container(
+                              width: 180.w,
+                              height: 45.h,
+
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30.r),
+                                color: Colorutils.userdetailcolor,
+                              ),
+                              // width: 250.w,
+                              child: Center(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'ADD MEDICINE',
+                                      style: GoogleFonts.inter(
+                                          fontSize: 16.h, color: Colors.white),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                ): SizedBox(),
+                      )
+                    : SizedBox(),
                 SizedBox(
                   width: 10,
                 ),
                 GestureDetector(
                   child: Center(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () async {
+                        checkInternet2(
+                          context: context,
+                          function: () async {
+                            FocusScope.of(context).unfocus();
+
+                            if (_formKey.currentState!.validate()) {
+                              context.loaderOverlay.show();
+
+                              Map<String, dynamic> resp =
+                                  await ApiServices.addObservation(
+                                      token: widget.token,
+                                      observation: _observationController.text,
+                                      patientId: widget.id,
+                                      doctorId: widget.doctorID);
+                              context.loaderOverlay.hide();
+
+                              if (resp['status'] == "ok") {
+                                ProductAppPopUps.submit2Back(
+                                  title: "Success",
+                                  message: resp['message'],
+                                  actionName: "Close",
+                                  iconData: Icons.done,
+                                  iconColor: Colors.green,
+                                );
+                              } else {
+                                ProductAppPopUps.submit(
+                                  title: "Error",
+                                  message: resp['message'],
+                                  actionName: "Close",
+                                  iconData: Icons.error_outline_outlined,
+                                  iconColor: Colors.red,
+                                );
+                              }
+                            } else {}
+                          },
+                        );
+                      },
                       child: Container(
                         width: 180.w,
                         height: 45.h,
@@ -349,10 +386,7 @@ class PatientCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final width = MediaQuery.of(context).size.width;
 
     return Center(
       child: Container(
@@ -388,7 +422,7 @@ class PatientCard extends StatelessWidget {
                       color: Colors.red,
                     ),
                     padding:
-                    EdgeInsets.symmetric(vertical: 3.h, horizontal: 8.w),
+                        EdgeInsets.symmetric(vertical: 3.h, horizontal: 8.w),
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 10, right: 10, top: 3, bottom: 3),
@@ -444,10 +478,7 @@ class AiReport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final width = MediaQuery.of(context).size.width;
 
     return Center(
       child: Container(
@@ -503,8 +534,7 @@ class AiReport extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                        const FullScreenPdfViewer(
+                        builder: (context) => const FullScreenPdfViewer(
                           assetPath: 'assets/images/androidSDK (1).pdf',
                         ),
                       ),
@@ -516,7 +546,7 @@ class AiReport extends StatelessWidget {
                       color: Colorutils.userdetailcolor,
                     ),
                     padding:
-                    EdgeInsets.symmetric(vertical: 3.h, horizontal: 8.w),
+                        EdgeInsets.symmetric(vertical: 3.h, horizontal: 8.w),
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 10, right: 10, top: 3, bottom: 3),
@@ -544,7 +574,7 @@ class AiReport extends StatelessWidget {
                       color: Colorutils.userdetailcolor,
                     ),
                     padding:
-                    EdgeInsets.symmetric(vertical: 3.h, horizontal: 8.w),
+                        EdgeInsets.symmetric(vertical: 3.h, horizontal: 8.w),
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 10, right: 10, top: 3, bottom: 3),

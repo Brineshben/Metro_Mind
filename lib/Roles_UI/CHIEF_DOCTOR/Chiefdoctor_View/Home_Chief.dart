@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../utils/Constants.dart';
 import '../../../../utils/color_util.dart';
 
+import '../../../Controller/Quotes_Controller.dart';
 import '../../PATIENT/UI_PATIENT/Home_Screen/Activity.dart';
 import '../../UI/Common_Widget/appbar.dart';
 import '../../UI/HomePage/home_widgets/DashList.dart';
@@ -29,13 +33,6 @@ class HomeScreenChief extends StatefulWidget {
 
 class _HomeScreenChiefState extends State<HomeScreenChief> {
 
-
-  List<DashboardSessions> sessions = [
-    DashboardSessions(title: "Patient Sevierity", time: "+48 this month", instructor: "Dr. Sara ben", Count: '10', emergency: false),
-    DashboardSessions(title: "Active Therapist", time: "All India", instructor: "7 day trend :Positive", Count: '32', emergency: false),
-    DashboardSessions(title: "Monthly Sessions", time: "+12% this month", instructor: "Treatment plan", Count: '1900', emergency: false),
-    DashboardSessions(title: "System Usage", time: "2 New", instructor: "Home Work", Count: '10', emergency: false),
-  ];
   List<TicketsData> myTicketsList = [
     TicketsData(name: "Total Patients", number: "1"),
     TicketsData(name: "Today Sessions", number: "2"),
@@ -267,22 +264,32 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                     ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: (){
-                    openWhatsAppChat(
-                      phoneNumber: '7010871411',
-                      message: 'Hello from Flutter!',
-                    );                  },
-                  child: ThoughtOfTheDayWidget(
-                    text:
-                    "Wherever the art of medicine is loved, there is also a love of humanity.",
+                // GestureDetector(
+                //   onTap: (){
+                //     openWhatsAppChat(
+                //       phoneNumber: '7010871411',
+                //       message: 'Hello from Flutter!',
+                //     );                  },
+                //   child: ThoughtOfTheDayWidget(
+                //     text:
+                //     "Wherever the art of medicine is loved, there is also a love of humanity.",
+                //     svgPath: "assets/images/Group.svg",
+                //     onReadMore: () {
+                //       print("Read More Clicked!");
+                //     },
+                //   ),
+                // ),
+                Obx(() {
+                  final controller = Get.find<QuotesController>();
+                  return ThoughtOfTheDayWidget(
+                    text: controller.quotesData.value?.quote ??
+                        "Wherever the art of medicine is loved, there is also a love of humanity.",
                     svgPath: "assets/images/Group.svg",
                     onReadMore: () {
                       print("Read More Clicked!");
-                    },
-                  ),
-                ),
-
+                    }, author: "-${controller.quotesData.value?.author ?? "Brinesh ben"}",
+                  );
+                }),
                 Padding(
                   padding: EdgeInsets.only(
                       top: 15.h, left: 15.w, right: 10.w),
@@ -302,7 +309,7 @@ class _HomeScreenChiefState extends State<HomeScreenChief> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child:Dashchief(sessions: sessions, token: '',),
+                  child:Dashchief( token: '', emergency: true,),
                 ),
 
 

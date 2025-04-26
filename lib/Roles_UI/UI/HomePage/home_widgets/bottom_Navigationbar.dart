@@ -95,11 +95,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:patient/utils/color_util.dart';
 
+import '../../../../Controller/SheduleController.dart';
 import '../../../PATIENT/UI_PATIENT/Chat_Patient/Chat_PAtient.dart';
 import '../../AppintmentsPage/Appointments.dart';
 
+import '../../Assesment_therapist/Assesment_Page.dart';
 import '../../Shedule_Page/shedule.dart';
 import '../home_screen.dart';
 
@@ -123,10 +127,12 @@ class _PageIndexNavigationTherapistState extends State<PageIndexNavigationTherap
   @override
   void initState() {
     super.initState();
+    Get.find<ScheduleController>().scheduleDataz(widget.token);
+
     _screens = [
       HomeScreen(role: widget.role, name: widget.name, token: widget.token, doctorId: widget.doctorId,),
       PatientSheduled(),
-      AppointmentsScreen(),
+      AssesmentPage(),
 
       ChatListPage()
 

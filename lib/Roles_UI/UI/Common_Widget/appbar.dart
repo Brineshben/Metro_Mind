@@ -253,6 +253,7 @@ class UserDetails extends StatelessWidget {
 
 class ThoughtOfTheDayWidget extends StatelessWidget {
   final String text;
+  final String author;
   final String svgPath;
   final VoidCallback? onReadMore;
 
@@ -260,7 +261,7 @@ class ThoughtOfTheDayWidget extends StatelessWidget {
     Key? key,
     required this.text,
     required this.svgPath,
-    this.onReadMore,
+    this.onReadMore, required this.author,
   }) : super(key: key);
 
   @override
@@ -271,6 +272,7 @@ class ThoughtOfTheDayWidget extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Container(
+            width: double.infinity,
             padding: EdgeInsets.all(30),
             decoration: BoxDecoration(
               color: Colors.amber[100],
@@ -285,6 +287,18 @@ class ThoughtOfTheDayWidget extends StatelessWidget {
                       fontSize: 15,
                       color: Colors.grey[800],
                       fontStyle: FontStyle.italic),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      author,
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey[800],
+                          fontStyle: FontStyle.italic),
+                    ),
+                  ],
                 ),
                 // InkWell(
                 //   onTap: onReadMore,

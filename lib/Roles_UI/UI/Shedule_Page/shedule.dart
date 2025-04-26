@@ -17,23 +17,6 @@ class PatientSheduled extends StatelessWidget {
           backgroundColor: Colors.white,
           body: Column(
             children: [
-              // Padding(
-              //   padding: EdgeInsets.only(top: 25.h, bottom: 25.h, left: 20.w, right: 10.w),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Text(
-              //         "PATIENT LIST ",
-              //         style: GoogleFonts.shanti(
-              //           color: Colors.blueGrey,
-              //           fontWeight: FontWeight.w900,
-              //           fontSize: 20.h,
-              //         ),
-              //       ),
-              //
-              //     ],
-              //   ),
-              // ),
               Padding(
                 padding:  EdgeInsets.only(left: 15,right: 15,top: 25.h),
                 child: Container(

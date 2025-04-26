@@ -5,30 +5,15 @@ import '../../../../utils/Constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 
+import '../../../Controller/JuniorDashoard_Controller.dart';
 import '../../../Controller/Patient_queue_Controller.dart';
 import '../../../utils/color_util.dart';
-class DashboardSessions {
 
-  final bool emergency;
-  final String title;
-  final String Count;
-  final String time;
-  final String instructor;
-
-  DashboardSessions({
-    required this.emergency,
-    required this.title,
-    required this.Count,
-    required this.time,
-    required this.instructor,
-  });
-}
 class Dashchief extends StatefulWidget {
   final String token;
+  final bool emergency;
 
-  final List<DashboardSessions> sessions;
-
-  const Dashchief({super.key, required this.sessions, required this.token});
+  const Dashchief({super.key, required this.token, required this.emergency});
 
   @override
   State<Dashchief> createState() => _DashchiefState();
@@ -36,47 +21,12 @@ class Dashchief extends StatefulWidget {
 
 class _DashchiefState extends State<Dashchief> {
 
-  final List<Map<String, String>> doctors = [
-    {
-      "name": "Arun",
-      "position": "ID:678",
-      "image": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.rawpixel.com%2Fsearch%2Fpatient&psig=AOvVaw3wqk1nLkngaIv-l9vk_dqj&ust=1744276828034000&source=images&cd=vfe&opi=89978449&ved=2ahUKEwjk6YjXz8qMAxWAQGwGHSPSKigQjRx6BAgAEBk"
-
-    },
-    {
-      "name": "Priya",
-      "position": "ID:679",
-      "image": "https://via.placeholder.com/150"
-    },
-    {
-      "name": "Mark Johnson",
-      "position": "ID:67",
-      "image": "https://via.placeholder.com/150"
-    }, {
-      "name": "Johnson",
-      "position": "ID:67",
-      "image": "https://via.placeholder.com/150"
-    }, {
-      "name": "DrSOM",
-      "position": "ID:67",
-      "image": "https://via.placeholder.com/150"
-    }, {
-      "name": "Dr. Mark Johnson",
-      "position": "ID:67",
-      "image": "https://via.placeholder.com/150"
-    }, {
-      "name": "Dr. Mark Johnson",
-      "position": "ID:67",
-      "image": "https://via.placeholder.com/150"
-    }, {
-      "name": "Dr. Mark Johnson",
-      "position": "ID:67",
-      "image": "https://via.placeholder.com/150"
-    },
-  ];
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    final  controller= Get.find<JuniorDashboardController>();
+
+    return Obx(()=>
+        GridView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(10).w,
@@ -86,9 +36,8 @@ class _DashchiefState extends State<Dashchief> {
         crossAxisSpacing: 10.w,
         childAspectRatio: 1.2, // Adjust for width/height ratio
       ),
-      itemCount: widget.sessions.length,
+      itemCount: controller.juniorList.length,
       itemBuilder: (context, index) {
-        final session = widget.sessions[index];
         return GestureDetector(
           onTap: () {
             // Handle tap
@@ -112,7 +61,7 @@ class _DashchiefState extends State<Dashchief> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  session.title.toUpperCase(),
+                  controller.juniorList[index]?.key?.toUpperCase() ?? " ",
                   style: GoogleFonts.nunito(
                     color: Colorutils.userdetailcolor,
                     fontWeight: FontWeight.w600,
@@ -120,23 +69,23 @@ class _DashchiefState extends State<Dashchief> {
                   ),
                 ),
                 Text(
-                  session.Count,
+                  controller.juniorList[index]?.value.toString() ?? "0",
                   style: GoogleFonts.nunito(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.w900,
-                    fontSize: 25.h,
+                    fontSize: 30.h,
                   ),
                 ),
-                Text(
-                  "(${session.time})",
-                  style: GoogleFonts.nunito(
-                    color: Colors.blueGrey,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w900,
-                    fontSize: 13.h,
-                  ),
-                ),
-                session.emergency?  Center(
+                // Text(
+                //   "(timee)",
+                //   style: GoogleFonts.nunito(
+                //     color: Colors.blueGrey,
+                //     fontStyle: FontStyle.italic,
+                //     fontWeight: FontWeight.w900,
+                //     fontSize: 13.h,
+                //   ),
+                // ),
+                (controller.juniorList[index]?.key == "Registered patients" &&controller.juniorList[index]?.value !=0 )?  Center(
                   child: GestureDetector(
                     onTap: (){
                       Scaffold.of(context).openDrawer();
@@ -146,23 +95,23 @@ class _DashchiefState extends State<Dashchief> {
                     },
                     child: Container(
                       width: double.infinity,
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '4 Emergency',
-                            style: GoogleFonts.shanti(
-                              color: Colors.white.withOpacity(0.9),
-                              fontWeight: FontWeight.w900,
-                              fontSize: 15.h,
-                            ),
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'VIEW PATIENTS',
+                          style: GoogleFonts.shanti(
+                            color: Colors.white.withOpacity(0.9),
+                            fontWeight: FontWeight.w900,
+                            fontSize: 15.h,
                           ),
                         ),
                       ),
+                    ),
                   ),
                 ):SizedBox()
               ],
@@ -170,6 +119,6 @@ class _DashchiefState extends State<Dashchief> {
           ),
         );
       },
-    );
+    ));
   }
 }

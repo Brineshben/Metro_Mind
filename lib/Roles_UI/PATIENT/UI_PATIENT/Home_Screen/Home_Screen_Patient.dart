@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../Controller/Quotes_Controller.dart';
 import '../../../../utils/Constants.dart';
 import '../../../../utils/color_util.dart';
 
@@ -118,14 +121,17 @@ class _HomeScreenPatientState extends State<HomeScreenPatient> {
                     ],
                   ),
                 ),
-                ThoughtOfTheDayWidget(
-                  text:
-                      "Wherever the art of medicine is loved, there is also a love of humanity.",
-                  svgPath: "assets/images/Group.svg",
-                  onReadMore: () {
-                    print("Read More Clicked!");
-                  },
-                ),
+                Obx(() {
+                  final controller = Get.find<QuotesController>();
+                  return ThoughtOfTheDayWidget(
+                    text: controller.quotesData.value?.quote ??
+                        "Wherever the art of medicine is loved, there is also a love of humanity.",
+                    svgPath: "assets/images/Group.svg",
+                    onReadMore: () {
+                      print("Read More Clicked!");
+                    }, author: "-${controller.quotesData.value?.author ?? ""}",
+                  );
+                }),
                 Padding(
                   padding: EdgeInsets.only(top: 15.h, left: 10.w, right: 10.w),
                   child: Row(

@@ -13,11 +13,12 @@ import '../Patient_Details/DoctorPatientDetails.dart';
 
 class PatientsList extends StatelessWidget {
   final String name;
+  final int doctorID;
   final String role;
   final String token;
 
   const PatientsList(
-      {Key? key, required this.name, required this.role, required this.token})
+      {Key? key, required this.name, required this.role, required this.token, required this.doctorID})
       : super(key: key);
 
   @override
@@ -25,16 +26,14 @@ class PatientsList extends StatelessWidget {
     return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: GetX<AssignedDoctorToPatientController>(
-            builder: (AssignedDoctorToPatientController controller) {
-          return Row(
+            builder: (AssignedDoctorToPatientController controller) {return
+              controller.assignedDoctorPatientList.isNotEmpty?
+           Row(
             children: List.generate(controller.assignedDoctorPatientList.length,
                 (index) {
               return GestureDetector(
                 onTap: () {
-                  print("patientid${controller.patientDiagnosisDetails??
-                      ""}");print("doctorid${controller.assignedDoctorPatientList[index]
-                      ?.patient?.id ??
-                      ""}");
+               
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
                       return DoctorsPatientDetails(
@@ -54,24 +53,26 @@ class PatientsList extends StatelessWidget {
                                 ?.patient?.mobileNumber ??
                             "",
                         disease: 'beb',
-                        severity: controller.patientDiagnosisDetails.isNotEmpty
-                            ? controller
-                                    .patientDiagnosisDetails[index]?.severity ??
-                                ""
-                            : "",
-                        diagnosissummary:
-                            controller.patientDiagnosisDetails.isNotEmpty
-                                ? controller.patientDiagnosisDetails.first
-                                        ?.diagnosisSummary ??
-                                    ""
-                                : "",
+                        // severity: controller.patientDiagnosisDetails.isNotEmpty
+                        //     ? controller
+                        //             .patientDiagnosisDetails[index]?.severity ??
+                        //         ""
+                        //     : "",
+                        // diagnosissummary:
+                        //     controller.patientDiagnosisDetails.isNotEmpty
+                        //         ? controller.patientDiagnosisDetails.first
+                        //                 ?.diagnosisSummary ??
+                        //             ""
+                        //         : "",
+                        severity:  "HIGH",
+                        diagnosissummary: "",
                         patientId: controller.assignedDoctorPatientList[index]
                                 ?.patient?.patientId ??
                             "",
                         token: token,
                         id: controller.assignedDoctorPatientList[index]?.patient
                                 ?.id ??
-                            0, role: role,
+                            0, role: role, doctorID: doctorID,
                       );
                     },
                   ));
@@ -220,7 +221,14 @@ class PatientsList extends StatelessWidget {
                 ),
               );
             }),
-          );
+          ):Center(
+                child: const Text(
+                  "No Patients Assingned",
+                  style: TextStyle(
+                      color: Colors.red,
+                      fontStyle: FontStyle.italic),
+                ),
+              );
         }));
   }
 }

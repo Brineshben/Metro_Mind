@@ -30,8 +30,10 @@ class TalkToHuman extends StatelessWidget {
   Future<void> makePhoneCall() async {
     final Uri uri = Uri(scheme: 'tel', path: '7025402409');
     if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+      print("Launching: $uri");
+      await launchUrl(uri, mode: LaunchMode.platformDefault);
     } else {
+      print("Could not launch $uri");
       throw 'Could not launch $uri';
     }
   }
