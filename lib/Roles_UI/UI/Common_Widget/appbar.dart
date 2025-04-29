@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:patient/Roles_UI/UI/Common_Widget/popups.dart';
 import 'package:patient/utils/color_util.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -310,14 +311,24 @@ class ThoughtOfTheDayWidget extends StatelessWidget {
               ],
             ),
           ),
+          // Positioned(
+          //   top: -30,
+          //   right: -10,
+          //   child: SvgPicture.asset(
+          //     svgPath,
+          //     color: Colors.green,
+          //     height: 60,
+          //     width: 60,
+          //   ),
+          // ),
           Positioned(
             top: -30,
             right: -10,
-            child: SvgPicture.asset(
-              svgPath,
-              color: Colors.green,
-              height: 60,
-              width: 60,
+            child: Lottie.asset(
+
+              "assets/images/Splash ScreenLQ.json",
+
+              fit: BoxFit.fitHeight,
             ),
           ),
           // Positioned(

@@ -12,8 +12,8 @@ class MedicineController extends GetxController {
   RxBool isError = false.obs;
   Rx<MedicineModel?> medicineData = Rx(null);
 
-  RxList<Data?> medicineList = RxList();
-  RxList<Data?> scheduleListCopy = RxList();
+  RxList<MedicineData?> medicineList = RxList();
+  RxList<MedicineData?> scheduleListCopy = RxList();
 
   Future<void> medicineDataz(String token) async {
     print("---medicine");

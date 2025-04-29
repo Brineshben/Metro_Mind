@@ -9,12 +9,16 @@ import 'package:intl/intl.dart';
 
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../../../Controller/Medicine_Controller/Brand_Controller.dart';
+import '../../../../Controller/Medicine_Controller/FrequencyController.dart';
+import '../../../../Controller/Medicine_Controller/Medicine_Controller.dart';
 import '../../../../Service/Api_Service.dart';
 import '../../../../utils/color_util.dart';
 import '../../Common_Widget/connectivity.dart';
 import '../../Common_Widget/pdfview.dart';
 import '../../Common_Widget/popups.dart';
 import '../../Medicine/Medicine.dart';
+import '../../Medicine/Medicine_List_Widget.dart';
 
 class DoctorsPatientDetails extends StatefulWidget {
   final String role;
@@ -213,6 +217,32 @@ class _DoctorsPatientDetailsState extends State<DoctorsPatientDetails> {
                       maxLines: 5,
                     ),
                   ),
+                  Padding(
+                    padding:
+                    EdgeInsets.only(top: 10.h, left: 20.w, right: 10.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Suggested Medicine List",
+                          style: GoogleFonts.shanti(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 18.h,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                    EdgeInsets.only(top: 8.h, left: 10.w, right: 8.w),
+                    child: MedicineCard(
+                      brandName: 'Paracetamol[likumins]',
+                      frequency: '3 times a day',
+                      dosage: '500mg',
+                    ),
+                  )
                 ],
               ),
             ),
@@ -245,43 +275,44 @@ class _DoctorsPatientDetailsState extends State<DoctorsPatientDetails> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                widget.role != "psychiatrist"
-                    ? GestureDetector(
-                        child: Center(
-                          child: GestureDetector(
-                            onTap: () async {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return Medicine();
-                                },
-                              ));
-                            },
-                            child: Container(
-                              width: 180.w,
-                              height: 45.h,
+                GestureDetector(
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () async {
+                        Get.find<MedicineController>().medicineDataz(widget.token);
+                        Get.find<BrandController>().brandDataz(widget.token);
+                        Get.find<FrequencyController>().frequencyDataz(widget.token);
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return Medicine(patientToken: widget.token, patientId: widget.id,);
+                          },
+                        ));
+                      },
+                      child: Container(
+                        width: 180.w,
+                        height: 45.h,
 
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30.r),
-                                color: Colorutils.userdetailcolor,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30.r),
+                          color: Colorutils.userdetailcolor,
+                        ),
+                        // width: 250.w,
+                        child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'ADD MEDICINE',
+                                style: GoogleFonts.inter(
+                                    fontSize: 16.h, color: Colors.white),
                               ),
-                              // width: 250.w,
-                              child: Center(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      'ADD MEDICINE',
-                                      style: GoogleFonts.inter(
-                                          fontSize: 16.h, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            ],
                           ),
                         ),
-                      )
-                    : SizedBox(),
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(
                   width: 10,
                 ),

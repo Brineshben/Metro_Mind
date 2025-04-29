@@ -70,14 +70,13 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               Center(
                                 child: Padding(
-                                  padding: EdgeInsets.only(top: 100.h),
+                                  padding: EdgeInsets.only(top: 80.h),
                                   child: SizedBox(
-                                    height: 80.h,
+                                    height: 100.h,
                                     // height: 180.h,
                                     child: Image.asset(
-                                      "assets/images/utharam-logo.png",
+                                      "assets/images/Utaram3d_Logo.png",
                                       fit: BoxFit.cover,
-                                      color: Colors.black,
                                     ),
                                   ),
                                 ),
@@ -328,43 +327,41 @@ class _LoginPageState extends State<LoginPage> {
                                   padding:
                                       const EdgeInsets.symmetric(horizontal: 30)
                                           .w,
-                                  child: GestureDetector(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        // gradient: LinearGradient(
-                                        //   colors: [Colors.green.shade300, Colors.blue.shade300], // Adjust colors to match your design
-                                        //   begin: Alignment.topLeft,
-                                        //   end: Alignment.bottomRight,
-                                        // ),
-                                        color: Colorutils.userdetailcolor,
-                                        borderRadius:
-                                            BorderRadius.circular(20.r),
-                                      ),
-                                      // width: 250.w,
-                                      height: 45.h,
-                                      child: Center(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'LOGIN',
-                                              style: GoogleFonts.roboto(
-                                                color: Colors.white,
-                                                fontSize: 16.h,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Icon(
-                                              Icons.arrow_forward_ios,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      // gradient: LinearGradient(
+                                      //   colors: [Colors.green.shade300, Colors.blue.shade300], // Adjust colors to match your design
+                                      //   begin: Alignment.topLeft,
+                                      //   end: Alignment.bottomRight,
+                                      // ),
+                                      color: Colorutils.userdetailcolor,
+                                      borderRadius:
+                                          BorderRadius.circular(20.r),
+                                    ),
+                                    // width: 250.w,
+                                    height: 45.h,
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'LOGIN',
+                                            style: GoogleFonts.roboto(
                                               color: Colors.white,
-                                              size: 16,
-                                            )
-                                          ],
-                                        ),
+                                              fontSize: 16.h,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
+                                            size: 16,
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ),

@@ -19,12 +19,12 @@ class QuotesController extends GetxController {
     try {
       Map<String, dynamic> resp = await ApiServices.Quotes(token: token);
       print("----quotes---$resp");
-      // if (resp['status'] == 'ok') {
+      if (resp['status'] == 'ok') {
         quotesData.value = QuotesModel.fromJson(resp);
         isLoading.value = true;
-      // } else {
-      //   isError.value = true;
-      // }
+      } else {
+        isError.value = true;
+      }
     } catch (e) {
       isLoaded.value = false;
 

@@ -177,7 +177,7 @@ class _PageIndexNavigationTherapistState extends State<PageIndexNavigationTherap
                 height: 25.h,
                 color: Colors.grey,
                 colorFilter: ColorFilter.mode(
-                  _selectedIndex == 0 ? Colors.green : Colors.grey,
+                  _selectedIndex == 0 ? Colorutils.userdetailcolor : Colors.grey,
                   BlendMode.srcIn,
                 ),
               ),

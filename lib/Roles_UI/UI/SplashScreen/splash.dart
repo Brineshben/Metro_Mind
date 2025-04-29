@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/Constants.dart';
 import '../Login_Page/login.dart';
+import '../Register_Page/Phone_number_Entry.dart';
 import '../Register_Page/Register.dart';
 import 'Carousle.dart';
 class Splash extends StatelessWidget {
@@ -35,11 +36,11 @@ class Splash extends StatelessWidget {
                           children: [
                             Center(
                               child: Padding(
-                                padding: EdgeInsets.only(top: 100.h),
+                                padding: EdgeInsets.only(top: 80.h),
                                 child: SizedBox(
-                                  height: 80.h,
+                                  height: 100.h,
                                   // height: 180.h,
-                                  child:Image.asset("assets/images/utharam-logo.png", fit: BoxFit.cover,color: Colors.black,),
+                                  child:Image.asset("assets/images/Utaram3d_Logo.png", fit: BoxFit.cover,),
                                 ),
                               ),
                             ),
@@ -61,7 +62,7 @@ class Splash extends StatelessWidget {
                               onTap: () {
 
                                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  return Register();
+                                  return PhoneNumberEntryPage();
                                 },));
                               },
                               child: Center(

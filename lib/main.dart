@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:lottie/lottie.dart';
 import 'package:patient/utils/color_util.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -21,6 +22,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
   const MyApp({super.key});
 
   @override
@@ -31,10 +33,20 @@ class MyApp extends StatelessWidget {
       useDefaultLoading: false,
       overlayWidgetBuilder: (_) {
         return Center(
-          child: SpinKitChasingDots(
-            color: Colorutils.userdetailcolor,
-            size: 28.w,
+          child: SizedBox(
+            width:120,
+            height:120,
+            child: Lottie.asset(
+
+              "assets/images/LoadingscreenLQTest.json",
+
+              fit: BoxFit.fitHeight,
+            ),
           ),
+          // child: SpinKitChasingDots(
+          //   color: Colorutils.userdetailcolor,
+          //   size: 28.w,
+          // ),
         );
       },
       child: ScreenUtilInit(

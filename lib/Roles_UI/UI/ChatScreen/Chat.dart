@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:http/http.dart' as http;
+import 'package:patient/utils/Api_Constants.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,8 +26,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   List<types.Message> _messages = [];
   final _user = types.User(id: '1');
-  final _otherUser = types.User(id: '2');
-  final String _apiUrl = "https://metromind-web-backend-euh0gkdwg9deaudd.uaenorth-01.azurewebsites.net/accounts/psychiatrist-chat/";
+  final _otherUser = types.User(
+    id: '2',
+    firstName: 'MetroMind AI',
+  );
+  final String _apiUrl = ApiConstants.chat;
 
   String? sessionId; // Store session ID across messages
 
@@ -160,11 +164,11 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                         ),
                         SizedBox(width: 12.w),
-                        IconButton(
-                          icon: Icon(Icons.call,
-                              color: Colorutils.userdetailcolor, size: 28),
-                          onPressed: () {},
-                        ),
+                        // IconButton(
+                        //   icon: Icon(Icons.call,
+                        //       color: Colorutils.userdetailcolor, size: 28),
+                        //   onPressed: () {},
+                        // ),
                         SizedBox(width: 12.w),
                       ],
                     ),
@@ -174,6 +178,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             Expanded(
               child: Chat(
+                
                 showUserAvatars: true,
                 showUserNames: true,
                 inputOptions: InputOptions(
@@ -188,6 +193,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   receivedMessageBodyTextStyle: TextStyle(color: Colors.black),
                 ),
                 customBottomWidget: _buildCustomInputField(),
+                emptyState: Center(child: Text("hjhjdidijije")),
+                avatarBuilder: _customAvatarBuilder,
+
               ),
             ),
           ],
@@ -200,7 +208,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
         decoration: BoxDecoration(
           color: Colors.grey[900],
           borderRadius: BorderRadius.circular(30),
@@ -237,6 +245,28 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+Widget _customAvatarBuilder(types.User user) {
+  if (user.id == '2') {
+    // Bot user (received message)
+    return Padding(
+      padding: const EdgeInsets.only(right: 4),
+      child: CircleAvatar(
+        radius: 12,
+        backgroundColor: Colors.white,
+        backgroundImage: AssetImage('assets/images/utharam-logo.png'),
+      ),
+    );
+  } else {
+    // Normal user (you can put user's image or initials here)
+    return CircleAvatar(
+      backgroundColor: Colors.grey,
+      child: Text(
+        user.firstName?.substring(0, 1).toUpperCase() ?? 'U',
+        style: TextStyle(color: Colors.white),
       ),
     );
   }

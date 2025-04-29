@@ -12,6 +12,7 @@ import '../ChatScreen/Chat.dart';
 import '../Common_Widget/connectivity.dart';
 import '../Common_Widget/popups.dart';
 import '../Login_Page/login.dart';
+import 'OTP_page.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -69,20 +70,19 @@ class _RegisterState extends State<Register> {
                     SizedBox(
                       height: 50,
                     ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 10.h),
-                        child: SizedBox(
-                          height: 80.h,
-                          // height: 180.h,
-                          child: Image.asset(
-                            "assets/images/utharam-logo.png",
-                            fit: BoxFit.cover,
-                            color: Colorutils.userdetailcolor,
-                          ),
-                        ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10.h),
+                    child: SizedBox(
+                      height: 100.h,
+                      // height: 180.h,
+                      child: Image.asset(
+                        "assets/images/Utaram3d_Logo.png",
+                        fit: BoxFit.cover,
                       ),
                     ),
+                  ),
+                ),
                     SizedBox(
                       height: 50,
                     ),
@@ -120,7 +120,7 @@ class _RegisterState extends State<Register> {
                         username, true),
                     buildTextField("Email", "assets/images/envelope.svg", false,
                         email, true),
-                    buildTextField(
+                    buildTextFieldPhone(
                         "Phone Number",
                         "assets/images/phone-call.svg",
                         false,
@@ -258,63 +258,69 @@ class _RegisterState extends State<Register> {
                       padding: const EdgeInsets.symmetric(horizontal: 30).w,
                       child: GestureDetector(
                         onTap: () async {
-                          checkInternet2(
-                            context: context,
-                            function: () async {
-                              if (_formKey.currentState!.validate()) {
-                                context.loaderOverlay.show();
-
-                                Map<String, dynamic> resp =
-                                    await ApiServices.patientRegister(
-
-                                        name: name.text,
-                                        userName: username.text,
-                                        email: email.text,
-                                        mobileNumber: phoneNumber.text,
-                                        password: password.text,
-                                        confirmPassword: confirmPassword.text,
-                                        age: age.text,
-                                        gender: gender.text,
-                                        occupation: occupation.text,
-                                        address: address.text,
-                                        education: education.text);
-                                context.loaderOverlay.hide();
-
-                                // resp['data']['message'] == "Leave Applied Successfully"
-                                if (resp['status'] == "ok") {
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(
-                                    builder: (context) {
-                                      return LoginPage();
-                                    },
-                                  ));
-                                  ProductAppPopUps.submit(
-                                    title: "Success",
-                                    message: resp['message'],
-                                    actionName: "Close",
-                                    iconData: Icons.done,
-                                    iconColor: Colors.green,
-                                  );
-                                } else {
-                                  ProductAppPopUps.submit(
-                                    title: "Error",
-                                    message: resp['message'],
-                                    actionName: "Close",
-                                    iconData: Icons.error_outline_outlined,
-                                    iconColor: Colors.red,
-                                  );
-                                }
-                              } else {
-                                ProductAppPopUps.submit(
-                                  title: "Error",
-                                  message: "Something went wrong",
-                                  actionName: "Close",
-                                  iconData: Icons.error_outline_outlined,
-                                  iconColor: Colors.red,
-                                );
-                              }
-                            },
-                          );
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return LoginPage();
+                                },
+                              ));
+                          // checkInternet2(
+                          //   context: context,
+                          //   function: () async {
+                          //     if (_formKey.currentState!.validate()) {
+                          //       context.loaderOverlay.show();
+                          //
+                          //       Map<String, dynamic> resp =
+                          //           await ApiServices.patientRegister(
+                          //
+                          //               name: name.text,
+                          //               userName: username.text,
+                          //               email: email.text,
+                          //               mobileNumber: phoneNumber.text,
+                          //               password: password.text,
+                          //               confirmPassword: confirmPassword.text,
+                          //               age: age.text,
+                          //               gender: gender.text,
+                          //               occupation: occupation.text,
+                          //               address: address.text,
+                          //               education: education.text);
+                          //       context.loaderOverlay.hide();
+                          //
+                          //       // resp['data']['message'] == "Leave Applied Successfully"
+                          //       if (resp['status'] == "ok") {
+                          //         Navigator.pushReplacement(context,
+                          //             MaterialPageRoute(
+                          //           builder: (context) {
+                          //             return LoginPage();
+                          //           },
+                          //         ));
+                          //         ProductAppPopUps.submit(
+                          //           title: "Success",
+                          //           message: resp['message'],
+                          //           actionName: "Close",
+                          //           iconData: Icons.done,
+                          //           iconColor: Colors.green,
+                          //         );
+                          //       } else {
+                          //         ProductAppPopUps.submit(
+                          //           title: "Error",
+                          //           message: resp['message'],
+                          //           actionName: "Close",
+                          //           iconData: Icons.error_outline_outlined,
+                          //           iconColor: Colors.red,
+                          //         );
+                          //       }
+                          //     } else {
+                          //       ProductAppPopUps.submit(
+                          //         title: "Error",
+                          //         message: "Something went wrong",
+                          //         actionName: "Close",
+                          //         iconData: Icons.error_outline_outlined,
+                          //         iconColor: Colors.red,
+                          //       );
+                          //     }
+                          //   },
+                          // );
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -400,6 +406,53 @@ Widget buildTextField(String hintText, String svgAssetPath, bool isPassword,
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 15, top: 4, bottom: 4),
     child: TextFormField(
+      validator: validation
+          ? (val) => val!.trim().isEmpty ? 'Please enter $hintText' : null
+          : null,
+      controller: controller,
+      obscureText: isPassword,
+      decoration: InputDecoration(
+        hintText: hintText,
+        labelText: hintText,
+        labelStyle: TextStyle(
+          fontSize: 15.h,
+          fontWeight: FontWeight.bold,
+          color: Colors.blueGrey,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colorutils.userdetailcolor, width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.grey.withOpacity(0.3)),
+        ),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(14.0), // Adjust padding as needed
+          child: SvgPicture.asset(
+            svgAssetPath,
+            width: 10.w,
+            height: 10.h,
+            color: Colors.blueGrey,
+          ),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colorutils.userdetailcolor),
+        ),
+      ),
+    ),
+  );
+}
+
+
+Widget buildTextFieldPhone(String hintText, String svgAssetPath, bool isPassword,
+    TextEditingController controller, bool validation) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 15, right: 15, top: 4, bottom: 4),
+    child: TextFormField(
+      maxLength: 10,
+      keyboardType: TextInputType.number,
       validator: validation
           ? (val) => val!.trim().isEmpty ? 'Please enter $hintText' : null
           : null,

@@ -1,7 +1,7 @@
 class MedicineModel {
   String? status;
   String? message;
-  List<Data>? data;
+  List<MedicineData>? data;
 
   MedicineModel({this.status, this.message, this.data});
 
@@ -9,9 +9,9 @@ class MedicineModel {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <MedicineData>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new MedicineData.fromJson(v));
       });
     }
   }
@@ -27,13 +27,13 @@ class MedicineModel {
   }
 }
 
-class Data {
+class MedicineData {
   int? id;
   String? name;
 
-  Data({this.id, this.name});
+  MedicineData({this.id, this.name});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  MedicineData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }

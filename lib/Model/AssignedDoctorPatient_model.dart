@@ -85,8 +85,8 @@ class Doctor {
   String? role;
   Null? age;
   String? gender;
-  Null? occupation;
-  Null? education;
+  String? occupation;
+  String? education;
   Null? address;
   Null? patientId;
 
@@ -149,8 +149,8 @@ class Patient {
   String? username;
   String? email;
   String? mobileNumber;
-  Null? medicalReport;
-  Null? medicalReportUrl;
+  String? medicalReport;
+  String? medicalReportUrl;
   String? role;
   int? age;
   String? gender;
@@ -214,59 +214,65 @@ class Patient {
 
 class PatientDiagnosis {
   int? id;
-  String? chatSessionId;
-  List<ChatHistory>? chatHistory;
-  String? createdAt;
   int? user;
+  String? userEmail;
+  String? chatSessionId;
+  ChatHistory? chatHistory;
+  String? createdAt;
+  ChatHistory? aiReport;
 
   PatientDiagnosis(
       {this.id,
+        this.user,
+        this.userEmail,
         this.chatSessionId,
         this.chatHistory,
         this.createdAt,
-        this.user});
+        this.aiReport});
 
   PatientDiagnosis.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    chatSessionId = json['chat_session_id'];
-    if (json['chat_history'] != null) {
-      chatHistory = <ChatHistory>[];
-      json['chat_history'].forEach((v) {
-        chatHistory!.add(new ChatHistory.fromJson(v));
-      });
-    }
-    createdAt = json['created_at'];
     user = json['user'];
+    userEmail = json['user_email'];
+    chatSessionId = json['chat_session_id'];
+    chatHistory = json['chat_history'] != null
+        ? new ChatHistory.fromJson(json['chat_history'])
+        : null;
+    createdAt = json['created_at'];
+    aiReport = json['ai_report'] != null
+        ? new ChatHistory.fromJson(json['ai_report'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['user'] = this.user;
+    data['user_email'] = this.userEmail;
     data['chat_session_id'] = this.chatSessionId;
     if (this.chatHistory != null) {
-      data['chat_history'] = this.chatHistory!.map((v) => v.toJson()).toList();
+      data['chat_history'] = this.chatHistory!.toJson();
     }
     data['created_at'] = this.createdAt;
-    data['user'] = this.user;
+    if (this.aiReport != null) {
+      data['ai_report'] = this.aiReport!.toJson();
+    }
     return data;
   }
 }
 
 class ChatHistory {
-  String? role;
-  String? content;
+  String? hi;
 
-  ChatHistory({this.role, this.content});
+  ChatHistory({this.hi});
 
   ChatHistory.fromJson(Map<String, dynamic> json) {
-    role = json['role'];
-    content = json['content'];
+    hi = json['hi'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['role'] = this.role;
-    data['content'] = this.content;
+    data['hi'] = this.hi;
     return data;
   }
 }

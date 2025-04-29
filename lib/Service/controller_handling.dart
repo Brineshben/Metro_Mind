@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:patient/Controller/Medicine_Controller/AddMedicineController.dart';
 
 import '../Controller/AssignedDoctorPatients_Controller.dart';
 import '../Controller/Consult_Doctor_Controller.dart';
@@ -6,6 +7,8 @@ import '../Controller/DoctorToPatientController.dart';
 import '../Controller/Doctor_List_Controller.dart';
 import '../Controller/JuniorDashoard_Controller.dart';
 import '../Controller/Login_Controller.dart';
+import '../Controller/Medicine_Controller/Brand_Controller.dart';
+import '../Controller/Medicine_Controller/FrequencyController.dart';
 import '../Controller/Medicine_Controller/Medicine_Controller.dart';
 import '../Controller/Patient_queue_Controller.dart';
 import '../Controller/Quotes_Controller.dart';
@@ -27,6 +30,9 @@ class HandleControllers {
     Get.put(QuotesController());
     Get.put(JuniorDashboardController());
     Get.put(MedicineController());
+    Get.put(BrandController());
+    Get.put(FrequencyController());
+    Get.put(AddMedicineController());
   }
 
   static deleteAllGetControllers() async {
@@ -42,5 +48,8 @@ class HandleControllers {
     await Get.delete<QuotesController>();
     await Get.delete<JuniorDashboardController>();
     await Get.delete<MedicineController>();
+    await Get.delete<BrandController>();
+    await Get.delete<FrequencyController>();
+    await Get.delete<AddMedicineController>();
   }
 }

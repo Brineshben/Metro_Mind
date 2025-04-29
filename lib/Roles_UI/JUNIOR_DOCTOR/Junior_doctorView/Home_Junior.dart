@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:patient/Roles_UI/JUNIOR_DOCTOR/Junior_doctorView/patient_details.dart';
 import '../../../../utils/Constants.dart';
 import '../../../../utils/color_util.dart';
@@ -271,15 +272,25 @@ class _HomeScreenJuniorState extends State<HomeScreenJunior> {
                     ],
                   ),
                 ),
+                // SizedBox(
+                //   width:300,
+                //   height:200,
+                //   child: Lottie.asset(
+                //
+                //     "assets/images/batterylottie.json",
+                //
+                //     fit: BoxFit.fitHeight,
+                //   ),
+                // ),
                 Obx(() {
                   final controller = Get.find<QuotesController>();
                   return ThoughtOfTheDayWidget(
-                    text: controller.quotesData.value?.quote ??
+                    text: controller.quotesData.value?.message?.quote ??
                         "Wherever the art of medicine is loved, there is also a love of humanity.",
                     svgPath: "assets/images/Group.svg",
                     onReadMore: () {
                       print("Read More Clicked!");
-                    }, author: "-${controller.quotesData.value?.author ?? ""}",
+                    }, author: "-${controller.quotesData.value?.message?.author ?? "Brinesh ben"}",
                   );
                 }),
 

@@ -124,12 +124,12 @@ class _HomeScreenPatientState extends State<HomeScreenPatient> {
                 Obx(() {
                   final controller = Get.find<QuotesController>();
                   return ThoughtOfTheDayWidget(
-                    text: controller.quotesData.value?.quote ??
+                    text: controller.quotesData.value?.message?.quote ??
                         "Wherever the art of medicine is loved, there is also a love of humanity.",
                     svgPath: "assets/images/Group.svg",
                     onReadMore: () {
                       print("Read More Clicked!");
-                    }, author: "-${controller.quotesData.value?.author ?? ""}",
+                    }, author: "-${controller.quotesData.value?.message?.author ?? "Brinesh ben"}",
                   );
                 }),
                 Padding(

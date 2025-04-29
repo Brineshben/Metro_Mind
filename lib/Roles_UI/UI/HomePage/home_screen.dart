@@ -15,6 +15,7 @@ import 'home_widgets/course_List.dart';
 import 'home_widgets/overallView.dart';
 import 'home_widgets/patientList.dart';
 import 'home_widgets/quiz_List.dart';
+import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatefulWidget {
   final String role;
@@ -87,15 +88,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
+
                 Obx(() {
                   final controller = Get.find<QuotesController>();
                   return ThoughtOfTheDayWidget(
-                    text: controller.quotesData.value?.quote ??
+                    text: controller.quotesData.value?.message?.quote ??
                         "Wherever the art of medicine is loved, there is also a love of humanity.",
                     svgPath: "assets/images/Group.svg",
                     onReadMore: () {
                       print("Read More Clicked!");
-                    }, author: "-${controller.quotesData.value?.author ?? "Brinesh ben"}",
+                    }, author: "-${controller.quotesData.value?.message?.author ?? "Brinesh ben"}",
                   );
                 }),
                 Container(

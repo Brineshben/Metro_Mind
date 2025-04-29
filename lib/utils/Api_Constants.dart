@@ -12,6 +12,7 @@ class ApiConstants {
 
   ///URLS
   static String login = "/accounts/login/";
+  static String chat = "/accounts/psychiatrist-chat/";
   static String registerPatient = "/accounts/register/";
   static String patientQueue = "/assign_doctor/new/patience/list/";
   static String doctorList = "/doctors/list/doctors/";
@@ -27,4 +28,8 @@ class ApiConstants {
   static String juniorDashboard = "/counts/admin/dashboard/count/";
   static String quotes = "/accounts/quotes";
   static String medicineList = "/medicine/medicine/list/";
+  static String brand = "/medicine/brand/list/";
+  static String frequency = "/medicine/frequency/list/";
+  static String sendOtp = "/accounts/send_otp/";
+  static String sddMedicineList = "/medicine_assign/add-medicines/";
 }

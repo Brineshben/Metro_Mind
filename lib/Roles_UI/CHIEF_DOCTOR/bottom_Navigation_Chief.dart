@@ -65,7 +65,7 @@ class _PageIndexNavigationChiefState extends State<PageIndexNavigationChief> wit
         ],
       ),
       ProfileSettingsPage(),
-      Medicine()
+      // Medicine()
     ];
     _controller = AnimationController(
       vsync: this,
